@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd" >
+
+<!-- MyBatis는 SQL Mapping 프레임워크로 별도의 설정 파일을 가질 수 있다 이를 이용하면 스프링의 설정과 별도로 사용하는 모든 MyBatis의 설정 기능을 활용할 수 있다 -->
+
+<!-- ParameterType, resultType에 패키지를 포함한 클래스명을 다 적지 않고 typeAliases를 이용해 별칭 클래스 이름을 지정한다
+	타입 별칭은 자바 타입에 대한 짧은 이름이다. XML설정에서만 사용되며, 타이핑을 줄이기 위해 존재한다. MyBatis Config XML 파일에 정의
+	Mapper XML 파일과 DTD(Document Type Definition 마크업 언어에서 문서 형식을 정의 HTML등에서 쓰임)가 드르므로 유의한다
+	<typeAliases> 태그는 하위 요소로 <typeAliases>와 <package> 요소를 가질 수 있다-->
+
+<!-- MyBatis Config XML파일에 <typeAliases>를 정의하면 XML Mapper 파일에서 별칭으로만 클래스명을 지정할 수 있다
+	<typeAliases>요소를 사용하는 방법보다는 <package> 요소를 사용해서 MyBatis가 패키지에서 빈 객체를 찾도록 명시하는 방법이 더 자주 쓰임 
+	1. Config XML파일에 <package>요소를 정의해서 MyBatis가 해당 패키지에서 빈을 찾도록 명시
+	2. DTO 또는 VO 클래스 위에 @Alias("별칭") 어노테이션을 사용하여 별칭 지정-->
+
+<configuration>
+	<typeAliases>
+		<package name="com.p.project"></package>
+	</typeAliases>
+	
+</configuration>

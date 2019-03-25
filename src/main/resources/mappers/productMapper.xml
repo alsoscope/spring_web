@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="product">
+	<!-- DB에서 오는 컬럼명과 java에서 처리하는 변수명 일치를 위해 alias 처리 -->
+	<!-- 01. 상품 전체 목록 -->
+	<select id="listProduct" resultType="com.p.project.DTO.ProductDTO">
+		SELECT product_id, product_name, product_price, 
+		product_desc, product_url
+		FROM tbl_product ORDER BY product_name
+		
+		<!-- SELECT product_id AS productId, product_name AS productName, product_price AS producrPrice, 
+		product_desc AS productDesc, product_url AS productUrl
+		FROM tbl_product ORDER BY product_name -->
+	</select>
+	
+	<!-- 02. 상품 상세 보기 -->
+	<select id="detailProduct" resultType="com.p.project.DTO.ProductDTO">
+		SELECT product_id, product_name, product_price, 
+		product_desc, product_url
+		FROM tbl_product WHERE product_id=#{productId}
+		
+		<!-- SELECT product_id AS productId, product_name AS productName, product_price AS producrPrice, 
+		product_desc AS productDesc, product_url AS productUrl
+		FROM tbl_product WHERE product_id=#{productId} -->
+	</select>
+	
+	<!-- 03. 상품 추가하기 -->
+	<insert id="insertProduct">
+		insert into tbl_product
+		values ( #{product_name},#{product_price},#{product_desc},#{product_url} )
+	</insert>
+	
+	<!-- 04. 상품 수정/편집 -->
+	<update id="updateProduct">
+		update tbl_product set product_name=#{product_name}, product_price=#{product_price}, 
+		product_desc=#{product_desc}, product_url=#{product_url}
+		where product_id=#{product_id}
+	</update>
+	
+	<!-- 05. 상품 레코드 삭제 처리 -->
+	<delete id="deleteProduct">
+		delete from tbl_product
+		where product_id=#{product_id}
+	</delete>
+	
+	<!-- 06. 삭제를 위한 상품 이미지 파일 이름 select -->
+	<select id="fileInfo" resultType="String">
+		select product_url from tbl_product
+		where product_id=#{product_id}
+	</select>
+</mapper>

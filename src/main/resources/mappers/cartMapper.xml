@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 장바구니 관련 mapper -->
+<mapper namespace="cart">
+
+	<!-- 1. 장바구니 추가 -->
+	<insert id="insertCart">
+		INSERT INTO tbl_cart(
+			product_id, amount
+		)VALUES(
+			#{product_id}, #{amount}
+		)
+		<!-- INSERT INTO tbl_cart(
+			user_id, product_id, amount
+		)VALUES(
+			#{user_id}, #{product_id}, #{amount}
+		) -->
+	</insert>
+
+	<!-- 2. 장바구니 목록 -->
+	<select id="selectCart" resultType="com.p.project.DTO.CartDTO">
+		SELECT c.cart_id AS cartId, c.user_id AS userId, c.product_id AS productId, 
+			m.userName, p.product_name AS productName, c.amount, 
+			p.product_price AS productPrice, (product_price * amount) money
+		FROM tbl_member2 m, tbl_product p, tbl_cart c
+		WHERE m.userId = c.user_id
+			AND p.product_id=c.product_id AND c.user_id = #{user_id}
+		ORDER BY c.cart_id
+	</select>
+	
+	<!-- 3. 장바구니 전체 금액 Oracle NVL(필드, 처리할 값), MySQL ifnull(필드, 처리할 값) : NULL 처리를 담당하는 함수-->
+	<select id="sumMoney" resultType="int">
+		SELECT ifnull(SUM(product_price * amount), 0) money
+		FROM tbl_cart c, tbl_product p
+		WHERE c.product_id = p.product_id AND c.user_id=#{user_id}
+	</select>
+	
+	<!-- 4. 장바구니 화면에서 상품 수량 변경할 때(덮어쓰기) -->
+	<update id="updateCart">
+		UPDATE tbl_cart SET amount=#{amount}
+		WHERE user_id = #{user_id}
+		AND product_id=#{product_id}
+	</update>
+	
+	<!-- 5. 장바구니 삭제 -->
+	<delete id="deleteCart">
+		DELETE FROM tbl_cart
+		WHERE cart_id=#{cart_id}
+	</delete>
+	
+	<!-- 6. 장바구니에 동일한 상품이 있는지 확인. select count -->
+	<select id="countCart" resultType="int">
+		SELECT COUNT(*) FROM tbl_cart
+		WHERE user_id=#{user_id}
+		AND product_id=#{product_id}
+	</select>
+	
+	<!-- 7. 장바구니에 동일한 상품이 존재하면 합산하여 수정(수량 합산) -->
+	<update id="updateCartNum">
+		UPDATE tbl_cart SET amount=#{amount}
+		WHERE user_id=#{user_id}
+		AND product_id=#{product_id}
+	</update>
+</mapper>
