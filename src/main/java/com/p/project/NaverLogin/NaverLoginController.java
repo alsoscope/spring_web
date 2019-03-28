@@ -33,10 +33,10 @@ public class NaverLoginController {
 	}
 
 	//로그인 첫 화면 요청 메소드
-	@RequestMapping(value = "/login", method = { RequestMethod.GET, RequestMethod.POST })
+/*	@RequestMapping(value = "loginPost", method = { RequestMethod.GET, RequestMethod.POST })
 	public String login(Model model, HttpSession session) {
 		
-		/* 네이버아이디로 인증 URL을 생성하기 위하여 naverLoginBO클래스의 getAuthorizationUrl메소드 호출 */
+		 네이버아이디로 인증 URL을 생성하기 위하여 naverLoginBO클래스의 getAuthorizationUrl메소드 호출 
 		String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
 		
 		//https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=sE***************&
@@ -46,22 +46,23 @@ public class NaverLoginController {
 		//네이버 
 		model.addAttribute("url", naverAuthUrl);
 
-		/* 생성한 인증 URL을 View로 전달 */
-		return "login";
-	}
-
+		 생성한 인증 URL을 View로 전달 
+		return "list";
+	}*/
+	
 	//네이버 로그인 성공시 callback호출 메소드
-	@RequestMapping(value = "/callback", method = { RequestMethod.GET, RequestMethod.POST })
+/*	@RequestMapping(value = "callback", method = { RequestMethod.GET, RequestMethod.POST })
 	public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session)
 			throws IOException {
 		System.out.println("여기는 callback");
-		OAuth2AccessToken oauthToken;
-        oauthToken = naverLoginBO.getAccessToken(session, code, state);
+		
+		//네이로 인증이 성공적으로 완료되면 code파라미터가 전달되며 이를 통해 access token 발급
+		OAuth2AccessToken oauthToken = naverLoginBO.getAccessToken(session, code, state);
         //로그인 사용자 정보를 읽어온다.
 	    apiResult = naverLoginBO.getUserProfile(oauthToken);
 		model.addAttribute("result", apiResult);
 
-        /* 네이버 로그인 성공 페이지 View 호출 */
-		return "naverSuccess";
-	}
+         네이버 로그인 성공 페이지 View 호출 
+		return "member/register_confirm";
+	}*/
 }

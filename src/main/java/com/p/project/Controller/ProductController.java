@@ -34,7 +34,7 @@ public class ProductController {
 		List<ProductDTO> list=productService.listProduct();
 		model.addAttribute("list", list);
 		System.out.println("list.toString()");
-		return "admin/productList";
+		return "/shop/productList";
 	}
 	
 	//2. 상품 상세보기 페이지 매핑. 하나의 URL이 하나의 고유한 리소스를 대표(Rest)할 수 있도록 처리
@@ -44,7 +44,7 @@ public class ProductController {
 		model.addAttribute("vo", productService.detailProduct(product_id));
 		logger.info("클릭한 product_id : " + product_id);
 		
-		return "admin/productDetail";
+		return "/shop/productDetail";
 	}
 	
 	//3. 상품 등록 페이지 매핑

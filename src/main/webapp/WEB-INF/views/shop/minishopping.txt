@@ -121,8 +121,8 @@ CREATE TABLE tbl_admin(
 	admin_id varchar(10) not null,
 	admin_pw varchar(10) not null,
 	admin_email varchar(20),
-	admin_regdate date default sysdate,
-	admin_updatedate date default sysdate
+	admin_regdate timestamp default CURRENT_TIMESTAMP,
+	admin_updatedate timestamp default CURRENT_TIMESTAMP,
 	PRIMARY KEY(admin_id)
 );
 

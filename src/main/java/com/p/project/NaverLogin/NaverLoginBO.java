@@ -21,9 +21,9 @@ public class NaverLoginBO {
 	//response_type: 인증 과정에 대한 구분값. code로 값이 고정돼 있습니다.
 	//redirect_uri: 네이버 로그인 인증의 결과를 전달받을 콜백 URL(URL 인코딩). 애플리케이션을 등록할 때 Callback URL에 설정한 정보입니다.
 	//state: 애플리케이션이 생성한 상태 토큰
-	private final static String CLIENT_ID = "sE********************";
-    private final static String CLIENT_SECRET = "F_w******";
-    private final static String REDIRECT_URI = "http://211.63.89.90:8090/login_project/callback";
+	private final static String CLIENT_ID = "CcHDOhNulVa7_LfwCQeM";
+    private final static String CLIENT_SECRET = "EciVZqhla0";
+    private final static String REDIRECT_URI = "http://localhost:9000/member/register_confirm";
     private final static String SESSION_STATE = "oauth_state";
     /* 프로필 조회 API URL */
     private final static String PROFILE_API_URL = "https://openapi.naver.com/v1/nid/me";
@@ -82,6 +82,7 @@ public class NaverLoginBO {
     private String getSession(HttpSession session){
         return (String) session.getAttribute(SESSION_STATE);
     }
+    
     /* Access Token을 이용하여 네이버 사용자 프로필 API를 호출 */
     public String getUserProfile(OAuth2AccessToken oauthToken) throws IOException{
 

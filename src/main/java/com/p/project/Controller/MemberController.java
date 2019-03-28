@@ -13,10 +13,14 @@ import javax.servlet.http.HttpSession;
 import org.apache.ibatis.type.Alias;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.p.project.DTO.MemberDTO;
+import com.p.project.NaverLogin.NaverLoginBO;
 import com.p.project.Service.MemberService;
 import com.p.project.VO.MemberVO;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -32,9 +36,18 @@ public class MemberController {
 
 	private static final Logger logger=LoggerFactory.getLogger(MemberController.class);
 	
-//MemberService 객체를 스프링에서 생성하여 주입시킴
-@Inject
-MemberService memberService;
+	/* NaverLoginBO */
+	private NaverLoginBO naverLoginBO;
+	private String apiResult = null;
+
+	@Autowired
+	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
+		this.naverLoginBO = naverLoginBO;
+	}
+	
+	//MemberService 객체를 스프링에서 생성하여 주입시킴
+	@Inject
+	MemberService memberService;
 
 	//로그인 화면
 	/*@RequestMapping(value="member/loginGET", method=RequestMethod.GET)
@@ -42,10 +55,6 @@ MemberService memberService;
 		return "member/loginGET";
 	}*/
 	
-	//네아로 로그인 처리
-	
-
-
 	//로그인 처리
 	@RequestMapping(value="loginPost", method=RequestMethod.POST )
 	public void loginPOST(Model model, HttpSession session, MemberDTO dto) throws Exception {
@@ -72,6 +81,8 @@ MemberService memberService;
 		}
 		
 		
+
+		
 		/*if(vo != null) { //로그인 성공
 			session.setAttribute("login", vo);
 			returnURL="redirect:/member/member_list";
@@ -92,6 +103,22 @@ MemberService memberService;
 		}*/
 		
 		//return returnURL;
+	}
+	
+	//네이버 로그인 성공시 callback호출 메소드
+	@RequestMapping(value = "callback", method = { RequestMethod.GET, RequestMethod.POST })
+	public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session)
+			throws IOException {
+		System.out.println("여기는 callback");
+		
+		//네이로 인증이 성공적으로 완료되면 code파라미터가 전달되며 이를 통해 access token 발급
+		OAuth2AccessToken oauthToken = naverLoginBO.getAccessToken(session, code, state);
+        //로그인 사용자 정보를 읽어온다.
+	    apiResult = naverLoginBO.getUserProfile(oauthToken);
+		model.addAttribute("result", apiResult);
+
+        /* 네이버 로그인 성공 페이지 View 호출 */
+		return "member/register_confirm";
 	}
 	
 	//로그아웃
@@ -140,7 +167,7 @@ MemberService memberService;
 		// /member/list.do : 루트 디렉토리를 기준
 		// member/list.do : 현재 디렉토리를 기준
 		// member_list.jsp 로 리다이렉트
-		return "member/member_writePost";
+		return "member/register_confirm";
 	}
 	
 	//03 회원 상세정보 조회

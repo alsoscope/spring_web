@@ -60,7 +60,7 @@
 					</div>
 
 					<div id="naver_id_login" style="text-align:center"><a href="${url}">
-					<img width="223" src="${pageContext.request.contextPath}/resources/images/login_naver.png"/>naver_id_login</a></div>
+					<img width="223" src="${path}/images/login_naver.png"/></a></div>
 
 					<div class="text-center p-t-45 p-b-4">
 						<span class="txt1">
@@ -141,11 +141,11 @@
 
 	<!-- "ë¤ì´ë² ìì´ëë¡ ë¡ê·¸ì¸" ë²í¼ ë¸ì¶ ìì­ -->
 	<script type="text/javascript">
- 		var naver_id_login = new naver_id_login("p1SdIeQnCgBNAcOrb_fu", "http://localhost:3306/member/naverlogin");
+ 		var naver_id_login = new naver_id_login("CcHDOhNulVa7_LfwCQeM", "http://localhost:9000/");
  		var state = naver_id_login.getUniqState();
 		
  		naver_id_login.setButton("green", 3, 40);
- 		naver_id_login.setDomain("http://localhost:3306/member/loginGET");
+ 		naver_id_login.setDomain("http://localhost:9000/");
  		naver_id_login.setState(state);
  		naver_id_login.init_naver_id_login();
 	</script>

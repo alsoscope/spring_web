@@ -18,13 +18,13 @@ public class AdminController {
 	AdminService adminService;
 	
 	//1.관지라 로그인 페이지
-	@RequestMapping("adminlogin.do")
+	@RequestMapping("adminlogin")
 	public String adminLogin() {
 		return "admin/adminLogin"; //로그인 페이지로 포워드
 	}
 	
 	//2.관리자 로그인 체크
-	@RequestMapping("logincheck.do")
+	@RequestMapping("logincheck")
 	public String logincheck(Model model, HttpSession session, AdminDTO admin_vo) {
 		String name=adminService.adminlogin(admin_vo);
 		
@@ -46,7 +46,7 @@ public class AdminController {
 	}
 	
 	//3.관리자 로그아웃
-	@RequestMapping("adminlogout.do")
+	@RequestMapping("adminlogout")
 	public String logout(HttpSession session,Model model) {
 		session.invalidate(); //로그아웃 처리 후 로그인 페이지로 포워딩, logout문자열 리턴
 		model.addAttribute("msg", "logout");
