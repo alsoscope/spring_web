@@ -1,6 +1,8 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="ko">
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <head>
 	<title>Login</title>
 	<meta charset="UTF-8">
@@ -29,9 +31,7 @@
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/main.css">
 <!--===============================================================================================-->
 </head>
-
 <body>
-	
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
@@ -60,6 +60,7 @@
 					</div>
 
 					<div id="naver_id_login" style="text-align:center"><a href="${url}">
+					<%-- <img width="223" src="${path}/images/login_naver.png"/></a></div> --%>
 					<img width="223" src="${path}/images/login_naver.png"/></a></div>
 
 					<div class="text-center p-t-45 p-b-4">
@@ -94,8 +95,6 @@
 			</div>
 		</div>
 	</div>
-	
-
 <!--===============================================================================================-->
 	<!-- script src="/resources/vendor/jquery/jquery-3.2.1.min.js"></script> -->
 	<%-- <script src="<c:url value="/vendor/jquery/jquery.3.2.1.min.js" />"></script> --%>
@@ -104,10 +103,10 @@
 	<!-- <script src="vendor/animsition/js/animsition.min.js"></script> -->
 	<script src="<c:url value="/vendor/animsition/js/animsition.min.js" />"></script>
 <!--===============================================================================================-->
-	<!-- <script src="vendor/bootstrap/js/popper.js"></script>
-	<script src="vendor/bootstrap/js/bootstrap.min.js"></script> -->
-	<script src="<c:url value="/vendor/bootstrap/js/popper.js" />"></script>
-	<script src="<c:url value="/vendor/bootstrap/js/bootstrap.min.js" />"></script>
+	<!-- <script src="vendor/bootstrap/js/popper.js"></script> -->
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="<c:url value="/resources/vendor/bootstrap/js/popper.js" />"></script>
+	<%-- <script src="<c:url value="/vendor/bootstrap/js/bootstrap.min.js" />"></script> --%>
 <!--===============================================================================================-->
 	<!-- <script src="vendor/select2/select2.min.js"></script> -->
 	<script src="<c:url value="/vendor/select2/select2.min.js" />"></script>
@@ -122,24 +121,25 @@
 <!--===============================================================================================-->
 	<!-- <script src="js/main.js"></script> -->
 	<script src="<c:url value="/js/main.js"/>"></script>
+<!--===============================================================================================-->
 
-	<!-- uid, pw null ì²´í¬ -->
+	<!-- uid, pw null 체크 -->
 	<script>
 		$("#submit-btn").click(function() {
 			var uid = $("#userId").val();
 			var pw = $("#userPw").val();
 			
 			if (userId == null || userId == "") {
-				alert("ìì´ëë¥¼ ìë ¥í´ì£¼ì¸ì.");
+				alert("아이디를 입력해주세요.");
 				return false;
 			} else if (userPw == null || userPw == "") {
-				alert("ë¹ë°ë²í¸ë¥¼ ìë ¥í´ì£¼ì¸ì.");
+				alert("비밀번호를 입력해주세요.");
 				return false;
 			}
 		});
 	</script>
 
-	<!-- "ë¤ì´ë² ìì´ëë¡ ë¡ê·¸ì¸" ë²í¼ ë¸ì¶ ìì­ -->
+	<!-- "네이버 아이디로 로그인" 버튼 노출 영역 -->
 	<script type="text/javascript">
  		var naver_id_login = new naver_id_login("CcHDOhNulVa7_LfwCQeM", "http://localhost:9000/");
  		var state = naver_id_login.getUniqState();
@@ -150,5 +150,4 @@
  		naver_id_login.init_naver_id_login();
 	</script>
 </body>
-	
 </html>

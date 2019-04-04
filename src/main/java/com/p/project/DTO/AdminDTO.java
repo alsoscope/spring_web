@@ -5,7 +5,7 @@ import java.util.Date;
 public class AdminDTO {
 	private String admin_id;
 	private String admin_pw;
-	private String admin_email;
+	private String admin_name;
 	private Date admin_regdate;
 	private Date admin_updatedate;
 	public String getAdmin_id() {
@@ -20,11 +20,11 @@ public class AdminDTO {
 	public void setAdmin_pw(String admin_pw) {
 		this.admin_pw = admin_pw;
 	}
-	public String getAdmin_email() {
-		return admin_email;
+	public String getAdmin_name() {
+		return admin_name;
 	}
-	public void setAdmin_email(String admin_email) {
-		this.admin_email = admin_email;
+	public void setAdmin_email(String admin_name) {
+		this.admin_name = admin_name;
 	}
 	public Date getAdmin_regdate() {
 		return admin_regdate;
@@ -40,7 +40,7 @@ public class AdminDTO {
 	}
 	@Override
 	public String toString() {
-		return "AdminDTO_VO [admin_id=" + admin_id + ", admin_pw=" + admin_pw + ", admin_email=" + admin_email
+		return "AdminDTO_VO [admin_id=" + admin_id + ", admin_pw=" + admin_pw + ", admin_name=" + admin_name
 				+ ", admin_regdate=" + admin_regdate + ", admin_updatedate=" + admin_updatedate + "]";
 	}
 	

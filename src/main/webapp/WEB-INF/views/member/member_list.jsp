@@ -10,8 +10,8 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<%-- <%@ include file="../include/member_header.jsp" %> --%>
-<style type="text/css">
+<%@ include file="../forward/nav_bar.jsp" %>
+<!-- <style type="text/css">
 	form{
 		align:center;
 	}
@@ -28,6 +28,11 @@
 	}
 	h2{
 		align:center;
+	}
+</style> -->
+<style type="text/css">
+	form{
+		width:800px !important
 	}
 </style>
 </head>

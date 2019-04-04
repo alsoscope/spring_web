@@ -3,10 +3,10 @@
 
 <mapper namespace="admin">
 	<!-- 관리자 로그인 체크 -->
-	<select id="adminlogin">
-		select admin_name AS adminName
-		from tbl_admin
-		where admin_id=#{adminId} and admin_pw=#{adminPw}
+	<select id="adminlogin" resultType="String">
+		SELECT userName
+		FROM tbl_admin
+		WHERE userId=#{userId} AND userPw=#{userPw}
 	</select>
 
 </mapper>

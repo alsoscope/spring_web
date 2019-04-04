@@ -1,7 +1,8 @@
 package com.p.project.DAO;
 
 import com.p.project.DTO.AdminDTO;
+import com.p.project.VO.MemberVO;
 
 public interface AdminDAO {
-	public String adminlogin(AdminDTO admin_vo);
+	public String adminlogin(MemberVO vo);
 }

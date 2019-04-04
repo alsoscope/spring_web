@@ -5,25 +5,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>회원가입</title>
-<!-- <style type="text/css">
-	form{
-		align:center;
-	}
- 	table{
-		width:300px;
-		height:200px;
-		border: 1px solid #bcbcbc;
-		margin-left: auto;
-    	margin-right: auto;
-		border-collapse: collapse;
-	}
-	th, td{
-		padding: 10px;
-	}
-	h2{
-		align:center;
-	}
-</style> -->
 <style type="text/css">
 	.form{
 		margin: auto;
@@ -34,10 +15,9 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<%-- <%@ include file="../include/member_header.jsp" %> --%>
+<%@ include file="../forward/nav_bar.jsp" %>
 </head>
 <body>
-<%-- <%@ include file="../include/member_menu.jsp" %> --%>
 	<h2 align="center">회원등록</h2>
 	<br>
 	<form class="form" name="form1" method="post" action="${path }/member/insert.do">

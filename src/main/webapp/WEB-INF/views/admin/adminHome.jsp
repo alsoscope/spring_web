@@ -14,8 +14,10 @@
 
 <!-- controller로부터 리턴받은 문자열이 success이면 관리자명, 관리자id 출력 -->
 <c:if test="${msg == 'success' }">
-	<h2>${sessionScope.adminName }
-	(${sessionScope.adminId })님 환영합니다.</h2>
+	<h2>${sessionScope.userName }
+	(${sessionScope.userId })님 환영합니다.</h2>
 </c:if>
+
+${result }
 </body>
 </html>

@@ -6,9 +6,11 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.p.project.DTO.AdminDTO;
 import com.p.project.Service.AdminService;
+import com.p.project.VO.MemberVO;
 
 @Controller
 @RequestMapping("admin/*")
@@ -24,23 +26,21 @@ public class AdminController {
 	}
 	
 	//2.관리자 로그인 체크
-	@RequestMapping("logincheck")
-	public String logincheck(Model model, HttpSession session, AdminDTO admin_vo) {
-		String name=adminService.adminlogin(admin_vo);
+	@RequestMapping(method=RequestMethod.POST, value="logincheck")
+	public String logincheck(Model model, HttpSession session, MemberVO vo) {
+		String name=adminService.adminlogin(vo);
 		
 		//로그인 성공
 		if(name!=null) {
-			session.setAttribute("adminId", admin_vo.getAdmin_id());
-			session.setAttribute("adminPw", admin_vo.getAdmin_pw());
-			/*session.setAttribute("adminName", adminName);
-			session.setAttribute("userName", userName);*/
+			session.setAttribute("userId", vo.getUserId());
+			session.setAttribute("adminId", vo.getUserId());
+			session.setAttribute("userName", name);
+			session.setAttribute("adminName", name);
 			model.addAttribute("msg", "success");
 			//관리자 로그인 성공하면 success 문자열 리턴, 관리자 메인  페이지로 포워딩
-		
-			//로그인 실패하면 로그인 페이지로 포워딩, failure 문자열 리턴
 		}else{
+			//로그인 실패하면 로그인 페이지로 포워딩, failure 문자열 리턴
 			model.addAttribute("msg","failure");
-			
 		}
 		return "admin/adminHome"; //관리자 페이지로 이동
 	}

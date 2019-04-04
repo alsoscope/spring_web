@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.p.project.DAO.AdminDAO;
 import com.p.project.DTO.AdminDTO;
+import com.p.project.VO.MemberVO;
 
 @Service
 public class AdminServiceImpl implements AdminService{
@@ -15,8 +16,8 @@ public class AdminServiceImpl implements AdminService{
 	
 	//관리자 로그인 체크. adminDao의 로그인 체크 메서드 호출
 	@Override
-	public String adminlogin(AdminDTO admin_vo) {
-		return adminDao.adminlogin(admin_vo);
+	public String adminlogin(MemberVO vo) {
+		return adminDao.adminlogin(vo);
 	}
 
 }

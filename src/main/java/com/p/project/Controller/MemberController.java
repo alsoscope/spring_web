@@ -36,15 +36,6 @@ public class MemberController {
 
 	private static final Logger logger=LoggerFactory.getLogger(MemberController.class);
 	
-	/* NaverLoginBO */
-	private NaverLoginBO naverLoginBO;
-	private String apiResult = null;
-
-	@Autowired
-	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
-		this.naverLoginBO = naverLoginBO;
-	}
-	
 	//MemberService 객체를 스프링에서 생성하여 주입시킴
 	@Inject
 	MemberService memberService;
@@ -79,10 +70,7 @@ public class MemberController {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		
-		
 
-		
 		/*if(vo != null) { //로그인 성공
 			session.setAttribute("login", vo);
 			returnURL="redirect:/member/member_list";
@@ -103,22 +91,6 @@ public class MemberController {
 		}*/
 		
 		//return returnURL;
-	}
-	
-	//네이버 로그인 성공시 callback호출 메소드
-	@RequestMapping(value = "callback", method = { RequestMethod.GET, RequestMethod.POST })
-	public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session)
-			throws IOException {
-		System.out.println("여기는 callback");
-		
-		//네이로 인증이 성공적으로 완료되면 code파라미터가 전달되며 이를 통해 access token 발급
-		OAuth2AccessToken oauthToken = naverLoginBO.getAccessToken(session, code, state);
-        //로그인 사용자 정보를 읽어온다.
-	    apiResult = naverLoginBO.getUserProfile(oauthToken);
-		model.addAttribute("result", apiResult);
-
-        /* 네이버 로그인 성공 페이지 View 호출 */
-		return "member/register_confirm";
 	}
 	
 	//로그아웃

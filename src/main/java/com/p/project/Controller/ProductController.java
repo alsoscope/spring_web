@@ -34,7 +34,7 @@ public class ProductController {
 		List<ProductDTO> list=productService.listProduct();
 		model.addAttribute("list", list);
 		System.out.println("list.toString()");
-		return "/shop/productList";
+		return "/product/productList";
 	}
 	
 	//2. 상품 상세보기 페이지 매핑. 하나의 URL이 하나의 고유한 리소스를 대표(Rest)할 수 있도록 처리
@@ -44,13 +44,13 @@ public class ProductController {
 		model.addAttribute("vo", productService.detailProduct(product_id));
 		logger.info("클릭한 product_id : " + product_id);
 		
-		return "/shop/productDetail";
+		return "/product/productDetail";
 	}
 	
 	//3. 상품 등록 페이지 매핑
 	@RequestMapping("write.do")
 	public String write() {
-		return "/shop/productWrite";
+		return "/product/productWrite";
 	}
 	
 	//4. 상품 등록 처리 매핑
@@ -82,7 +82,7 @@ public class ProductController {
 	@RequestMapping("edit/{product_id}")
 	public String edit(@PathVariable("product_id")int product_id, Model model) {
 		model.addAttribute("vo", productService.detailProduct(product_id));
-		return "/shop/productEdit";
+		return "/product/productEdit";
 	}
 	
 	//6. 상품 수정(편집) 처리 매핑
