@@ -25,7 +25,11 @@
 		<td>
 			<!-- 상품이미지와 상품명을 클릭하면 해당 상품의 상세 화면으로 이동할 수 있도록 <a href/>태그로 링크 -->
 			<a href="${path }/shop/product/detail/${row.product_id}">
-				<img src="${path}/images/${row.product_url}" width="120px" height="110px">
+				<%-- <img src="${path}/images/${row.product_url}" width="120px" height="110px"> --%><!-- 잘 돌아가다가 갑자기 404 not found -->
+				
+				<!-- 아래 둘 중 한 가지를 사용할 수 있다. -->
+				<%-- <img src="/resources/images/${row.product_url}" width="120px" height="110px"> --%>
+				<img src="../../resources/images/${row.product_url}" width="120px" height="110px">
 				
 				<%-- 절대경로. 로컬에서만 접근가능
 				<img src="C:\_java\05_sts_work\00_Portfolio\src\main\webapp\resources\images/${row.product_url}" width="120px" height="110px"> --%>

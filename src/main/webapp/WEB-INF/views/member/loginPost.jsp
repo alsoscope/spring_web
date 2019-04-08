@@ -9,7 +9,7 @@
 </head>
 <body>
 	<script type="text/javascript">
-		self.location="/member/list";
+		self.location="/shop/product/list";
 	</script>
 </body>
 </html>

@@ -9,26 +9,28 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
 	<%-- <link rel="icon" type="image/png" href="${pageContext.request.contextPath }/images/icons/favicon.ico"/> --%>
-	<link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath }/images/icons/favicon.ico"/>
+	<link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath }../resources/images/icons/favicon.ico"/>
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/vendor/bootstrap/css/bootstrap.min.css/">
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }../resources/vendor/bootstrap/css/bootstrap.min.css/">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }../resources/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }../resources/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/vendor/animate/animate.css">
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }../resources/vendor/animate/animate.css">
 <!--===============================================================================================-->	
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/vendor/css-hamburgers/hamburgers.min.css">
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }../resources/vendor/css-hamburgers/hamburgers.min.css">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/vendor/animsition/css/animsition.min.css">
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }../resources/vendor/animsition/css/animsition.min.css">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/vendor/select2/select2.min.css">
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }../resources/vendor/select2/select2.min.css">
 <!--===============================================================================================-->	
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/vendor/daterangepicker/daterangepicker.css">
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }../resources/vendor/daterangepicker/daterangepicker.css">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/util.css">
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/main.css">
+	<%-- <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/util.css"> --%>
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }../resources/css/util.css">
+	<%-- <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/main.css"> --%>
+	<link rel="stylesheet" href="<c:url value="../resources/css/main.css"/>">
 <!--===============================================================================================-->
 </head>
 <body>
@@ -59,9 +61,11 @@
 						<input id="submit-btn" type="submit" value="Sign in" class="login100-form-btn">						
 					</div>
 
+					<br>
+					
 					<div id="naver_id_login" style="text-align:center"><a href="${url}">
 					<%-- <img width="223" src="${path}/images/login_naver.png"/></a></div> --%>
-					<img width="223" src="${path}/images/login_naver.png"/></a></div>
+					<img width="300" src="${path}../resources/images/login_naver.png"/></a></div>
 
 					<div class="text-center p-t-45 p-b-4">
 						<span class="txt1">
@@ -101,26 +105,26 @@
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->
 	<!-- <script src="vendor/animsition/js/animsition.min.js"></script> -->
-	<script src="<c:url value="/vendor/animsition/js/animsition.min.js" />"></script>
+	<script src="<c:url value="../resources/vendor/animsition/js/animsition.min.js" />"></script>
 <!--===============================================================================================-->
 	<!-- <script src="vendor/bootstrap/js/popper.js"></script> -->
-	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-	<script src="<c:url value="/resources/vendor/bootstrap/js/popper.js" />"></script>
-	<%-- <script src="<c:url value="/vendor/bootstrap/js/bootstrap.min.js" />"></script> --%>
+	<!-- <script src="../resources/vendor/bootstrap/js/bootstrap.min.js"></script> -->
+	<script src="<c:url value="../resources/vendor/bootstrap/js/popper.js"/>"></script>
+	<script src="<c:url value="../resources/vendor/bootstrap/js/bootstrap.min.js" />"></script>
 <!--===============================================================================================-->
 	<!-- <script src="vendor/select2/select2.min.js"></script> -->
-	<script src="<c:url value="/vendor/select2/select2.min.js" />"></script>
+	<script src="<c:url value="../resources/vendor/select2/select2.min.js" />"></script>
 <!--===============================================================================================-->
 	<!-- <script src="vendor/daterangepicker/moment.min.js"></script>
 	<script src="vendor/daterangepicker/daterangepicker.js"></script> -->
-	<script src="<c:url value="/vendor/daterangepicker/moment.min.js" />"></script>
-	<script src="<c:url value="/vendor/daterangepicker/daterangepicker.js" />"></script>
+	<script src="<c:url value="../resources/vendor/daterangepicker/moment.min.js" />"></script>
+	<script src="<c:url value="../resources/vendor/daterangepicker/daterangepicker.js" />"></script>
 <!--===============================================================================================-->
 	<!-- <script src="vendor/countdowntime/countdowntime.js"></script> -->
-	<script src="<c:url value="/vendor/countdowntime/countdowntime.js" />"></script>
+	<script src="<c:url value="../resources/vendor/countdowntime/countdowntime.js" />"></script>
 <!--===============================================================================================-->
-	<!-- <script src="js/main.js"></script> -->
-	<script src="<c:url value="/js/main.js"/>"></script>
+	<!-- <script src="../js/main.js"></script> -->
+	<script src="<c:url value="../resources/js/main.js"/>"></script>
 <!--===============================================================================================-->
 
 	<!-- uid, pw null 체크 -->
