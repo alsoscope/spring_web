@@ -4,12 +4,13 @@
 ============
 
 ### 개발환경
-- STS 버전 3.9.1
-- MyBatis
-- MySQL
-- HTML
-- BootStrap
-- CSS
+- IDE : STS 버전 4.
+- JDK 1.8
+- Language : MyBatis
+- DATABASE : MySQL
+- FRONT-END : BootStrap (HTML, CSS)
+- Libary Management : MAVEN
+- WAD : Tomcat
 
 ### 목적
 - 쇼핑몰
@@ -17,3 +18,19 @@
 - 글 목록
 - 상단 메뉴(회원 목록확인)
 - 관리자 메뉴
+
+### 분류
+- .java
+  - Controller
+  - Persistence, DAO
+  - Repository, DTO
+  - VO (MemberVO : 데이터 수집용)
+- .jsp
+  - sboard
+  - member
+  - product
+  - admin
+  - naverlogin
+  - forward
+- /resources/**
+
