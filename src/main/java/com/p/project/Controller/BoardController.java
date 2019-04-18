@@ -39,7 +39,7 @@ public class BoardController {
 	BoardService boardService;
 	
 	//01.게시글 목록
-	@RequestMapping("list.do")
+	@RequestMapping("search_list")
 	// @RequestParam(defaultValue="") == 기본값 할당
 	public ModelAndView list(@RequestParam(defaultValue="title") String searchOption, @RequestParam(defaultValue="") String keyword) throws Exception{
 		List<BoardVO> list=boardService.listAll(searchOption, keyword);	
@@ -52,7 +52,7 @@ public class BoardController {
 		map.put("count", count); //레코드 개수
 		map.put("searchOption", searchOption);//검색 옵션
 		map.put("keyword", keyword);//검색 키워드
-		mav.setViewName("board/list");//뷰를 list.jsp로 설정
+		mav.setViewName("sboard/search_list");//뷰를 list.jsp로 설정
 		mav.addObject("map", map);//맵에 저장된 데이터를 mav에 저장
 		//System.out.println("list.toString()");
 		return mav;

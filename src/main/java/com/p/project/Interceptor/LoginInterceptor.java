@@ -13,7 +13,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 public class LoginInterceptor extends HandlerInterceptorAdapter{
 
-	//private static final String LOGIN="login";
+	private static final String LOGIN="login";
 	private static final Logger logger=LoggerFactory.getLogger(LoginInterceptor.class);
 	
 	//Controller로 요청이 들어가기 전 수행됨. 컨트롤러보다 먼저 수행됨.
@@ -26,11 +26,10 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 			
 			System.out.println("preHandle--------------");
 		
-			if(session.getAttribute("LOGIN")!=null) { //새로 로그인 요청이 들어올 때 기존에 세션에 저장되어 있던 이전의 session LOGIN 사용자 정보 제거
+			if(session.getAttribute(LOGIN)!=null) { //새로 로그인 요청이 들어올 때 기존에 세션에 저장되어 있던 이전의 session LOGIN 사용자 정보 제거
 				logger.info("clear login data before");
-				session.removeAttribute("LOGIN");
-			}
-			
+				session.removeAttribute(LOGIN);
+			}		
 			return true;
 		}
 		
@@ -40,16 +39,17 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(); //(true);값과 같은 결과를 반환함
 		ModelMap modelMap=modelAndView.getModelMap();
 		Object MemberVO = modelMap.get("MemberVO");
 		
 		if(MemberVO != null) { //로그인 성공
 			logger.info("new login success");
-			session.setAttribute("LOGIN", MemberVO);
-			response.sendRedirect("list");
-		} else {
+			logger.info("MemberVO : " + MemberVO);
+			session.setAttribute(LOGIN, MemberVO);
 			response.sendRedirect("/");
+		} else {
+			response.sendRedirect("/member/loginGET");
 		}
 	}	
 }

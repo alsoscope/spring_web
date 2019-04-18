@@ -7,7 +7,7 @@
 	<select id="listProduct" resultType="com.p.project.DTO.ProductDTO">
 		SELECT product_id, product_name, product_price, 
 		product_desc, product_url
-		FROM tbl_product ORDER BY product_name
+		FROM tbl_product ORDER BY product_id asc
 		
 		<!-- SELECT product_id AS productId, product_name AS productName, product_price AS producrPrice, 
 		product_desc AS productDesc, product_url AS productUrl
@@ -48,5 +48,26 @@
 	<select id="fileInfo" resultType="String">
 		select product_url from tbl_product
 		where product_id=#{product_id}
+	</select>
+	
+	<!-- <sql>조각은 필요한 SQL구성에 아래와 같이 재사용할 수 있다 -->
+	<select id="listSearch" resultType="com.p.project.DTO.BoardVO">
+		<![CDATA[
+			select * from tbl_board where bno > 0
+		]]>
+		
+		
+		
+		<![CDATA[
+			order by bno desc limit #{pageStart}, #{perPageNum}
+		]]>
+	</select>
+		
+	<select id="listSearchCount" resultType="int">	
+		<![CDATA[
+			select count(bno) from tbl_board where bno > 0
+		]]>
+		
+		
 	</select>
 </mapper>

@@ -17,13 +17,9 @@
 	<resources mapping="/resources/**" location="/resources/" />
 	
 	<resources location="/css/" mapping="/css/**"/>
-
 	<resources location="/fonts/" mapping="/fonts/**"/>
-
-	<resources location="/images/" mapping="/images/**"/>
-	
-	<resources location="/js/" mapping="/js/**"/>
-	
+	<resources location="/images/" mapping="/images/**"/>	
+	<resources location="/js/" mapping="/js/**"/>	
 	<resources location="/vendor/" mapping="/vendor/**"/>
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
@@ -35,24 +31,33 @@
 	<context:component-scan base-package="com.p.project" />
 	
 	<!-- AdminLogin 세션 체크 Interceptor 설정 bean 등록 -->
-	<beans:bean id="adminloginInterceptor" class="com.p.project.Interceptor.AdminInterceptor"></beans:bean>
+	<beans:bean id="adminInterceptor" class="com.p.project.Interceptor.AdminInterceptor"></beans:bean>
 		<interceptors>
 		<!-- 관리자 세션체크 매핑 -->
 			<interceptor>
-				<mapping path="/shop/product/write.do"/>
-				<mapping path="/shop/product/insert.do"/>
-				<mapping path="/shop/product/update.do"/>
+				<mapping path="/shop/product/write"/>
+				<mapping path="/shop/product/insert"/>
+				<mapping path="/shop/product/update"/>
 				<mapping path="/shop/product/edit/**"/>
-				<mapping path="/shop/product/delete.do"/>
-				<beans:ref bean="adminloginInterceptor" />
+				<mapping path="/shop/product/delete"/>				
+				<beans:ref bean="adminInterceptor" />
 			</interceptor>
 		</interceptors>
-		
+	
+	<!-- 특정 경로에 접근하는 경우 현재 사용자가 로그인한 상태의 사용자인지를 체크하는 역할 처리 -->
+	<beans:bean id="authInterceptor" class="com.p.project.Interceptor.AuthInterceptor" />
+	
+	<!-- 로그인한 사용자에 대해 postHandle()을 이용해 HttpSession에 보관하는 처리 담당 -->
 	<beans:bean id="loginInterceptor" class="com.p.project.Interceptor.LoginInterceptor" />
 		<interceptors>
 			<interceptor>
-				<mapping path="/member/loginPost"></mapping>
+				<mapping path="/member/loginPOST"></mapping>
 				<beans:ref bean="loginInterceptor"></beans:ref>
+			</interceptor>
+			
+			<interceptor>
+				<mapping path="/shop/product/product_home"></mapping>
+				<beans:ref bean="authInterceptor"></beans:ref>
 			</interceptor>
 		</interceptors>
 		

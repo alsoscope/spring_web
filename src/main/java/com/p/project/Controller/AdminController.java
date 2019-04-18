@@ -26,7 +26,7 @@ public class AdminController {
 	}
 	
 	//2.관리자 로그인 체크
-	@RequestMapping(method=RequestMethod.POST, value="logincheck")
+	@RequestMapping(value="logincheck")
 	public String logincheck(Model model, HttpSession session, MemberVO vo) {
 		String name=adminService.adminlogin(vo);
 		

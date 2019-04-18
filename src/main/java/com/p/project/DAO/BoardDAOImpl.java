@@ -72,7 +72,6 @@ public class BoardDAOImpl implements BoardDAO {
 	//07 게시글 레코드 개수
 	@Override
 	public int countArticle(String searchOption, String keyword) throws Exception {
-		// TODO Auto-generated method stub
 		//검색옵션, 키워드 맵에 저장
 		Map<String, String> map=new HashMap<String, String>();
 		map.put("searchOption", searchOption);

@@ -4,11 +4,13 @@ import java.io.File;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,7 +18,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.p.project.DTO.ProductDTO;
+import com.p.project.DTO.SearchCriteria;
+import com.p.project.Service.BoardService;
+import com.p.project.Service.MemberService;
 import com.p.project.Service.ProductService;
+import com.p.project.DTO.MemberDTO;
+import com.p.project.DTO.PageMaker;
 
 //상품 관련 페이지 매핑
 @Controller
@@ -28,33 +35,67 @@ public class ProductController {
 	@Inject
 	ProductService productService;
 	
+	MemberService memberService;
+	BoardService boardService;
+	
 	//1. 상품 전체 목록 페이지 매핑. service에서 가져온 리스트 객체 리턴
-	@RequestMapping(value="list", method=RequestMethod.GET)
+/*	@RequestMapping(value="/", method=RequestMethod.GET)
 	public String listProduct(Model model) {
 		List<ProductDTO> list=productService.listProduct();
 		model.addAttribute("list", list);
 		System.out.println("list.toString()");
-		return "/product/productList";
-	}
+		return "product/product_list";
+	}*/
 	
 	//2. 상품 상세보기 페이지 매핑. 하나의 URL이 하나의 고유한 리소스를 대표(Rest)할 수 있도록 처리
 	//@ResponseBody
 	@RequestMapping("/detail/{product_id}")
-	public String detailProduct(Model model, @PathVariable("product_id")int product_id) {
+	public String detailProduct(Model model, @PathVariable("product_id")int product_id) throws Exception{
 		model.addAttribute("vo", productService.detailProduct(product_id));
-		logger.info("클릭한 product_id : " + product_id);
+		logger.info("클릭한 product_id : " + product_id);		
+		return "/product/product_detail";
+	}
+	
+	//한국 영화 카테고리
+	@RequestMapping("product_list_korean")
+	public String product_list_korean(Model model,@ModelAttribute("cri")SearchCriteria cri) throws Exception{
+		List<ProductDTO> list=productService.listProduct();
+		model.addAttribute("list", list);
+		System.out.println("product_list_korean");
 		
-		return "/product/productDetail";
+		/*model.addAttribute("list", boardService.listSearchCriteria(cri));*/
+		
+		PageMaker pageMaker=new PageMaker();
+		pageMaker.setCri(cri);
+		
+		/*pageMaker.setTotalCount(boardService.listSearchCount(cri));*/
+		model.addAttribute("pageMaker", pageMaker);
+		
+		return "/product/product_list_korean";
 	}
 	
+	//해외 영화 카테고리
+	@RequestMapping("product_list_abroad")
+	public String product_list_aborad() {
+		
+		return "/product/product_list_abroad";
+	}
+	
+	//기타 영상 카테고리
+	@RequestMapping("product_list_etcetera")
+	public String product_list_etcetera() {
+		
+		return "/product/product_list_etcetera";
+	}
+
 	//3. 상품 등록 페이지 매핑
-	@RequestMapping("write.do")
+	@RequestMapping("product_write")
 	public String write() {
-		return "/product/productWrite";
+		return "/product/product_write";
 	}
-	
+		
 	//4. 상품 등록 처리 매핑
-	@RequestMapping("insert.do")
+	@RequestMapping("insert")
 	public String insert(ProductDTO vo) {
 		String filename="";
 		//첨부파일(상품사진)이 있으면
@@ -75,18 +116,18 @@ public class ProductController {
 			productService.insertProduct(vo);
 		}
 		
-		return "redirect:/shop/product/list.do";
+		return "redirect:/";
 	}
 	
 	//5.상품 수정(편집) 페이지 매핑
 	@RequestMapping("edit/{product_id}")
 	public String edit(@PathVariable("product_id")int product_id, Model model) {
 		model.addAttribute("vo", productService.detailProduct(product_id));
-		return "/product/productEdit";
+		return "/product/product_edit";
 	}
 	
 	//6. 상품 수정(편집) 처리 매핑
-	@RequestMapping("update.do")
+	@RequestMapping("update")
 	public String update(ProductDTO vo) {
 		String filename="";
 		//첨부파일(상품사진)이 변경할 경우, 상품 등록시 이미지 파일을 업로드 한 경우와 동일하게 처리
@@ -112,11 +153,11 @@ public class ProductController {
 		}
 		productService.updateProduct(vo);
 		
-		return "redirect:/shop/product/list.do";
+		return "redirect:/";
 	}
 	
 	//7.상품 삭제 처리 매핑
-	@RequestMapping("delete.do")
+	@RequestMapping("delete")
 	public String delete(@RequestParam int product_id) {
 		//상품 이미지 정보
 		String filename=productService.fileInfo(product_id);
@@ -132,7 +173,7 @@ public class ProductController {
 		//레코드 삭제
 		productService.deleteProduct(product_id);
 		
-		return "redirect:/shop/product/list.do";
+		return "redirect:/";
 	}
 	
 }//ProductController

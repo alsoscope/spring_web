@@ -37,8 +37,6 @@
 </style>
 </head>
 <body>
-<%-- <%@ include file="../include/member_menu.jsp" %> --%>
-
 	<h2>회원 목록</h2>
 
 	<form>

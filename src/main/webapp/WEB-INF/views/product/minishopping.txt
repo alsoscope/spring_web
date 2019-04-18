@@ -21,6 +21,18 @@ insert into tbl_product(product_name, product_price, product_desc, product_url) 
 insert into tbl_product(product_name, product_price, product_desc, product_url) values ('상품이름5',50000,'상품 설명5','photo5.jpg');
 insert into tbl_product(product_name, product_price, product_desc, product_url) values ('상품이름6',60000,'상품 설명6','photo6.jpg');
 
+컬럼 삭제 : drop tbl_product column product_name;
+데이터 삭제 (DELETE)
+delete from 테이블명 [where 조건(일부삭제)]; 조건 안붙으면 데이터 전체 삭제
+
+insert into tbl_product(product_name, product_price, product_desc, product_url) values ('BOHEMIAN RHAPSODY',100000,'보헤미안 랩소디','movie_image (1).jpg');
+insert into tbl_product(product_name, product_price, product_desc, product_url) values ('SHAZAM!',200000,'샤잠!','movie_image (2).jpg');
+insert into tbl_product(product_name, product_price, product_desc, product_url) values ('AVENGERS',300000,'어벤저스','movie_image (3).jpg');
+insert into tbl_product(product_name, product_price, product_desc, product_url) values ('US',400000,'어스','movie_image (4).jpg');
+insert into tbl_product(product_name, product_price, product_desc, product_url) values ('AVENGERS',500000,'미성년','movie_image (5).jpg');
+insert into tbl_product(product_name, product_price, product_desc, product_url) values ('AVENGERS',600000,'사바하','movie_image (6).jpg');
+insert into tbl_product(product_name, product_price, product_desc, product_url) values ('AVENGERS',700000,'곡성','movie_image (7).jpg');
+
 select * from tbl_product;
 
 장바구니 테이블 : 상품 추가, 수량변경, 삭제

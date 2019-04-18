@@ -18,7 +18,7 @@ public class AdminInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 
-		logger.info("AdminInterceptor preHandle");
+		logger.info("-----------AdminInterceptor preHandle-----------");
 		
 		//세션 객체 생성
 		HttpSession session=request.getSession();
@@ -26,7 +26,7 @@ public class AdminInterceptor extends HandlerInterceptorAdapter {
 		//session에 관리자id가 null이면
 		if(session.getAttribute("adminId")==null) {
 			//일반 사용자 로그인 화면으로 리다이렉트
-			response.sendRedirect(request.getContextPath()+ "/?msg=nologin");
+			response.sendRedirect(request.getContextPath()+ "/member/loginGET?msg=nologin");
 			return false; //요청 실행하지 않는다 false 리턴
 		} else {
 			//null이 아니면

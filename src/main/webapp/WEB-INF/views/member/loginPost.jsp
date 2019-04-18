@@ -9,7 +9,7 @@
 </head>
 <body>
 	<script type="text/javascript">
-		self.location="/shop/product/list";
+		self.location="/member/loginPOST";
 	</script>
 </body>
 </html>

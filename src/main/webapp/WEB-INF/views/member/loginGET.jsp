@@ -37,7 +37,7 @@
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
-				<form class="login100-form validate-form" name="form1" method="post" action="${path }/member/loginPost">
+				<form class="login100-form validate-form" name="form1" method="post" action="${path }/member/loginPOST">
 					<span class="login100-form-title p-b-33">
 						Account Login
 					</span>
@@ -65,13 +65,12 @@
 					
 					<div id="naver_id_login" style="text-align:center"><a href="${url}">
 					<%-- <img width="223" src="${path}/images/login_naver.png"/></a></div> --%>
-					<img width="300" src="${path}../resources/images/login_naver.png"/></a></div>
+					<img width="250" src="${path}../resources/images/login_naver.png"/></a></div>
 
 					<div class="text-center p-t-45 p-b-4">
 						<span class="txt1">
 							Forgot
 						</span>
-
 						<a href="#" class="txt2 hov1">
 							Username / Password?
 						</a>
@@ -79,10 +78,9 @@
 
 					<div class="text-center">
 						<span class="txt1">
-							Create an account?
+							회원가입
 						</span>
-
-						<a href="${pageContext.request.contextPath }/member/register.do" class="txt2 hov1">
+						<a href="${pageContext.request.contextPath }/member/register" class="txt2 hov1">
 							Sign up
 						</a>
 					</div>
@@ -91,9 +89,16 @@
 						<span class="txt1">
 							관리자로 접속하기
 						</span>
-						<a href="${pageContext.request.contextPath }/admin/adminlogin.do" class="txt2 hov1">
+						<a href="${pageContext.request.contextPath }/admin/adminlogin" class="txt2 hov1">
 							Sign up
 						</a>
+					</div>
+					
+					<div class="text-center">
+						<span class="txt1">
+							메인으로 돌아가기
+						</span>
+						<a href="/" class="txt2 hov1">메인으로</a>
 					</div>
 				</form>
 			</div>
@@ -145,13 +150,17 @@
 
 	<!-- "네이버 아이디로 로그인" 버튼 노출 영역 -->
 	<script type="text/javascript">
- 		var naver_id_login = new naver_id_login("CcHDOhNulVa7_LfwCQeM", "http://localhost:9000/");
+ 		var naver_id_login = new naver_id_login("CcHDOhNulVa7_LfwCQeM", "http://localhost:9000/member/loginGET");
  		var state = naver_id_login.getUniqState();
 		
  		naver_id_login.setButton("green", 3, 40);
- 		naver_id_login.setDomain("http://localhost:9000/");
+ 		naver_id_login.setDomain("http://localhost:9000/member/loginGET");
  		naver_id_login.setState(state);
  		naver_id_login.init_naver_id_login();
+
+ 		naver_id_login = window.open("http://localhost:9000/member/loginGET", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, top=500, left=500, width=400, height=400");
+
 	</script>
+
 </body>
 </html>

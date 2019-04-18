@@ -28,8 +28,8 @@ public class SearchBoardController {
 private BoardService service;
 
 	//검색처리와 동적SQL
-	@RequestMapping(value="searchList", method=RequestMethod.GET)
-	public void listPage(@ModelAttribute("cri")SearchCriteria cri, Model model)throws Exception{
+	@RequestMapping(value="search_list", method=RequestMethod.GET)
+	public void listPage(@ModelAttribute("cri")SearchCriteria cri, Model model,String searchOption, String keyword)throws Exception{
 		logger.info(cri.toString());
 		
 		//model.addAttribute("list", service.listCriteria(cri));
@@ -40,8 +40,10 @@ private BoardService service;
 		
 		//pageMaker.setTotalCount(service.listCountCriteria(cri));
 		pageMaker.setTotalCount(service.listSearchCount(cri));
-	
 		model.addAttribute("pageMaker", pageMaker);
+	
+		int count=service.countArticle(searchOption, keyword);
+		model.addAttribute("count", count);		
 	}
 
 	//조회
@@ -72,11 +74,11 @@ private BoardService service;
 		rttr.addFlashAttribute("msg", "success");
 		
 		logger.info(rttr.toString());
-		return "redirect:/sboard/searchList";
+		return "redirect:/sboard/search_list";
 	}
 	
 	//삭제
-	@RequestMapping(value="delete.do", method=RequestMethod.POST)
+	@RequestMapping(value="delete", method=RequestMethod.POST)
 	public String remove(@RequestParam("bno")int bno, SearchCriteria cri, RedirectAttributes rttr) throws Exception{
 		service.delete(bno);
 		
@@ -86,13 +88,13 @@ private BoardService service;
 		rttr.addAttribute("keyword", cri.getKeyword());
 		
 		rttr.addFlashAttribute("msg", "success");
-		return "redirect:/sboard/searchList.do";
+		return "redirect:/sboard/search_list";
 	}
 	
 	//글등록 form GET방식
 	@RequestMapping(value="register", method=RequestMethod.GET)
 	public void register() throws Exception {
-		logger.info("register get........");
+		logger.info("----------register get----------");
 	}
 	
 	//글등록 POST처리
@@ -105,7 +107,7 @@ private BoardService service;
 		
 		rttr.addFlashAttribute("msg", "success");
 		
-		return "redirect:/sboard/searchList";
+		return "redirect:/sboard/search_list";
 	}
 	
 }//SearchBoardController
