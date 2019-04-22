@@ -59,7 +59,7 @@ public class BoardController {
 	}
 	
 	//list with page
-	@RequestMapping(value="listCri", method=RequestMethod.GET)
+/*	@RequestMapping(value="listCri", method=RequestMethod.GET)
 	public void listAll(Criteria cri, Model model) throws Exception{
 		logger.info("show list page with Criteria ......");
 		model.addAttribute("list", boardService.listCriteria(cri));
@@ -75,24 +75,24 @@ public class BoardController {
 		//pageMaker.setTotalCount(131); sample paging
 		pageMaker.setTotalCount(boardService.listCountCriteria(cri));
 		model.addAttribute("pageMaker", pageMaker);
-	}
+	}*/
 	
 	//02_1 게시글 작성화면
 	//@RequestMapping("board/write.do")
 	//value="", method="전송방식"
-	@RequestMapping(value="write.do", method=RequestMethod.GET)
+	@RequestMapping(value="write", method=RequestMethod.GET)
 	public String write() {
 		return "board/write";
 	}
 	
 	//02_02 게시글 작성 처리
-	@RequestMapping(value="insert.do",method=RequestMethod.POST)
+	@RequestMapping(value="insert",method=RequestMethod.POST)
 	public String insert(@ModelAttribute BoardVO vo, RedirectAttributes rttr, Model model)throws Exception{
 		boardService.create(vo);
 
 		//model.addAttribute("result", "success");
 		rttr.addFlashAttribute("msg", "success");
-		return "redirect:listPage.do";
+		return "redirect:listPage";
 	}
 	
 	//페이징 처리가 된 후, 조회 페이지는 다시 목록 페이지로 돌아간다. 현재 목록 페이지의 페이지 번호page, 페이지당 데이터수(perPageNum),조회하는 게시물의 번호 bno
@@ -130,13 +130,13 @@ public class BoardController {
 	}
 	
 	//05 게시글 삭제
-	@RequestMapping("delete.do")
+	@RequestMapping("delete")
 	public String delete(@RequestParam int bno, Criteria cri, RedirectAttributes rttr)throws Exception{
 		boardService.delete(bno);
 		
 		rttr.addAttribute("page", cri.getPage());
 		rttr.addAttribute("perPageNum", cri.getPerPageNum());
 		rttr.addFlashAttribute("msg", "success");
-		return "redirect:listPage.do";
+		return "redirect:listPage";
 	}
 }//BoardController

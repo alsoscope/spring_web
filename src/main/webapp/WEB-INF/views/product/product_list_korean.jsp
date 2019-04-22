@@ -5,6 +5,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<style>
+.center {
+  text-align: center;
+}
+.pagination {
+  display: inline-block;
+}
+
+.pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+  transition: background-color .3s;
+  border: 1px solid #ddd;
+}
+
+.pagination a.active {
+  background-color: #4CAF50;
+  color: white;
+  border: 1px solid #4CAF50;
+}
+
+.pagination a:hover:not(.active) {background-color: #ddd;}
+</style>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
@@ -114,68 +139,54 @@
           </a>
         </div>
 
-        <div class="row">
-        
+        <div class="row">       
           <c:forEach var="row" items="${list }" begin="1" end="6" step="1">
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card h-100">
-              <a href="/shop/product/detail/${row.product_id }"><img class="card-img-top" src="/resources/images/movie/${row.product_url}" style="width:700; height:400;" alt="포스터" title="클릭시 이동"></a>
-              <div class="card-body">
-                <h4 class="card-title">
-                  <a href="${path }/shop/product/detail/${row.product_id }">${row.product_name }</a>
-                </h4>
-                <h5><fmt:formatNumber value="${row.product_price }" pattern="###,###,###" /></h5>
-                <p class="card-text">${row.product_desc }</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-              </div>
-            </div><!-- <div class="card h-100"> --> 
-          </div><!-- <div class="col-lg-4 col-md-6 mb-4"> -->
+	          <div class="col-lg-4 col-md-6 mb-4">
+	            <div class="card h-100">
+	              <a href="/shop/product/detail/${row.product_id }"><img class="card-img-top" src="/resources/images/movie/${row.product_url}" style="width:700; height:400;" alt="포스터" title="클릭시 이동"></a>
+	              <div class="card-body">
+	                <h4 class="card-title">
+	                  <a href="${path }/shop/product/detail/${row.product_id }">${row.product_name }</a>
+	                </h4>
+	                <h5><fmt:formatNumber value="${row.product_price }" pattern="###,###,###" /></h5>
+	                <p class="card-text">${row.product_desc }</p>
+	              </div>
+	              <div class="card-footer">
+	                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+	              </div>
+	            </div><!-- <div class="card h-100"> --> 
+	          </div><!-- <div class="col-lg-4 col-md-6 mb-4"> -->
 		  </c:forEach>
-
         </div>
         <!-- /.row -->
+        
+    <!-- 단순히 게시물의 번호를 전송하는 링크에서 페이지 정보를 유지할 수 있도록 변경됨 -->
+	<div>
+		<ul class="pagination" style="text-align:center; margin: 10; padding:10;">
+			<c:if test="${pageMaker.prev }">
+				<li><a href="product_list_korean${pageMaker.makeQuery(pageMaker.startPage-1) }">&laquo;</a></li>
+			</c:if>
+			
+			<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="idx">
+			
+				<li <c:out value="${pageMaker.cri.page==idx?'class=active':'' }"/>>
+					<a href="product_list_korean${pageMaker.makeQuery(idx) }">${idx }</a>			
+				</li>
+			</c:forEach>
+			
+			<c:if test="${pageMaker.next&&pageMaker.endPage>0 }">
+				<li><a href="product_list_korean${pageMaker.makeQuery(pageMaker.endPage+1) }">&raquo;</a></li>
+			</c:if>
+		</ul>
+	</div>
+	
       </div>
       <!-- /.col-lg-9 -->
     </div>
     <!-- /.row -->
   </div>
-
-	<ul class="pagination" style="display: table; margin: auto; padding:0;">
-	
-		<c:if test="${pageMaker.prev }">
-		<c:choose>
-			<c:when test="${searchType eq null && keyword eq null }"><!-- 변수 앞에 makeSearch.searchType 해도 됨 -->
-					<li><a href="/sboard/search_list${pageMaker.makeQuery(pageMaker.startPage-1) }">&laquo;</a></li>
-			</c:when>
-			<c:otherwise>
-				<li><a href="/sboard/search_list${pageMaker.makeSearch(pageMaker.startPage-1) }">&laquo;</a></li>
-			</c:otherwise>
-		</c:choose>
-		</c:if>
-		
-		<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="idx">
-			<li <c:out value="${pageMaker.cri.page == idx?'class =active':'' }"/>>
-				<a href="search_list${pageMaker.makeSearch(idx) }">${idx }</a>
-			</li>
-		</c:forEach>
-		
-		<c:if test="${pageMaker.next && pageMaker.endPage>0 }">
-		<c:choose>
-			<c:when test="${searchType eq null && keyword eq null }"><!-- 변수 앞에 makeSearch.searchType 해도 됨 -->
-					<li><a href="/sboard/search_list${pageMaker.makeQuery(pageMaker.endPage+1) }">&raquo;</a></li>
-			</c:when>
-			<c:otherwise>
-				<li><a href="search_list${pageMaker.makeSearch(pageMaker.endPage+1) }">&raquo;</a></li>
-			</c:otherwise>
-		</c:choose>
-		</c:if>
-
-	</ul>
-
-
   <!-- /.container -->
+
 
   <!-- Footer -->
   <footer class="py-5 bg-dark">
@@ -197,7 +208,5 @@
   <!-- Bootstrap core JavaScript -->
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script src="/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
 </body>
-
 </html>

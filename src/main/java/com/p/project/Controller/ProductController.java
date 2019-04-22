@@ -22,6 +22,7 @@ import com.p.project.DTO.SearchCriteria;
 import com.p.project.Service.BoardService;
 import com.p.project.Service.MemberService;
 import com.p.project.Service.ProductService;
+import com.p.project.DTO.Criteria;
 import com.p.project.DTO.MemberDTO;
 import com.p.project.DTO.PageMaker;
 
@@ -34,10 +35,7 @@ public class ProductController {
 	
 	@Inject
 	ProductService productService;
-	
-	MemberService memberService;
-	BoardService boardService;
-	
+
 	//1. 상품 전체 목록 페이지 매핑. service에서 가져온 리스트 객체 리턴
 /*	@RequestMapping(value="/", method=RequestMethod.GET)
 	public String listProduct(Model model) {
@@ -58,17 +56,17 @@ public class ProductController {
 	
 	//한국 영화 카테고리
 	@RequestMapping("product_list_korean")
-	public String product_list_korean(Model model,@ModelAttribute("cri")SearchCriteria cri) throws Exception{
-		List<ProductDTO> list=productService.listProduct();
-		model.addAttribute("list", list);
+	public String product_list_korean(Model model, Criteria cri) throws Exception{
+	
 		System.out.println("product_list_korean");
-		
-		/*model.addAttribute("list", boardService.listSearchCriteria(cri));*/
+
+		/*List<ProductDTO> list=productService.listProduct();*/
+		List<ProductDTO> list=productService.criteriaList(cri);
+		model.addAttribute("list", list);
 		
 		PageMaker pageMaker=new PageMaker();
 		pageMaker.setCri(cri);
-		
-		/*pageMaker.setTotalCount(boardService.listSearchCount(cri));*/
+		pageMaker.setTotalCount(productService.listCountCriteria(cri));
 		model.addAttribute("pageMaker", pageMaker);
 		
 		return "/product/product_list_korean";

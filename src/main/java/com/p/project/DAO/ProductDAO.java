@@ -3,6 +3,7 @@ package com.p.project.DAO;
 import java.util.List;
 
 import com.p.project.DTO.ProductDTO;
+import com.p.project.DTO.Criteria;
 
 //비즈니스로직 ,DB연동 작업처리
 public interface ProductDAO {
@@ -23,4 +24,11 @@ public interface ProductDAO {
 	
 	//6. 상품 이미지 삭제 위한 이미지 파일 정보
 	public String fileInfo(int product_id);
+	
+	//paging
+	public List<ProductDTO> pageList(int page);
+	
+	public List<ProductDTO> criteriaList(Criteria cri);
+	
+	public int countPaging(Criteria cri);
 }

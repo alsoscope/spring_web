@@ -2,6 +2,7 @@ package com.p.project.Service;
 
 import java.util.List;
 
+import com.p.project.DTO.Criteria;
 import com.p.project.DTO.ProductDTO;
 
 public interface ProductService {
@@ -23,4 +24,9 @@ public interface ProductService {
 	
 	//6. 상품 이미지 삭제 위한 이미지 파일 정보
 	public String fileInfo(int product_id);
+	
+	//paging	
+	public List<ProductDTO> criteriaList(Criteria cri);
+	
+	public int listCountCriteria(Criteria cri);
 }

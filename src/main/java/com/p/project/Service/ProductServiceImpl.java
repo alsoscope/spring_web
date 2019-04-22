@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.p.project.DAO.ProductDAO;
+import com.p.project.DTO.Criteria;
 import com.p.project.DTO.ProductDTO;
 
 @Service
@@ -48,5 +49,15 @@ public class ProductServiceImpl implements ProductService{
 	public String fileInfo(int product_id) {
 		return productDao.fileInfo(product_id);
 	}
+	
+	//paging
+	public List<ProductDTO> criteriaList(Criteria cri){
+		return productDao.criteriaList(cri);
+	}
+
+	@Override
+	public int listCountCriteria(Criteria cri) {
+		return productDao.countPaging(cri);
+	};
 
 }

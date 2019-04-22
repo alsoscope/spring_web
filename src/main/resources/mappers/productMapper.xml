@@ -50,24 +50,23 @@
 		where product_id=#{product_id}
 	</select>
 	
-	<!-- <sql>조각은 필요한 SQL구성에 아래와 같이 재사용할 수 있다 -->
-	<select id="listSearch" resultType="com.p.project.DTO.BoardVO">
+	<!-- 페이징 처리 -->
+	<select id="listCriteria" resultType="com.p.project.DTO.ProductDTO">
 		<![CDATA[
-			select * from tbl_board where bno > 0
-		]]>
-		
-		
-		
-		<![CDATA[
-			order by bno desc limit #{pageStart}, #{perPageNum}
+			select * from tbl_product where product_id > 0
+			order by product_id desc limit #{pageStart}, #{perPageNum}
 		]]>
 	</select>
-		
-	<select id="listSearchCount" resultType="int">	
-		<![CDATA[
-			select count(bno) from tbl_board where bno > 0
-		]]>
-		
-		
+	
+	<select id="countPaging" resultType="int">
+	<![CDATA[
+		select count(product_id) from tbl_product where product_id > 0
+	]]>
 	</select>
+	
+	<!-- <select id="criteriaList" resultType="int">	
+		<![CDATA[
+			select count(product_id) from tbl_product where bno > 0
+		]]>
+	</select> -->
 </mapper>

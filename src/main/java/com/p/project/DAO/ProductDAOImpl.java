@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.p.project.DTO.Criteria;
 import com.p.project.DTO.ProductDTO;
 
 @Repository
@@ -49,4 +50,25 @@ public class ProductDAOImpl implements ProductDAO {
 		return sqlSession.selectOne("product.fileInfo", product_id);
 	}
 
+	//paging
+	@Override
+	public List<ProductDTO> pageList(int page) {
+		if (page <= 0) {
+			page = 1;
+		}
+		page = (page-1) * 10;
+				
+		return sqlSession.selectList("product.listProduct", page);
+	}
+
+	@Override
+	public List<ProductDTO> criteriaList(Criteria cri) {
+		return sqlSession.selectList("product.listCriteria", cri);
+	}
+
+	@Override
+	public int countPaging(Criteria cri) {
+		return sqlSession.selectOne("product.countPaging", cri);
+	}
+	
 }
