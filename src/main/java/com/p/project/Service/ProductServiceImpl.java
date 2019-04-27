@@ -50,7 +50,7 @@ public class ProductServiceImpl implements ProductService{
 		return productDao.fileInfo(product_id);
 	}
 	
-	//paging
+	//-----------------paging-----------------
 	public List<ProductDTO> criteriaList(Criteria cri){
 		return productDao.criteriaList(cri);
 	}
@@ -58,6 +58,23 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public int listCountCriteria(Criteria cri) {
 		return productDao.countPaging(cri);
-	};
+	}
+	//-----------------paging-----------------
+	
+	//++++++++++++++++++胶农费傅 Test++++++++++++++++++
+	@Override
+	public List<ProductDTO> listTest() {
+		return productDao.listTest();
+	}
 
+	@Override
+	public List<ProductDTO> infiniteScrollDown(int product_id) {
+		return productDao.infiniteScrollDown(product_id);
+	}
+
+	@Override
+	public List<ProductDTO> infiniteScrollUp(int product_id) {
+		return productDao.infiniteScrollUp(product_id);
+	};
+	//++++++++++++++++++胶农费傅 Test++++++++++++++++++
 }

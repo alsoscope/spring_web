@@ -16,6 +16,8 @@ public class ProductDAOImpl implements ProductDAO {
 	@Inject
 	SqlSession sqlSession;
 	
+	private static final String namespace = "product";
+	
 	// 01. 상품 목록 : 전체 상품 목록을 select 조회한 결과를 리턴
 	@Override
 	public List<ProductDTO> listProduct() {
@@ -50,7 +52,7 @@ public class ProductDAOImpl implements ProductDAO {
 		return sqlSession.selectOne("product.fileInfo", product_id);
 	}
 
-	//paging
+	//-----------------paging-----------------
 	@Override
 	public List<ProductDTO> pageList(int page) {
 		if (page <= 0) {
@@ -60,7 +62,7 @@ public class ProductDAOImpl implements ProductDAO {
 				
 		return sqlSession.selectList("product.listProduct", page);
 	}
-
+	
 	@Override
 	public List<ProductDTO> criteriaList(Criteria cri) {
 		return sqlSession.selectList("product.listCriteria", cri);
@@ -70,5 +72,24 @@ public class ProductDAOImpl implements ProductDAO {
 	public int countPaging(Criteria cri) {
 		return sqlSession.selectOne("product.countPaging", cri);
 	}
+	//-----------------paging-----------------
+	
+	//++++++++++++++++++스크롤링 Test++++++++++++++++++
+	@Override
+	public List<ProductDTO> listTest() {
+		return sqlSession.selectList(namespace + ".listTest");
+	}
+
+	@Override
+	public List<ProductDTO> infiniteScrollDown(int product_id) {
+		return sqlSession.selectList(namespace + ".infiniteScrollDown", product_id);
+	}
+	
+	@Override
+	public List<ProductDTO> infiniteScrollUp(int product_id) {
+		return sqlSession.selectList(namespace + ".infiniteScrollUp", product_id);
+	}
+	//++++++++++++++++++스크롤링 Test++++++++++++++++++
+
 	
 }

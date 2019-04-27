@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -55,12 +56,12 @@ public class ProductController {
 	}
 	
 	//한국 영화 카테고리
-	@RequestMapping("product_list_korean")
+/*	@RequestMapping(value="product_list_korean")
 	public String product_list_korean(Model model, Criteria cri) throws Exception{
 	
 		System.out.println("product_list_korean");
 
-		/*List<ProductDTO> list=productService.listProduct();*/
+		List<ProductDTO> list=productService.listProduct();
 		List<ProductDTO> list=productService.criteriaList(cri);
 		model.addAttribute("list", list);
 		
@@ -70,6 +71,40 @@ public class ProductController {
 		model.addAttribute("pageMaker", pageMaker);
 		
 		return "/product/product_list_korean";
+	}
+	*/
+	@RequestMapping(value="product_list_korean")
+	public String product_list_korean(Model model) throws Exception{
+	
+		logger.info("product_list_korean2..............");
+
+		//List<ProductDTO> list=productService.listTest();
+		model.addAttribute("list", productService.listTest());
+		
+		return "/product/product_list_korean";
+	}
+
+	/*무한 스크롤. 브라우저에서 요청으로 온 JSON데이터를 객체로 자동으로 바인딩 시켜주는 @RequestBody를 이용하여 product_id를 멤버로 갖고 있는
+	ProductDTO 객체를 통해 product_id 값을 바인딩 시키고, 자동으로 리턴값을 JSON형태로 만들어주는 @ResponseBody 이용*/
+	@RequestMapping(value="infiniteScrollDown", method=RequestMethod.POST)
+	public @ResponseBody List<ProductDTO> infiniteScrollDown(@RequestBody ProductDTO productDTO){
+		
+		logger.info("infiniteScrollDown called...............");
+		
+		int bnoStart = productDTO.getProduct_id()-1;
+		
+		return productService.infiniteScrollDown(bnoStart);
+	}
+	
+	@RequestMapping(value="infiniteScrollUp", method=RequestMethod.POST)
+	public @ResponseBody List<ProductDTO> infiniteScrollUp(@RequestBody ProductDTO productDTO){
+		
+		logger.info("infiniteScrollUp called...............");
+		logger.info(productDTO.toString());
+		
+		int bnoStart = productDTO.getProduct_id()+1;
+		
+		return productService.infiniteScrollUp(bnoStart);
 	}
 	
 	//해외 영화 카테고리
