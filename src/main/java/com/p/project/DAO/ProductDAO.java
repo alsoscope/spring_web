@@ -36,6 +36,6 @@ public interface ProductDAO {
 	public List<ProductDTO> listTest();
 	
 	//scroll
-	public List<ProductDTO> infiniteScrollDown(int product_id);
-	public List<ProductDTO> infiniteScrollUp(int product_id);
+	public List<ProductDTO> infiniteScrollDown(Integer product_id);
+	public List<ProductDTO> infiniteScrollUp(Integer product_id);
 }

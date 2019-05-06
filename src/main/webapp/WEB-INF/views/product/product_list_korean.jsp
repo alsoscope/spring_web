@@ -48,6 +48,12 @@
   <!-- jQuery-UI (infinite scrolling) easing 효과 위하여. -->
   <script src="/resources/js/jquery-ui.min.js"></script>
 
+  <!-- JSTL fmt태그 대용(Date Format) moment.js -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/af.js"></script> -->
+  
+  <!-- jScroll -->
+  <script src="//unpkg.com/jscroll/dist/jquery.jscroll.min.js"></script>
+  
 	<script>
 
 	/* a.active-color { color:#000; }
@@ -161,12 +167,14 @@
           </a>
         </div>
 
-        <div class="row listToChange scrollLocation"><!-- class 두 개 추가(scrolling) -->
+        <!-- <div class="row listToChange scrollLocation " id="autoScroll"> --><!-- class 두 개 추가(scrolling) -->
+        <div class="row next nextPage" id="autoScroll">
         <c:forEach var="row" items="${list }">
           <%-- <c:forEach var="row" items="${list }" begin="1" end="6" step="1"> --%>
-	          <div class="col-lg-4 col-md-6 mb-4 scrolling" data-bno="${row.product_id }"><!-- data-bno 추가(scrolling) -->
-	            <div class="card h-100">
-	              <a href="/shop/product/detail/${row.product_id }"><img class="card-img-top" src="/resources/images/movie/${row.product_url}"
+	          <%-- <div class="col-lg-4 col-md-6 mb-4  scrolling" data-bno="${row.product_id }" > --%><!-- data-bno 추가(scrolling) -->
+	          <div class="col-lg-4 col-md-6 mb-4 next nextPage" data-bno="${row.product_id }" >
+	            <div class="card h-100 "  >
+	              <a href="/shop/product/detail/${row.product_id }"><img class="card-img-top" id="images" src="/resources/images/movie/${row.product_url}"
 	              													 style="width:700; height:400;" alt="포스터" title="클릭시 이동"></a>
 	              <div class="card-body">
 	                <h4 class="card-title">
@@ -176,6 +184,8 @@
 	                <p class="card-text">${row.product_desc }</p>
 	              </div>
 	              <div class="card-footer">
+	              <div><a href="product_list_korean" >다음 페이지</a></div>
+
 	                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
 	              </div>
 	            </div><!-- <div class="card h-100"> --> 
@@ -227,7 +237,7 @@
 			</c:if>
 		</ul>
 	</div> --%>
-	
+	<%-- "<h5>" + "'<fmt:formatNumber value='" + this.product_price + "pattern=" + "'###,###,###'" + ">" + this.product_price + "</h5>" --%>
       </div>
       <!-- /.col-lg-9 -->
     </div>
@@ -243,16 +253,29 @@
     <!-- /.container -->
   </footer>
   
+	<script>
+		/* moment().format(); */
+	</script>
+
 	<!-- javascript로 무한 스크롤링. 스크롤 이벤트 -->
 	<script>
 	
-		var result = '${msg}';
+		/* var result = '${msg}';
 	    
 	    if(result="success"){
 	       alert(result);
 	       console.log(result);
-	   }
-	    
+	   } */
+	   
+	   /* var image=document.images[0];
+	   var downloadingImage=new Image();
+	   
+	   downloadingImage.onload=function(){
+		 image.src=this.src;  
+	   };
+	   
+	   downloadingImage.src="/resources/images/movie/'" + this.product_url"; */
+	   
 	   var lastScrollTop = 0;
 	   var easeEffect = 'easeInQuint';
 	    
@@ -272,7 +295,7 @@
 	               // 3. class가 scrolling인 것의 요소 중 마지막인 요소를 선택한 다음 그것의 data-bno속성 값을 받아온다.
 	               //      즉, 현재 뿌려진 게시글의 마지막 bno값을 읽어오는 것이다.( 이 다음의 게시글들을 가져오기 위해 필요한 데이터이다.)
 	               var lastbno = $(".scrolling:last").attr("data-bno");
-	                
+	               
 	               // 4. ajax를 이용하여 현재 뿌려진 게시글의 마지막 bno를 서버로 보내어 그 다음 20개의 게시물 데이터를 받아온다.
 	               $.ajax({
 	                   type : 'post',  // 요청 method 방식
@@ -280,29 +303,50 @@
 	                   headers : { "Content-Type" : "application/json", "X-HTTP-Method-Override" : "POST" },
 	                   dataType : 'json', // 서버로부터 되돌려받는 데이터의 타입을 명시하는 것이다.
 	                   data : JSON.stringify({ // 서버로 보낼 데이터 명시
-	                	   product_id : lastbno
+						product_id : lastbno
 	                   }),
 	                   success : function(data){// ajax 가 성공했을시에 수행될 function이다. 이 function의 파라미터는 서버로 부터 return받은 데이터이다.
 	                        
+	                	  	console.log(data);
+	                   
 	                       var str = "";
 	                        
 	                       // 5. 받아온 데이터가 ""이거나 null이 아닌 경우에 DOM handling을 해준다.
 	                       if(data != ""){
 	                           //6. 서버로부터 받아온 data가 list이므로 이 각각의 원소에 접근하려면 each문을 사용한다.
 	                           $(data).each(
-	                               // 7. 새로운 데이터를 갖고 html코드형태의 문자열을 만들어준다.
+	                               // 7. 새로운 데이터를 갖고 html코드형태의 문자열을 만들어준다.   
+                               
 	                               function(){
+
+	                            	$('#images').attr('src', 'images/movie');
+                        		    for(var i=0; i<images.length; i++){
+        	                   			var images=images[i];
+        	                    	   }	   
+	                               
 	                                   console.log(this);     
-	                                   str +=  "<div class=" + "'listToChange'" + ">"
-	                                       +       "<div class=" +  "'scrolling'" + " data-bno='" + this.product_id +"'>"
-	                                       +           this.product_id
-	                                       +       "<img>" + this.product_url      
-	                                       +       "<h4>" + this.product_name + "</h4>"
+	                                   str +=	   "<div class=" + "'container'" + ">"
+	                                	   +	   "<div class=" + "'row listToChange scrollLocation'" + ">"
+	                                       +       "<div class=" + "'col-lg-4 col-md-6 mb-4 scrolling'" + "'data-bno='" + this.product_id + ">" + this.product_id
+	                                       +	   "<div class=" + "'card h-100'" + ">"
+	                                       +       "<a href=" + "'/shop/product/detail/'" + this.product_id + ">" + "<img class=" + "'card-img-top images'"
+	                                       +	   "src=" + "'/resources/images/movie/'" + this.product_url + "style=" + "'width:700'" + "'height:400'"
+	                                       +	   "alt=" + "'포스터'" + "title=" + "'클릭시 이동'" + ">" + "</a>"
+	                                       +	   "<div class=" + "'card-body'" + ">"
+	                                       +       "<h4 class=" + "'card-title'" + ">" + "<a href=" + "'/shop/product/detail/'" + this.product_id + ">" + this.product_name + "</a>" +"</h4>"
 	                                       +       "<h5>" + this.product_price + "</h5>"
-	                                       +       "<p>" + this.product_desc + "</p>"
-	                                       +       "</div>"
-	                                       +   "</div>";
-	                                        
+	                                       
+	                                       +       "<p class=" + "'card-text'" + ">" + this.product_desc + "</p>"
+	                                       +	   "</div>"//card-body
+	                                       +	   "<div class=" + "'card-footer'" + ">" + "<small class=" + "'text-muted'" + ">" + "'&#9733; &#9733; &#9733; &#9733; &#9734;'" + "</small>"
+	                                       +	   "</div>"//<div class="card-footer">
+	                                       +	   "</div>"//<div class="card h-100">
+	                                       +       "</div>"//<div class="col-lg-4 col-md-6 mb-4">
+	                                       +	"</div>"//row
+	                                       +	"</div>"//container
+	                            
+	                                  
+	                                   
 	                           });// each
 	                           // 8. 이전까지 뿌려졌던 데이터를 비워주고, <th>헤더 바로 밑에 위에서 만든 str을  뿌려준다.
 	                           $(".listToChange").empty();// 셀렉터 태그 안의 모든 텍스트를 지운다.                       
@@ -347,7 +391,7 @@
 	                   headers : { "Content-Type" : "application/json", "X-HTTP-Method-Override" : "POST" },
 	                   dataType : 'json', // 서버로부터 되돌려받는 데이터의 타입을 명시하는 것이다.
 	                   data : JSON.stringify({ // 서버로 보낼 데이터 명시
-	                       bno : firstbno
+	                       product_id : firstbno
 	                   }),
 	                   success : function(data){// ajax 가 성공했을시에 수행될 function이다. 이 function의 파라미터는 서버로 부터 return받은 데이터이다.
 	                        
@@ -363,15 +407,15 @@
 	                               // 7. 새로운 데이터를 갖고 html코드형태의 문자열을 만들어준다.
 	                               function(){
 	                                   console.log(this);     
-	                                   str +=  "<div class=" + "'listToChange'" + ">"
-	                                   +       "<div class=" +  "'scrolling'" + " data-bno='" + this.product_id +"'>"
-	                                   +           this.product_id
-	                                   +       "<img>" + this.product_url      
-	                                   +       "<h4>" + this.product_name + "</h4>"
-	                                   +       "<h5>" + this.product_price + "</h5>"
-	                                   +       "<p>" + this.product_desc + "</p>"
-	                                   +       "</div>"
-	                                   +   "</div>";
+	                                   str +=  "<div class=" + "'row listToChange'" + ">"
+                                       +       "<div class=" +  "'col-lg-4 col-md-6 mb-4 scrolling'" + " data-bno='" + this.product_id +"'>"
+                                       +           this.product_id
+                                       +       "<a>" + "<img>" + this.product_url + "</a>"
+                                       +       "<h4>" + this.product_name + "</h4>"
+                                       +       "<h5>" + this.product_price + "</h5>"
+                                       +       "<p>" + this.product_desc + "</p>"
+                                       +       "</div>"
+                                       +   "</div>";
 	                                        
 	                           });// each
 	                           // 8. 이전까지 뿌려졌던 데이터를 비워주고, <th>헤더 바로 밑에 위에서 만든 str을  뿌려준다.
@@ -398,6 +442,16 @@
 	       }// else : 업 스크롤인 상태
 	        
 		   });// scroll event
+	</script>
+	
+	<!-- jScroll -->
+	<script>
+	/* //<![CDATA[ $(document).ready(function () { 
+		$('#autoScroll').jscroll({ 
+			autoTrigger: true,
+			loadingHtml: '<div class="next"><img src="/resources/images/loading.gif" alt="Loading" /></div>', 
+			nextSelector: 'div.nextPage:last' });
+	//]]> */
 	</script>
 	
 	<!-- 페이지 번호를 클릭하면 처리하는 javascript -->

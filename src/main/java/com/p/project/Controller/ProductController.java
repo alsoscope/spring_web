@@ -90,8 +90,9 @@ public class ProductController {
 	public @ResponseBody List<ProductDTO> infiniteScrollDown(@RequestBody ProductDTO productDTO){
 		
 		logger.info("infiniteScrollDown called...............");
+		logger.info(productDTO.toString());
 		
-		int bnoStart = productDTO.getProduct_id()-1;
+		Integer bnoStart = productDTO.getProduct_id()-1;
 		
 		return productService.infiniteScrollDown(bnoStart);
 	}
@@ -102,7 +103,7 @@ public class ProductController {
 		logger.info("infiniteScrollUp called...............");
 		logger.info(productDTO.toString());
 		
-		int bnoStart = productDTO.getProduct_id()+1;
+		Integer bnoStart = productDTO.getProduct_id()+1;
 		
 		return productService.infiniteScrollUp(bnoStart);
 	}

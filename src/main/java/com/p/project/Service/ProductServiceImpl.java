@@ -68,12 +68,12 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public List<ProductDTO> infiniteScrollDown(int product_id) {
+	public List<ProductDTO> infiniteScrollDown(Integer product_id) {
 		return productDao.infiniteScrollDown(product_id);
 	}
 
 	@Override
-	public List<ProductDTO> infiniteScrollUp(int product_id) {
+	public List<ProductDTO> infiniteScrollUp(Integer product_id) {
 		return productDao.infiniteScrollUp(product_id);
 	};
 	//++++++++++++++++++스크롤링 Test++++++++++++++++++
