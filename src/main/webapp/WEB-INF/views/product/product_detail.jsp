@@ -94,10 +94,7 @@
 		<img class="card-img-top img-fluid" src="http://placehold.it/900x400" alt="">
           <div class="card-body">
             <h3 class="card-title">${vo.product_name }</h3>
-            <h4>가격</h4><p>
-            <!-- <h4>$24.99</h4> -->
-            <h4><fmt:formatNumber value="${vo.product_price }" pattern="###,###,###" /></h4>
-            <h4>소개</h4>
+            <h4>가격 : <fmt:formatNumber value="${vo.product_price }" pattern="###,###,###" /></h4>
             <p class="card-text">${vo.product_desc }</p>
             <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span>
             4.0 stars
@@ -112,7 +109,7 @@
 					<c:forEach begin="1" end="10" var="i">
 						<option value="${i}">${i}</option>
 					</c:forEach>
-				</select>&nbsp;개
+				</select>&nbsp;일 대여&nbsp;&nbsp;
 				<input type="submit" value="장바구니에 담기">
 			</form>
           </div>
@@ -121,15 +118,9 @@
 
         <div class="card card-outline-secondary my-4">
           <div class="card-header">
-            Product Reviews
+            Reviews
           </div>
           <div class="card-body">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-            <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-            <hr>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-            <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-            <hr>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
             <small class="text-muted">Posted by Anonymous on 3/1/17</small>
             <hr>

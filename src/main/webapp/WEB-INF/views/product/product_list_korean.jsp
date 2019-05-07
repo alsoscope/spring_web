@@ -29,12 +29,15 @@
 }
 .aa.active-color { color:#f67599; }
 .aa:hover:not(.active) {background-color: #ddd;} */
+
 </style>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
 
+	<meta name="keywords" content="ScrollMagic, example, scrolling, attaching, scrollbar, infinite, dynamic, pages" />
+	
   <title>CINEPHILE</title>
 	
   <!-- Bootstrap core JavaScript -->
@@ -46,13 +49,13 @@
   <link href="${pageContext.request.contextPath }/resources/css/shop-homepage.css" rel="stylesheet">
   
   <!-- jQuery-UI (infinite scrolling) easing 효과 위하여. -->
-  <script src="/resources/js/jquery-ui.min.js"></script>
+  <!-- <script src="/resources/js/jquery-ui.min.js"></script> -->
 
   <!-- JSTL fmt태그 대용(Date Format) moment.js -->
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/af.js"></script> -->
   
-  <!-- jScroll -->
-  <script src="//unpkg.com/jscroll/dist/jquery.jscroll.min.js"></script>
+  <script src="https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.js"></script>
+
   
 	<script>
 
@@ -68,7 +71,7 @@
 		});
 	}); */
 	</script>
-  
+
 </head>
 <body>
   <!-- Navigation -->
@@ -166,12 +169,14 @@
             <span class="sr-only">Next</span>
           </a>
         </div>
-
-        <div class="row" id="autoScroll">
-        <c:forEach var="row" items="${list }">
+  
+  	<div class="container1">
+  
+        <div class="row post">
+        <c:forEach var="row" items="${list }" begin="1" end="6" step="1">
 	          <div class="col-lg-4 col-md-6 mb-4" data-bno="${row.product_id }" >
-	            <div class="card h-100 "  >
-	              <a href="/shop/product/detail/${row.product_id }"><img class="card-img-top" id="images" src="/resources/images/movie/${row.product_url}"
+	            <div class="card h-100"  >
+	              <a href="/shop/product/detail/${row.product_id }"><img class="card-img-top" src="/resources/images/movie/${row.product_url}"
 	              													 style="width:700; height:400;" alt="포스터" title="클릭시 이동"></a>
 	              <div class="card-body">
 	                <h4 class="card-title">
@@ -181,114 +186,46 @@
 	                <p class="card-text">${row.product_desc }</p>
 	              </div>
 	              <div class="card-footer">
-	              <div><a href="product_list_korean" class="nextPage">다음 페이지</a></div>
-
 	                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
 	              </div>
 	            </div><!-- <div class="card h-100"> --> 
 	          </div><!-- <div class="col-lg-4 col-md-6 mb-4"> -->
 		  </c:forEach>
-        </div>
-        <!-- /.row -->
-        
-    <!-- JavaScript로 링크 처리 (기존방식은 JSP내에서 PageMaker의 메소드makeQuery를 이용하여 수정. 페이지 정보를 유지할 수 있도록)-->
-<%--     <form id="jobForm">
-    	<input type="hidden" name="page" value=${pageMaker.cri.perPageNum }>
-    	<input type="hidden" name="perPageNum" value=${pageMaker.cri.perPageNum }>
-    </form> --%>
-    
-<%--     <div>
-		<ul class="pagination" style="text-align:center; margin: 10; padding:10;">
-			<c:if test="${pageMaker.prev }">
-				<li><a href="product_list_korean?page=${pageMaker.startPage-1 }">&laquo;</a></li>
-			</c:if>
-			
-			<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="idx">
-			
-				<li <c:out value="${pageMaker.cri.page==idx?'class=active':'' }"/>>
-					<a href="product_list_korean?page=${idx }">${idx }</a>			
-				</li>
-			</c:forEach>
-			
-			<c:if test="${pageMaker.next&&pageMaker.endPage>0 }">
-				<li><a href="product_list_korean?page=${pageMaker.endPage+1 }">&raquo;</a></li>
-			</c:if>
-		</ul>
-	</div> --%>
-    
-    <!-- 단순히 게시물의 번호를 전송하는 링크에서 페이지 정보를 유지할 수 있도록 변경됨 -->
-<%-- 	<div>
-		<ul class="pagination" >
-			<c:if test="${pageMaker.prev }">
-				<li ><a class="aa" href="product_list_korean${pageMaker.makeQuery(pageMaker.startPage-1) }">&laquo;</a></li>
-			</c:if>
-			
-			<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="idx">			
-				<li <c:out value="${pageMaker.cri.page==idx?'class=active':'' }"/>>
-					<a class="aa" href="product_list_korean${pageMaker.makeQuery(idx) }">${idx }</a>			
-				</li>
-			</c:forEach>
-			
-			<c:if test="${pageMaker.next&&pageMaker.endPage>0 }">
-				<li><a class="aa" href="product_list_korean${pageMaker.makeQuery(pageMaker.endPage+1) }">&raquo;</a></li>
-			</c:if>
-		</ul>
-	</div> --%>
-	<%-- "<h5>" + "'<fmt:formatNumber value='" + this.product_price + "pattern=" + "'###,###,###'" + ">" + this.product_price + "</h5>" --%>
-      </div>
-      <!-- /.col-lg-9 -->
-    </div>
-    <!-- /.row -->
-  </div>
-  <!-- /.container -->
+        </div><!-- /.row -->
+
+	</div>
+
+	<div id="loader" class="active">
+			<img src="/resources/images/loading.gif">
+			LOADING...
+	</div>	
+	
+      </div><!-- /.col-lg-9 -->
+    </div><!-- /.row -->
+  </div><!-- /.container -->
 
   <!-- Footer -->
   <footer class="py-5 bg-dark">
     <div class="container">
       <p class="m-0 text-center text-white">Copyright &copy; CINEPHILE 2019</p>
-    </div>
-    <!-- /.container -->
+    </div><!-- /.container -->
   </footer>
   
-	<script>
-		/* moment().format(); */
+  	<script>
+  	$('.container1').infiniteScroll({
+  	  // options
+  	  //path:'/shop/product/{{#}}',
+  	  append: '.post',
+  	  history: false,
+	
+  	   path: function() {
+  		 return '/shop/product/product_list_korean/'; //+ ( ( this.loadCount + 1 ) * 10 );
+  	  }
+  	});
+  	
+  	$('.container1').removeClass(".active");
+  	$('.container1').addClass(".active");
 	</script>
-
-	<!-- jScroll -->
-	<script>
-	//<![CDATA[ $(document).ready(function () { 
-		$('#autoScroll').jscroll({ 
-			autoTrigger: true,
-			loadingHtml: '<div class="next"><img src="/resources/images/loading.gif" alt="Loading" /></div>', 
-			nextSelector: 'a.nextPage:last' });
-	//]]>
-	</script>
 	
-	<!-- 페이지 번호를 클릭하면 처리하는 javascript -->
-<!-- 	<script>
-		$(".pagination li a").on("click", function(event){
-			event.preventDefault();
-			
-			var targetPage=$(this).attr("href");
-			
-			var jobForm=$("#jobForm");
-			jobForm.find("[name='page']").val(targetPage);
-			jobForm.attr("action", "/product/product_list_korean").attr("method", "get");
-			jobForm.submit();
-		});	
-	</script> -->
-	
-	<!-- 상품등록 버튼 클릭 이벤트가 발생하면 상품 등록 페이지로 이동 -->
-<!-- 	<script type="text/javascript">
-	$(document).ready(function(){
-		$("#btnAdd").click(function(){
-			location.href="${path}/shop/product/product_write";	
-		});
-	});
-	</script> -->
-	
-   <!-- Bootstrap core JavaScript -->
-  <!--<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-  <script src="/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
 </body>
 </html>
