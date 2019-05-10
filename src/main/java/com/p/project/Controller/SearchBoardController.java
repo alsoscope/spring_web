@@ -1,6 +1,7 @@
 package com.p.project.Controller;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,7 @@ import com.p.project.DTO.BoardVO;
 import com.p.project.DTO.PageMaker;
 import com.p.project.DTO.SearchCriteria;
 import com.p.project.Service.BoardService;
+import com.p.project.VO.MemberVO;
 
 @Controller
 @RequestMapping("/sboard/*")
@@ -46,20 +48,25 @@ private BoardService service;
 		model.addAttribute("count", count);		
 	}
 
-	//조회
+	//게시글 보기
 	@RequestMapping(value="viewPage", method=RequestMethod.GET)
-	public void read(@RequestParam("bno")int bno, Model model, @ModelAttribute("cri")SearchCriteria cri) throws Exception{
+	public void read(@RequestParam("bno")int bno, Model model, @ModelAttribute("cri")SearchCriteria cri,HttpSession session) throws Exception{
+		
+		//조회수 증가
+		service.increaseViewcnt(bno, session);
+		
 		model.addAttribute("dto",service.read(bno));
 	}
 	
-	//수정 GET방식
+	//게시글 수정 GET방식
 	@RequestMapping(value="updateGet", method=RequestMethod.GET)
-	public String updateGet(int bno, @ModelAttribute("cri")SearchCriteria cri, Model model)throws Exception{
+	public String updateGet(int bno, @ModelAttribute("cri")SearchCriteria cri, Model model,HttpSession session)throws Exception{
 		model.addAttribute("dto", service.read(bno));
+		
 		return "sboard/update";
 	}
 	
-	//수정 POST방식
+	//게시글 수정 POST방식
 	@RequestMapping(value="updatePost", method=RequestMethod.POST)
 	public String updatePost(@ModelAttribute("vo")BoardVO vo, SearchCriteria cri, RedirectAttributes rttr) throws Exception {
 		logger.info(cri.toString());
@@ -77,7 +84,7 @@ private BoardService service;
 		return "redirect:/sboard/search_list";
 	}
 	
-	//삭제
+	//게시글 삭제
 	@RequestMapping(value="delete", method=RequestMethod.POST)
 	public String remove(@RequestParam("bno")int bno, SearchCriteria cri, RedirectAttributes rttr) throws Exception{
 		service.delete(bno);
@@ -91,13 +98,13 @@ private BoardService service;
 		return "redirect:/sboard/search_list";
 	}
 	
-	//글등록 form GET방식
+	//게시글 등록 form GET방식
 	@RequestMapping(value="register", method=RequestMethod.GET)
 	public void register() throws Exception {
 		logger.info("----------register get----------");
 	}
 	
-	//글등록 POST처리
+	//게시글 등록 POST처리
 	@RequestMapping(value="registerPOST", method=RequestMethod.POST)
 	public String registerPOST(BoardVO vo, RedirectAttributes rttr) throws Exception {
 		logger.info("regist post...........");

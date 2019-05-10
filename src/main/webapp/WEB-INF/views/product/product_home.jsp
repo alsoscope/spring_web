@@ -77,7 +77,7 @@
           <a href="${path}/shop/product/product_list_etcetera" class="list-group-item">기타 영상</a>
           
           <c:if test="${sessionScope.adminId!=null }">
-          <a href="${path}/shop/product/product_write" class="list-group-item">상품 등록</a>
+          <a href="${path}/shop/product/product_write" class="list-group-item">《관리자 상품 등록》</a>
           <!-- <button type="submit" id="btnAdd" class="list-group-item">상품등록</button> -->
           </c:if>
         </div>

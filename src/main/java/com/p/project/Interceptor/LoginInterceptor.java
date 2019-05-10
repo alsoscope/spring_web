@@ -22,15 +22,16 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 		public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 				throws Exception {
 		
-			HttpSession session=request.getSession();
+			System.out.println("--------------preHandle--------------");
+
+			HttpSession session=request.getSession();//세션 객체를 가져옴
 			
-			System.out.println("preHandle--------------");
-		
 			if(session.getAttribute(LOGIN)!=null) { //새로 로그인 요청이 들어올 때 기존에 세션에 저장되어 있던 이전의 session LOGIN 사용자 정보 제거
 				logger.info("clear login data before");
 				session.removeAttribute(LOGIN);
 			}		
 			return true;
+			//preHandle의 return은 컨트롤러 요청 uri로 가도 되냐/안되냐를 허가하는 의미, true는 컨트롤러 uri로 가게됨.
 		}
 		
 	//컨트롤러의 메서드 처리가 끝나 return 되고 화면을 띄워주는 처리(view)가 되기 직전에 이 메서드가 수행된다
@@ -39,6 +40,8 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 
+		System.out.println("--------------postHandle--------------");
+		
 		HttpSession session = request.getSession(); //(true);값과 같은 결과를 반환함
 		ModelMap modelMap=modelAndView.getModelMap();
 		Object MemberVO = modelMap.get("MemberVO");

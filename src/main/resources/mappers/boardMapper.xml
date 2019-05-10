@@ -126,7 +126,6 @@
 		<![CDATA[
 			select count(bno) from tbl_board where bno > 0
 		]]>
-		
 		<include refid="search"></include>
 	</select>
 	

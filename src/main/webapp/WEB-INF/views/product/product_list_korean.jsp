@@ -33,10 +33,6 @@
 </style>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
-
-	<meta name="keywords" content="ScrollMagic, example, scrolling, attaching, scrollbar, infinite, dynamic, pages" />
 	
   <title>CINEPHILE</title>
 	

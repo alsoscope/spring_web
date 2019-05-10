@@ -90,8 +90,8 @@
       <div class="col-lg-9">
 
         <div class="card mt-4">
-          <%-- <img class="card-img-top img-fluid" src="${path }/resources/${vo.product_url}" alt=""> --%>
-		<img class="card-img-top img-fluid" src="http://placehold.it/900x400" alt="">
+          <img class="card-img-top img-fluid" style="width:900px; height:400px;" src="/resources/images/movie/${vo.product_url}"  alt="포스터" >
+		<!-- <img class="card-img-top img-fluid" src="http://placehold.it/900x400" alt=""> -->
           <div class="card-body">
             <h3 class="card-title">${vo.product_name }</h3>
             <h4>가격 : <fmt:formatNumber value="${vo.product_price }" pattern="###,###,###" /></h4>
@@ -110,7 +110,12 @@
 						<option value="${i}">${i}</option>
 					</c:forEach>
 				</select>&nbsp;일 대여&nbsp;&nbsp;
-				<input type="submit" value="장바구니에 담기">
+				<c:if test="${sessionScope.user_id == null }">
+					<h4>로그인 뒤 대여가능 <a href="#">로그인</a></h4>
+				</c:if>
+				<c:if test="${sessionScope.user_id != null }">
+					<input type="submit" value="장바구니에 담기">
+				</c:if>
 			</form>
           </div>
         </div>
@@ -118,14 +123,40 @@
 
         <div class="card card-outline-secondary my-4">
           <div class="card-header">
-            Reviews
+            <a href="http://foo.com/bar.html#disqus_thread">Review Comments</a>
           </div>
+          
           <div class="card-body">
+            
+            <div id="disqus_thread"></div>
+		<script>
+		
+		/**
+		*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+		*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+		/*
+		var disqus_config = function () {
+		this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+		this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+		};
+		*/
+		
+		(function() { // DON'T EDIT BELOW THIS LINE
+		var d = document, s = d.createElement('script');
+		s.src = 'https://cinephile-1.disqus.com/embed.js';
+		s.setAttribute('data-timestamp', +new Date());
+		(d.head || d.body).appendChild(s);
+		})();
+		</script>
+		<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+          </div>
+          
+          <!-- <div class="card-body">
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
             <small class="text-muted">Posted by Anonymous on 3/1/17</small>
             <hr>
             <a href="#" class="btn btn-success">Leave a Review</a>
-          </div>
+          </div> -->
         </div>
         <!-- /.card -->
 
@@ -145,6 +176,9 @@
     <!-- /.container -->
   </footer>
 
+  <!-- display comment count -->
+  <script id="dsq-count-scr" src="//cinephile-1.disqus.com/count.js" async></script>
+  
   <!-- Bootstrap core JavaScript -->
   <script src="/resources/vendor/jquery/jquery.min.js"></script>
   <script src="/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
