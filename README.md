@@ -9,7 +9,7 @@
 
 회원가입, 로그인, 로그아웃 : OAuth, HttpSession
 
-게시판 : Ajax 계층형 댓글, Disqus
+게시판 : Ajax 계층형 댓글, Disqus 소셜 댓글
 
 관리자 : 별도 관리자 테이블로 구분
 
@@ -49,6 +49,7 @@
 
 ### DATABASE
 - table
+  - tbl_board
   - tbl_member2
   - tbl_admin
   - tbl_reply
