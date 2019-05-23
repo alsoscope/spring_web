@@ -108,7 +108,7 @@
             <a class="nav-link" href="${path }/sboard/search_list">게시판</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">장바구니</a>
+            <a class="nav-link" href="/shop/cart/cart_list">장바구니</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/about">About</a>

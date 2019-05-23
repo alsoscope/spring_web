@@ -57,10 +57,10 @@
             <a class="nav-link" href="${path }/sboard/search_list">게시판</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">장바구니</a>
+            <a class="nav-link" href="/shop/cart/cart_list">장바구니</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
+            <a class="nav-link" href="/about">About</a>
           </li>
         </ul>
       </div>
@@ -100,7 +100,7 @@
             4.0 stars
             
             <!-- 상품을 장바구니에 추가시키기 위해 상품id번호, 수량을 form태그 전송 -->
-			<form name="form1" method="post" action="${path}/shop/cart/insert.do">
+			<form name="form1" method="post" action="${path}/shop/cart/insertCart">
 				<!-- 현재의 상품id를 입력받기 위해 hidden속성으로 처리 -->
 				<input type="hidden" name="product_id" value="${vo.product_id }">
 				
@@ -109,11 +109,12 @@
 					<c:forEach begin="1" end="10" var="i">
 						<option value="${i}">${i}</option>
 					</c:forEach>
-				</select>&nbsp;일 대여&nbsp;&nbsp;
-				<c:if test="${sessionScope.user_id == null }">
-					<h4>로그인 뒤 대여가능 <a href="#">로그인</a></h4>
+				</select>&nbsp;일 동안 대여&nbsp;&nbsp;
+				
+				<c:if test="${login.userId == null }">
+					<p>로그인 뒤 대여가능 <a href="/member/loginGET">로그인</a></p>
 				</c:if>
-				<c:if test="${sessionScope.user_id != null }">
+				<c:if test="${login.userId != null }">
 					<input type="submit" value="장바구니에 담기">
 				</c:if>
 			</form>

@@ -55,7 +55,7 @@
             <a class="nav-link" href="${path }/sboard/search_list">게시판</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">장바구니</a>
+            <a class="nav-link" href="/shop/cart/cart_list">장바구니</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="about">Contact</a>
@@ -77,7 +77,7 @@
           <a href="${path}/shop/product/product_list_etcetera" class="list-group-item">기타 영상</a>
           
           <c:if test="${sessionScope.adminId!=null }">
-          <a href="${path}/shop/product/product_write" class="list-group-item">《관리자 상품 등록》</a>
+          <a href="${path}/shop/cart/product_regist" class="list-group-item">《관리자 상품 등록》</a>
           <!-- <button type="submit" id="btnAdd" class="list-group-item">상품등록</button> -->
           </c:if>
         </div>

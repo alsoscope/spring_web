@@ -36,12 +36,38 @@
 </form> --%>
 <div class="container">
 <h2 align="center">Q & A</h2><br>
-<div style="text-align:center;">총 (${count })개의 게시물이 있습니다<!-- 레코드의 개수를 출력 -->&nbsp;
+<div style="text-align:center;">총 (${map.count })개의 게시물이 있습니다<!-- 레코드의 개수를 출력 -->&nbsp;
 <button type="button" id="btnWrite" class="btn btn-default">글쓰기</button></div>
 <br>
-	<!-- SearchCriteria 내부에 있는 searchType과 keyword를 이용헤 화면 검색에 필요한 화면 구성 -->
+
+<%-- <form name="form1" method="post" action="${path }/sboard/search_list"> --%>
+<form id="form1" method="post">
 	<div style="text-align:center;">
-		<select name="searchType"><!-- eq (==) -->
+		<select name=searchType><!-- eq (==) -->
+			<option value="n"
+				<c:out value="${cri.searchType == null ? 'selected':'' }"/>>검색 구분</option>
+			<option value="t"
+				<c:out value="${cri.searchType eq 't' ? 'selected':'' }"/>>Title</option>
+			<option value="c"
+				<c:out value="${cri.searchType eq 'c' ? 'selected':'' }"/>>Content</option>
+			<option value="w"
+				<c:out value="${cri.searchType eq 'w' ? 'selected':'' }"/>>Writer</option>
+			<option value="tc"
+				<c:out value="${cri.searchType eq 'tc' ? 'selected':'' }"/>>Title or Content</option>
+			<option value="cw"
+				<c:out value="${cri.searchType eq 'cw' ? 'selected':'' }"/>>Content or Writer</option>
+			<option value="tcw"
+				<c:out value="${cri.searchType eq 'tcw' ? 'selected':'' }"/>>Title or Content or Writer</option>
+		</select>
+	<input type="text" name="keyword" id="keywordInput" placeholder="검색어 입력" value="${cri.keyword }">
+	<input type="submit" class="btn btn-default" value="검색">
+	<!-- <button id="newBtn" class="btn btn-default">새 글</button> -->
+	</div>
+</form>
+	
+	<!-- SearchCriteria 내부에 있는 searchType과 keyword를 이용헤 화면 검색에 필요한 화면 구성 -->
+	<%-- <div style="text-align:center;">
+		<select name=searchType><!-- eq (==) -->
 			<option value="n"
 				<c:out value="${cri.searchType == null ? 'selected':'' }"/>>검색 구분</option>
 			<option value="t"
@@ -59,8 +85,8 @@
 		</select>
 	<input type="text" name="keyword" id="keywordInput" placeholder="검색어 입력" value="${cri.keyword }">
 	<button id="searchBtn" class="btn btn-default">검색</button>
-	<button id="newBtn" class="btn btn-default">새 글</button>
-	</div>
+	<!-- <button id="newBtn" class="btn btn-default">새 글</button> -->
+	</div> --%>
 <br>
 <table class="table table-hover">
 	<tr align="center">
@@ -172,9 +198,12 @@
 	
 	<script>
 		$(document).ready(function(){
-			$('#searchBtn').on("click", function(event){
+			$("#form1").attr("action", ""search_list"+'${pageMaker.makeQuery(1)}'+"&searchType="+$("select option:selected").val()+"&keyword="+$('#keywordInput').val()");
+			
+			/* $('#searchBtn').on("click", function(event){
 					self.location="search_list"+'${pageMaker.makeQuery(1)}'+"&searchType="+$("select option:selected").val()+"&keyword="+$('#keywordInput').val();
-				});
+				}); */
+				
 			$('#newBtn').on("click", function(ent){
 				self.location="register";
 			});

@@ -79,17 +79,19 @@ document.getElementById('content').value
 	</form>
 	
 	<div class=viewPage>
-	<h2>게시글 보기</h2><br>
+	<h2 style="text-align:center;">게시글 보기</h2><br>
 	<!-- <form name="form1" method="post"> -->
-		<div class="form-group"><!-- 원하는 날짜형식으로 출력하기 위해 fmt 태그 사용 -->
+		<div class="form-group" style="text-align:right;"><!-- 원하는 날짜형식으로 출력하기 위해 fmt 태그 사용 -->
 			<%-- <fmt:formatDate value="${dto.regdate }" pattern="yyyy-MM-dd a HH:mm:ss"/> --%>
 			<!-- 날짜형식 yyyy 4자리연도 MM월 dd일 a오전/오후 HH24시간제 hh12시간제, mm분 ss초 -->
 			
 			<!-- MySQL에서 받아온 날짜(timestamp)값 jsp에서 출력하기 -->
-			작성일자 <fmt:formatDate value="${dto.regdate }" type="date" dateStyle="default"/>
-		</div>
-		<div class="form-group">
-			조회수 ${dto.viewcnt }
+			<dl>
+				<dt>작성일자</dt>
+				<dd><fmt:formatDate value="${dto.regdate }" type="date" dateStyle="default"/></dd>
+			</dl>
+		  		<span style="font-weight: bold;">조회수</span>
+				<span>${dto.viewcnt }</span>
 		</div>
 		<div class="form-group">
 			제목
@@ -104,7 +106,7 @@ document.getElementById('content').value
 			<input class="form-control" name="writer" id="writer" value="${dto.writer }" readonly="readonly">
 		</div>
 		<br>
-		<div style="text-align:left;">
+		<div style="text-align:center;">
 			<!-- 게시물 번호를 hidden으로 처리 -->
 			<input type="hidden" name="bno" value="${dto.bno }">
 			<!-- <input type="button" id="btn_update" value="수정하기" onclick="btn_update"> -->

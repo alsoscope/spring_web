@@ -29,10 +29,19 @@ form {
 <form name="form1" method="post" action="${path }/sboard/registerPOST">
 	<h2>게시글 작성</h2>
 	<br>
-	<div class="form-group">
-		이름
-		<input class="form-control" name="writer" id="writer" placeholder="이름을 입력해주세요">
-	</div>
+	
+	<!-- 로그인한 사용자면 가입시 저장한 닉네임(userName)으로 치환한다 -->
+	<c:if test="${login.userName == null }">
+		<div class="form-group">
+			이름
+			<input class="form-control" name="writer" id="writer" placeholder="이름을 입력해주세요">
+		</div>
+	</c:if>
+	
+	<c:if test="${login.userName != null }">
+		<div class="form-group">닉네임 : ${login.userName }</div>
+	</c:if>
+	
 	<div class="form-group">
 		제목
 		<input class="form-control" name="title" id="title" size="50" placeholder="제목을 입력해주세요">

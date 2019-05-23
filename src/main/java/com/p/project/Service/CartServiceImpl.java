@@ -23,8 +23,8 @@ public class CartServiceImpl implements CartService{
 
 	//2. 장바구니 조회
 	@Override
-	public List<CartDTO> selectCart(String user_id) {
-		return cartDao.selectCart(user_id);
+	public List<CartDTO> selectCart(String userId) {
+		return cartDao.selectCart(userId);
 	}
 
 	//3. 장바구니 화면에서 상품 수량 변경할 때
@@ -35,20 +35,20 @@ public class CartServiceImpl implements CartService{
 
 	//4. 장바구니 삭제
 	@Override
-	public void deleteCart(int cart_id) {
-		cartDao.deleteCart(cart_id);
+	public void deleteCart(int userId) {
+		cartDao.deleteCart(userId);
 	}
 
 	//5. 장바구니 상품 전체 금액 구하는 메서드 호출, 리턴
 	@Override
-	public int sumMoney(String user_id) {
-		return cartDao.sumMoney(user_id);
+	public int sumMoney(String userId) {
+		return cartDao.sumMoney(userId);
 	}
 
 	//6. 장바구니에 동일한 상품이 있는지 확인하는 메소드 호출, 리턴
 	@Override
-	public int countCart(int product_id, String user_id) {
-		return cartDao.countCart(product_id, user_id);
+	public int countCart(int product_id, String userId) {
+		return cartDao.countCart(product_id, userId);
 	}
 
 	//7. 장바구니 동일한 상품 장바구니에 담았을 때, 상품수량 합산하는 메서드 호출

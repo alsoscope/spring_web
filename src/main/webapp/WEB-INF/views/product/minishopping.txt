@@ -59,7 +59,7 @@ CREATE SEQUENCE seq_cart START WITH 10 INCREMENT BY 1;
 COMMIT;
 
 MySQL
-ALTER TABLE tbl_cart modify column cart_id int auto_increment;
+ALTER TABLE tbl_cart modify column cartId int(11) auto_increment;
 
 auto_increment 값 초기화하기
 ALTER TABLE tbl_cart auto_increment=10;

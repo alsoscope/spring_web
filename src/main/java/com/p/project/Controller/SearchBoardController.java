@@ -1,5 +1,8 @@
 package com.p.project.Controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.p.project.DTO.BoardVO;
+import com.p.project.DTO.MemberDTO;
 import com.p.project.DTO.PageMaker;
 import com.p.project.DTO.SearchCriteria;
 import com.p.project.Service.BoardService;
@@ -30,7 +34,7 @@ public class SearchBoardController {
 private BoardService service;
 
 	//검색처리와 동적SQL
-	@RequestMapping(value="search_list", method=RequestMethod.GET)
+	@RequestMapping(value="search_list")
 	public void listPage(@ModelAttribute("cri")SearchCriteria cri, Model model,String searchOption, String keyword)throws Exception{
 		logger.info(cri.toString());
 		
@@ -45,7 +49,13 @@ private BoardService service;
 		model.addAttribute("pageMaker", pageMaker);
 	
 		int count=service.countArticle(searchOption, keyword);
-		model.addAttribute("count", count);		
+		//model.addAttribute("count", count);
+		
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("count", count);
+		map.put("searchOption", searchOption);
+		map.put("keyword", keyword);
+		model.addAttribute("map", map);
 	}
 
 	//게시글 보기
@@ -100,7 +110,7 @@ private BoardService service;
 	
 	//게시글 등록 form GET방식
 	@RequestMapping(value="register", method=RequestMethod.GET)
-	public void register() throws Exception {
+	public void register(@ModelAttribute("dto")MemberDTO memberdto, HttpSession session) throws Exception {
 		logger.info("----------register get----------");
 	}
 	

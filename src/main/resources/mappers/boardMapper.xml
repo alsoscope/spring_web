@@ -87,22 +87,22 @@
 	<!-- <sql>태그로 동일한 sql구문 재사용. <sql> 이용해 sql을 조각낼 때는 반드시 id속성을 이용해 적당한 이름을 가지도록 한다 -->
 	<sql id="search">
 		<if test="searchType != null">
-			<if test="searchType=='t'.toString()">
+			<if test="searchType == 't'.toString()">
 			and title like CONCAT('%', #{keyword}, '%')
 			</if>
-			<if test="searchType=='c'.toString()">
+			<if test="searchType == 'c'.toString()">
 				and content like CONCAT('%', #{keyword}, '%')
 			</if>
-			<if test="searchType=='w'.toString()">
+			<if test="searchType == 'w'.toString()">
 				and writer like CONCAT('%', #{keyword}, '%')
 			</if>
-			<if test="searchType=='tc'.toString()">
+			<if test="searchType == 'tc'.toString()">
 				and (title like CONCAT('%', #{keyword}, '%') OR content like CONCAT('%',#{keyword},'%'))
 			</if>
-			<if test="searchType=='cw'.toString()">
+			<if test="searchType == 'cw'.toString()">
 				and (content like CONCAT('%', #{keyword}, '%') OR writer like CONCAT('%',#{keyword},'%'))
 			</if>
-			<if test="searchType=='tcw'.toString()">
+			<if test="searchType == 'tcw'.toString()">
 				and (title like CONCAT('%', #{keyword}, '%') OR content like CONCAT('%',#{keyword},'%')
 				OR writer like CONCAT('%',#{keyword},'%'))
 			</if>
@@ -129,12 +129,19 @@
 		<include refid="search"></include>
 	</select>
 	
-	<!-- 01_02 게시글 레코드 개수 -->
-	<select id="countArticle" resultType="int">
-		SELECT COUNT(*) FROM tbl_board
-		<!-- WHERE 절을 include 태그로 삽입 -->
+	<select id="countArticle" resultType="int">	
+		<![CDATA[
+			select count(*) from tbl_board
+		]]>
 		<include refid="search"></include>
 	</select>
+	
+	<!-- 01_02 게시글 레코드 개수 -->
+	<!-- <select id="countArticle" resultType="int">
+		SELECT COUNT(*) FROM tbl_board
+		WHERE 절을 include 태그로 삽입
+		<include refid="search"></include>
+	</select> -->
 	
 	<!-- sql code 조각 -->
 	<!-- 반복되는 sql의 일부를 sql태그를 이용하여 따로 빼둘 수 있다 -->

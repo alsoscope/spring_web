@@ -53,6 +53,8 @@
 		<interceptors>
 			<interceptor>
 				<mapping path="/member/loginPOST"></mapping>
+				<mapping path="/product/product_detail"></mapping>
+				<mapping path="/shop/cart/insertCart"></mapping>
 				<beans:ref bean="loginInterceptor"></beans:ref>
 			</interceptor>
 			
