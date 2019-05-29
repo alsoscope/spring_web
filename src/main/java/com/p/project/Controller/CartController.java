@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.p.project.DTO.CartDTO;
 import com.p.project.DTO.ProductDTO;
 import com.p.project.Service.CartService;
+import com.p.project.Service.MemberService;
+import com.p.project.VO.MemberVO;
 
 //장바구니 관련 controller
 @Controller
@@ -27,6 +30,7 @@ import com.p.project.Service.CartService;
 public class CartController {
 	@Inject
 	CartService cartService;
+	MemberService memberService;
 	
 	private static final Logger logger=LoggerFactory.getLogger(CartController.class);
 	
@@ -56,10 +60,23 @@ public class CartController {
 	
 	//1. 장바구니 추가 처리 매핑. 장바구니에 추가하려는 상품이 목록에 있는지 검사
 	@RequestMapping("insertCart")
-	public String insertCart(@ModelAttribute CartDTO vo, HttpSession session) {
+	public String insertCart(@ModelAttribute CartDTO vo, HttpSession session, HttpServletRequest request) {
+
+		/*boolean result=memberService.checkPw(vo2.getUserId(), vo2.getUserPw());
+		
+		if(result) {
+			vo.setUserId(vo2.getUserId());
+		}*/
+		
+		/*MemberVO vo2=new MemberVO();
+		vo2.setUserId("userId");
+		session.setAttribute("userId", userId);*/
 		
 		//삭제 처리를 제외한 모든 메서드에서 session의 id값을 저장
 		String userId=(String)session.getAttribute("userId");
+		
+		//request.getParameter("userId");
+		//session.setAttribute("userId", userId);
 		
 		vo.setUserId(userId);
 		logger.info("userId : " + userId);

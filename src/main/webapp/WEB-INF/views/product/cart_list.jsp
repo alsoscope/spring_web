@@ -52,7 +52,7 @@
 					</td>
 					<td>
 						<!-- 장바구니에 담긴 상품 삭제 처리 -->
-						<a href="${path }/shop/cart/delete.do?cart_id=${row.cartId}">삭제</a>
+						<a href="${path }/shop/cart/delete.do?cartId=${row.cartId}">삭제</a>
 					</td>
 				</tr>				
 				</c:forEach>

@@ -53,7 +53,6 @@
 		<interceptors>
 			<interceptor>
 				<mapping path="/member/loginPOST"></mapping>
-				<mapping path="/product/product_detail"></mapping>
 				<mapping path="/shop/cart/insertCart"></mapping>
 				<beans:ref bean="loginInterceptor"></beans:ref>
 			</interceptor>
@@ -63,6 +62,14 @@
 				<beans:ref bean="authInterceptor"></beans:ref>
 			</interceptor>
 		</interceptors>
+		
+		<!-- <beans:bean id="temp" class="com.p.project.Interceptor.Temp" />
+		<interceptors>
+			<interceptor>
+				<mapping path="/shop/cart/insertCart"></mapping>
+				<beans:ref bean="temp"></beans:ref>
+			</interceptor>
+		</interceptors> -->
 		
 	<!-- NaverLoginBO Class에 대한 Bean설정 추가 -->
 	<beans:bean id="naverLoginBO" class="com.p.project.NaverLogin.NaverLoginBO" />

@@ -11,6 +11,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.p.project.VO.MemberVO;
+
 public class LoginInterceptor extends HandlerInterceptorAdapter{
 
 	private static final String LOGIN="login";
@@ -36,15 +38,6 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 			}		
 			return true;
 			//preHandle의 return은 컨트롤러 요청 uri로 가도 되냐/안되냐를 허가하는 의미, true는 컨트롤러 uri로 가게됨.
-			
-			
-			/*String userId=request.getParameter("userId");
-			if(session.getAttribute("userId")==null) {
-				logger.info("userId : " + userId);
-				return false;
-			} else {
-				return true;
-			}*/
 		}
 		
 	//컨트롤러의 메서드 처리가 끝나 return 되고 화면을 띄워주는 처리(view)가 되기 직전에 이 메서드가 수행된다
@@ -60,6 +53,12 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 		ModelMap modelMap=modelAndView.getModelMap();
 		Object MemberVO = modelMap.get("MemberVO");
 		
+		Object userId = modelMap.get("userId");
+		
+		/*MemberVO member=new MemberVO();
+		member.setUserId(userId);
+		session.setAttribute("userId", MemberVO.getUserId());*/
+		
 		//Object userId=modelAndView.getModel().get("userId");
 				
 		if(MemberVO != null) { //로그인 성공
@@ -67,7 +66,8 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 			logger.info("MemberVO : " + MemberVO);
 			session.setAttribute(LOGIN, MemberVO);
 			
-			//request.getSession().setAttribute("userId", userId);
+			session.setAttribute("userId", ((com.p.project.VO.MemberVO) MemberVO).getUserId());
+			logger.info("userId : " + userId);
 			
 			response.sendRedirect("/");
 		} else {
