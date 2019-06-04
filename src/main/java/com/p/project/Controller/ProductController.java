@@ -51,7 +51,7 @@ public class ProductController {
 	@RequestMapping("/detail/{product_id}")
 	public String detailProduct(Model model, @PathVariable("product_id")int product_id) throws Exception{
 		model.addAttribute("vo", productService.detailProduct(product_id));
-		logger.info("클릭한 product_id : " + product_id);		
+		logger.info("클릭한 product_id : " + product_id);
 		return "/product/product_detail";
 	}
 	

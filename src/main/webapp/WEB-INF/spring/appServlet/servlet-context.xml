@@ -53,7 +53,7 @@
 		<interceptors>
 			<interceptor>
 				<mapping path="/member/loginPOST"></mapping>
-				<mapping path="/shop/cart/insertCart"></mapping>
+				<!-- <mapping path="/shop/cart/insertCart"></mapping> -->
 				<beans:ref bean="loginInterceptor"></beans:ref>
 			</interceptor>
 			
@@ -67,6 +67,7 @@
 		<interceptors>
 			<interceptor>
 				<mapping path="/shop/cart/insertCart"></mapping>
+				<mapping path="/product/cart_list"></mapping>
 				<beans:ref bean="temp"></beans:ref>
 			</interceptor>
 		</interceptors> -->

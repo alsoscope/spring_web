@@ -19,26 +19,26 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 	private static final Logger logger=LoggerFactory.getLogger(LoginInterceptor.class);
 	
 	//Controller로 요청이 들어가기 전 수행됨. 컨트롤러보다 먼저 수행됨.
-		//preHandle() 메소드를 수행하고 수행될 컨트롤러 메서드에 대한 정보를 담고 있는 매개변수 handler
-		@Override
-		public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-				throws Exception {
-		
-			System.out.println("--------------preHandle--------------");
+	//preHandle() 메소드를 수행하고 수행될 컨트롤러 메서드에 대한 정보를 담고 있는 매개변수 handler
+	@Override
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+			throws Exception {
+	
+		System.out.println("--------------preHandle--------------");
 
-			if(logger.isDebugEnabled()) {
-				logger.debug("Request URI \t:" + request.getRequestURI());
-			}
-			
-			HttpSession session=request.getSession();//세션 객체를 가져옴
-			
-			if(session.getAttribute(LOGIN)!=null) { //새로 로그인 요청이 들어올 때 기존에 세션에 저장되어 있던 이전의 session LOGIN 사용자 정보 제거
-				logger.info("clear login data before");
-				session.removeAttribute(LOGIN);
-			}		
-			return true;
-			//preHandle의 return은 컨트롤러 요청 uri로 가도 되냐/안되냐를 허가하는 의미, true는 컨트롤러 uri로 가게됨.
+		if(logger.isDebugEnabled()) {
+			logger.debug("Request URI \t:" + request.getRequestURI());
 		}
+		
+		HttpSession session=request.getSession();//세션 객체를 가져옴
+		
+		if(session.getAttribute(LOGIN)!=null) { //새로 로그인 요청이 들어올 때 기존에 세션에 저장되어 있던 이전의 session LOGIN 사용자 정보 제거
+			logger.info("clear login data before");
+			session.removeAttribute(LOGIN);
+		}		
+		return true;
+		//preHandle의 return은 컨트롤러 요청 uri로 가도 되냐/안되냐를 허가하는 의미, true는 컨트롤러 uri로 가게됨.
+	}
 		
 	//컨트롤러의 메서드 처리가 끝나 return 되고 화면을 띄워주는 처리(view)가 되기 직전에 이 메서드가 수행된다
 	//ModelAndView 객체에 컨트롤러에서 전달해 온 Model 객체가 전달됨으로 컨트롤러에서 작업 후 postHandle()에서 작업할 것이 있다면 ModelAndView 이용
@@ -53,7 +53,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 		ModelMap modelMap=modelAndView.getModelMap();
 		Object MemberVO = modelMap.get("MemberVO");
 		
-		Object userId = modelMap.get("userId");
+		//Object userId = modelMap.get("userId");
 		
 		/*MemberVO member=new MemberVO();
 		member.setUserId(userId);
@@ -66,12 +66,16 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 			logger.info("MemberVO : " + MemberVO);
 			session.setAttribute(LOGIN, MemberVO);
 			
-			session.setAttribute("userId", ((com.p.project.VO.MemberVO) MemberVO).getUserId());
-			logger.info("userId : " + userId);
+			//session.setAttribute("userId", userId);
+			//logger.info("userId : " + userId);
 			
+			//session.setAttribute("userId", ((com.p.project.VO.MemberVO) MemberVO).getUserId());
+			
+			logger.info("MemberVO != null");
 			response.sendRedirect("/");
 		} else {
 			response.sendRedirect("/member/loginGET");
+			logger.info("MemberVO == null");
 		}
 	}	
 }

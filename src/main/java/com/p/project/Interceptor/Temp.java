@@ -18,36 +18,41 @@ public class Temp extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		
-		HttpSession session=request.getSession();
-		
-		if(session.getAttribute("userId")==null) {
-			//logger.info("userId : " + userId);
-			logger.info("userId problem");
+		if(request.getSession().getAttribute("userId")==null) {
+			logger.info("userId is null");
+			response.sendRedirect("/");
 			return false;
-		} else {
-			return true;
 		}
-
+		return true;
 	}
 	
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 
-/*		HttpSession session = request.getSession();
+		HttpSession session = request.getSession();
 		
 		ModelMap modelMap=modelAndView.getModelMap();
-		Object MemberVO = modelMap.get("userId");
+		Object userId = modelMap.get("userId");
 		
-		if(MemberVO != null) { //로그인 성공
-			logger.info("MemberVO : " + MemberVO);
-			session.setAttribute("userId", MemberVO);
+		if(userId != null) { //로그인 성공
+			logger.info("userId : " + userId);
+			session.setAttribute("userId", userId);
 			//request.getSession().setAttribute("userId", userId);
 			
-			response.sendRedirect("/");
+			response.sendRedirect("/product/cart_list");
 		} else {
-			response.sendRedirect("/member/loginGET");
-	}*/
+			response.sendRedirect("/product/product_detail");
+	}
+		
+		//String userId=request.getParameter("userId");
+		
+		//session.getAttribute("userId");
+		
+		//session.setAttribute("userId", userId);
+		
+		logger.info("userId : " + userId);
+		
+		
 		}
-	
 }

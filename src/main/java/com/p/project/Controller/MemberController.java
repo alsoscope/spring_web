@@ -97,12 +97,15 @@ public class MemberController {
 		try{
 			MemberVO vo=memberService.login(dto); //로그인이 성공하면 MemberVO 객체 반환
 
-			if(vo == null) {
+			/*if(vo == null) {
 				return;
-			}
+			}*/
 
+			session.setAttribute("userId", dto.getUserId());
+			
 			model.addAttribute("MemberVO",vo);
-		
+			logger.info("MemberController : " + vo);	
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}

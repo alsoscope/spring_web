@@ -61,7 +61,16 @@ public class CartController {
 	//1. 장바구니 추가 처리 매핑. 장바구니에 추가하려는 상품이 목록에 있는지 검사
 	@RequestMapping("insertCart")
 	public String insertCart(@ModelAttribute CartDTO vo, HttpSession session, HttpServletRequest request) {
-
+		
+		/*if(request.getParameter("userId")) {
+			request.getSession().setAttribute("userId", userId);
+			return null;
+		}else {
+			return null;
+		}*/
+		
+		//session.setAttribute("userId", vo2.getUserId());
+		
 		/*boolean result=memberService.checkPw(vo2.getUserId(), vo2.getUserPw());
 		
 		if(result) {
@@ -94,7 +103,7 @@ public class CartController {
 		}
 		logger.info("insertCart" + vo.toString());
 		
-		return "redirect:/shop/cart/cart_list";
+		return "product/cart_list";
 	}//insertCart-------------------
 	
 	//2. 장바구니 목록
