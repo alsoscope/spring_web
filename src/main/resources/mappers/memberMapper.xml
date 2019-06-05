@@ -50,9 +50,9 @@
 	</select>
 	
 	<!-- 인터셉터로 로그인 확인 -->
-	<select id="loginCheck" resultType="String">
+	<!-- <select id="loginCheck" resultType="String">
 		SELECT userId FROM tbl_member2
 		WHERE userId=#{userId} AND userPw=#{userPw}
-	</select>
+	</select> -->
 	
 </mapper>

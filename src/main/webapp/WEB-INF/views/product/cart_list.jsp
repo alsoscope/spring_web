@@ -15,12 +15,17 @@
 <body>
 <!-- 장바구니 화면/장바구니 목록 -->
 	<h2>장바구니</h2>
-	<c:choose>
-		<c:when test="${map.count==0 }">
-			장바구니가 비어있습니다.
-		</c:when>
-		
-		<c:otherwise>
+	
+	<%-- <c:choose>
+	<c:when test="${empty map.count }">
+		<h4>장바구니가 비어있습니다.</h4>
+	</c:when> --%>
+	<c:if test="${map.count == 0 }">
+		<h4>장바구니가 비어있습니다.</h4>
+	</c:if>
+	
+	<%-- <c:otherwise> --%>
+	<c:if test="${map.count != 0}">	
 		<!-- 장바구니에 담긴 상품수량 업데이트 처리 -->
 		<form name="form1" id="form1" method="post" action="${path }/shop/cart/update">
 			<table  border="1">
@@ -52,14 +57,14 @@
 					</td>
 					<td>
 						<!-- 장바구니에 담긴 상품 삭제 처리 -->
-						<a href="${path }/shop/cart/delete.do?cartId=${row.cartId}">삭제</a>
+						<a href="${path }/shop/cart/delete?cartId=${row.cartId}">삭제</a>
 					</td>
 				</tr>				
 				</c:forEach>
 				<tr>
 					<td colspan="5" align="right">
-						장바구니 금액 합계 : <fmt:formatNumber pattern="###,###,###" value="${map.sumMoney }"/><br>
-						배송료 : ${map.fee }<br>
+						대여 금액 합계 : <fmt:formatNumber pattern="###,###,###" value="${map.sumMoney }"/><br>
+						수수료 : ${map.fee }<br>
 						전체 주문 금액 : <fmt:formatNumber pattern="###,###,###" value="${row.allSum }"/>
 					</td>
 				</tr>
@@ -67,18 +72,26 @@
 			<input type="hidden" name="count" value="${map.count }">
 			<button type="submit" id="btnUpdate">수정</button>		
 		</form>
-		</c:otherwise>
-	</c:choose>
-		<button type="button" id="btnList">상품목록</button>
+	</c:if>
+	<%-- </c:otherwise>
+	</c:choose> --%>
+	
+	<input type="button" class="btn btn-default" value="뒤로가기" onClick="goBack();"/>
+	<!-- <button type="button" class="btn btn-default" id="btnList">뒤로</button> -->
 
-<!-- #btnList 버튼 클릭시 list.do 페이지 이동 -->
+<script type="text/javascript">
+	function goBack(){
+		window.history.back(); //window.history.go(-1);
+	}
+</script>
+	
 <script>
-	$(document).ready(function(){
+	/* $(document).ready(function(){
 		//리스트 페이지로 이동
 		$("#btnList").click(function(){
-			location.href="${path}/shop/product/list.do";
+			location.href="${path}/shop/product/product_";
 		});
-	});
+	}); */
 </script>
 </body>
 </html>

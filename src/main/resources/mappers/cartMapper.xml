@@ -26,14 +26,13 @@
 			AND p.product_id=c.product_id AND c.user_id = #{user_id}
 		ORDER BY c.cart_id -->
 		
-		SELECT cartId, userId, c.product_id AS productId, 
-			m.userName, p.product_name AS productName, c.amount, 
-			p.product_price AS productPrice, (product_price * amount) money
+		SELECT c.cartId, c.userId, p.product_id, m.userName, p.product_name, c.amount, 
+			   p.product_price, (product_price * amount) money
 		FROM tbl_member2 m, tbl_product p, tbl_cart c
 		WHERE m.userId = c.userId
-			AND p.product_id=c.product_id AND c.userId = #{userId}
-		ORDER BY c.cartId
-		
+			AND p.product_id=c.product_id
+			AND c.userId = #{userId}
+		ORDER BY c.cartId	
 	</select>
 	
 	<!-- 3. 장바구니 전체 금액 Oracle NVL(필드, 처리할 값), MySQL ifnull(필드, 처리할 값) : NULL 처리를 담당하는 함수-->

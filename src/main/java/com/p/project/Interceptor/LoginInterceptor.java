@@ -52,24 +52,11 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 		
 		ModelMap modelMap=modelAndView.getModelMap();
 		Object MemberVO = modelMap.get("MemberVO");
-		
-		//Object userId = modelMap.get("userId");
-		
-		/*MemberVO member=new MemberVO();
-		member.setUserId(userId);
-		session.setAttribute("userId", MemberVO.getUserId());*/
-		
-		//Object userId=modelAndView.getModel().get("userId");
 				
 		if(MemberVO != null) { //로그인 성공
 			logger.info("new login success");
 			logger.info("MemberVO : " + MemberVO);
 			session.setAttribute(LOGIN, MemberVO);
-			
-			//session.setAttribute("userId", userId);
-			//logger.info("userId : " + userId);
-			
-			//session.setAttribute("userId", ((com.p.project.VO.MemberVO) MemberVO).getUserId());
 			
 			logger.info("MemberVO != null");
 			response.sendRedirect("/");

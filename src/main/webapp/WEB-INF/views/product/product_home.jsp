@@ -15,6 +15,14 @@
   <link href="/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <!-- Custom styles for this template -->
   <link href="${pageContext.request.contextPath }/resources/css/shop-homepage.css" rel="stylesheet">
+
+<style type="text/css">
+.nav-aaa {
+    display: block;
+    padding: .5rem .5rem;
+    color:rgba(255,255,255,.5);
+}
+</style>
 </head>
 <body>
   <!-- Navigation -->
@@ -33,7 +41,7 @@
           </li>
           <li class="nav-item">
           	<c:if test="${login.userId==null }">
-            <li>GUEST 접속중</li>
+            <li class="nav-aaa">GUEST 접속중</li>
             </c:if>
           </li>
           <li class="nav-item">
@@ -41,9 +49,9 @@
             <a class="nav-link" href="${path }/member/loginGET">로그인</a>
             </c:if>
           </li>
-          <li class="nav-item">
+          <li class="nav-item nav-aaa">
           	<c:if test="${login.userId!=null }">
-            ${login.userId }님이 로그인 중입니다.
+            ${login.userId }님  접속중
             </c:if>
           </li>
           <li class="nav-item">
@@ -55,7 +63,7 @@
             <a class="nav-link" href="${path }/sboard/search_list">게시판</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/shop/cart/cart_list">장바구니</a>
+            <a class="nav-link" href="/shop/cart/listCart">장바구니</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="about">Contact</a>

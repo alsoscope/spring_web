@@ -60,33 +60,11 @@ public class CartController {
 	
 	//1. 장바구니 추가 처리 매핑. 장바구니에 추가하려는 상품이 목록에 있는지 검사
 	@RequestMapping("insertCart")
-	public String insertCart(@ModelAttribute CartDTO vo, HttpSession session, HttpServletRequest request) {
-		
-		/*if(request.getParameter("userId")) {
-			request.getSession().setAttribute("userId", userId);
-			return null;
-		}else {
-			return null;
-		}*/
-		
-		//session.setAttribute("userId", vo2.getUserId());
-		
-		/*boolean result=memberService.checkPw(vo2.getUserId(), vo2.getUserPw());
-		
-		if(result) {
-			vo.setUserId(vo2.getUserId());
-		}*/
-		
-		/*MemberVO vo2=new MemberVO();
-		vo2.setUserId("userId");
-		session.setAttribute("userId", userId);*/
+	public String insertCart(@ModelAttribute CartDTO vo, HttpSession session) {
 		
 		//삭제 처리를 제외한 모든 메서드에서 session의 id값을 저장
 		String userId=(String)session.getAttribute("userId");
-		
-		//request.getParameter("userId");
-		//session.setAttribute("userId", userId);
-		
+
 		vo.setUserId(userId);
 		logger.info("userId : " + userId);
 		
@@ -103,14 +81,15 @@ public class CartController {
 		}
 		logger.info("insertCart" + vo.toString());
 		
-		return "product/cart_list";
+		return "redirect:/shop/cart/listCart";
 	}//insertCart-------------------
 	
 	//2. 장바구니 목록
-	@RequestMapping("cart_list")
-	public String selectCart(HttpSession session, Model model) {
-		String userId=(String)session.getAttribute("userId");//session에 저장된 user_id
-
+	@RequestMapping("listCart")
+	public String listCart(HttpSession session, Model model) {
+		
+		String userId=(String)session.getAttribute("userId");//session에 저장된 userId
+		
 		Map<String, Object> map=new HashMap<String, Object>();
 		
 		//변수 list에 장바구니 리스트 객체 저장
@@ -121,14 +100,14 @@ public class CartController {
 		
 		//장바구니 전체 금액에 따라 배송비 구분
 		//배송료 (10만원 이상 무료, 미만 2500부과)
-		int fee=sumMoney>=100000 ? 0 : 2500;//삼항연산자 (조건식) ? (true) : (false)
+		int fee = sumMoney >= 100000 ? 0 : 500;//삼항연산자 (조건식) ? (true) : (false)
 		
 		map.put("list", list);//장바구니 정보 map에 저장
 		map.put("count", list.size()); //장바구니 상품의 유무
 		map.put("sumMoney", sumMoney); //장바구니 전체 금액
-		map.put("fee", fee);//배송금액
+		map.put("fee", fee);//수수료
 		map.put("allSum", sumMoney+fee);//주문 상품 전체 금액(+배송비)
-		model.addAttribute("cartService.selectCart", map);
+		model.addAttribute("map", map);
 		
 		return "product/cart_list";
 	}//selectCart--------------------
@@ -147,14 +126,14 @@ public class CartController {
 			vo.setProduct_id(product_id[i]);
 			cartService.updateCart(vo);
 		}
-		return "redirect:/shop/cart/cart_list";
+		return "redirect:/shop/cart/listCart";
 	}
 	
 	//4.장바구니 삭제
 	@RequestMapping("delete")
-	public String deleteCart(@RequestParam("cart_id")int cart_id) {
-		cartService.deleteCart(cart_id);
-		return "redirect:/shop/cart/cart_list";
+	public String deleteCart(@RequestParam("cartId")int cartId) {
+		cartService.deleteCart(cartId);
+		return "redirect:/shop/cart/listCart";
 	}
 	
 	//5.상품 수정(편집) 페이지 매핑
