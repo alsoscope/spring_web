@@ -9,12 +9,14 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<%@ include file="./forward/nav_bar.jsp" %>
 </head>
 <body>
+<%@ include file="./forward/header.jsp" %>
+
 <div style="text-align:center;">
 	CINEPHILE 은 영화 스트리밍 ~
-
 </div>
+
+<%@ include file="./forward/footer.jsp" %>
 </body>
 </html>

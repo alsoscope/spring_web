@@ -23,7 +23,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-<%@ include file="../forward/nav_bar.jsp" %>
+<%@ include file="../forward/header.jsp" %>
 <br><br>
 
 <div style="align:center;">
@@ -105,6 +105,9 @@
 			</tr>
 		</table>
 	</form> --%>
+
+
+<%@ include file="../forward/footer.jsp" %>
 
 </body>
 </html>

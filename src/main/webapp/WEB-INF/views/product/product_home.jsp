@@ -17,16 +17,25 @@
   <link href="${pageContext.request.contextPath }/resources/css/shop-homepage.css" rel="stylesheet">
 
 <style type="text/css">
-.nav-aaa {
+body{
+	padding:0 !important;
+}
+/* .nav-aaa {
     display: block;
     padding: .5rem .5rem;
     color:rgba(255,255,255,.5);
+} */
+.nav-aaa {
+    display: block;
+    padding: 1.5rem .5rem;
+    color:rgba(255,255,255,.5);
+    font-size:16px;
 }
 </style>
 </head>
 <body>
   <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <%-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
       <a class="navbar-brand" href="/">CINEPHILE</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -71,7 +80,9 @@
         </ul>
       </div>
     </div>
-  </nav>
+  </nav> --%>
+
+<%@ include file="../forward/header.jsp" %>
 
   <!-- Page Content -->
   <div class="container">

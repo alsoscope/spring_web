@@ -11,7 +11,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-<%@ include file="../forward/nav_bar.jsp" %>
+<%@ include file="../forward/header.jsp" %>
 
 <!-- controller로부터 리턴받은 문자열이 success이면 관리자명, 관리자id 출력 -->
 <c:if test="${msg == 'success' }">
@@ -21,5 +21,6 @@
 	<h2> 접속한 관리자 NAME 확인 : ${sessionScope.userName }</h2>
 </c:if>
 
+<%@ include file="../forward/footer.jsp" %>
 </body>
 </html>

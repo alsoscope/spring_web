@@ -11,7 +11,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
-<%@ include file="../forward/nav_bar.jsp" %>
+<%@ include file="../forward/header.jsp" %>
 <body>
 <!-- 장바구니 화면/장바구니 목록 -->
 	<h2>장바구니</h2>
@@ -93,5 +93,7 @@
 		});
 	}); */
 </script>
+
+<%@ include file="../forward/footer.jsp" %>
 </body>
 </html>

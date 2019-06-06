@@ -23,6 +23,7 @@ form {
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
 <!-- <script>
 $(document).ready(function(){
 		$("#updatePost").click(function(){
@@ -52,6 +53,8 @@ $(document).ready(function(){
 </script> -->
 </head>
 <body>
+<%@ include file="../forward/header.jsp" %>
+
 	<h2>게시글 수정</h2>
 		<form name="form1" method="post" role="form" action="updatePost">
 		
@@ -91,6 +94,8 @@ $(document).ready(function(){
 			</div>
 		</form>
 		
+<%@ include file="../forward/footer.jsp" %>
+
 	<script type="text/javascript">
 		function goBack(){
 			window.history.back(); //window.history.back();

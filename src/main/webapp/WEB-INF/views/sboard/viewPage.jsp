@@ -67,7 +67,7 @@ document.getElementById('content').value
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-<%@ include file="../forward/nav_bar.jsp" %>
+<%@ include file="../forward/header.jsp" %>
 </head>
 <body>
 	<form role="form" method="post">
@@ -143,5 +143,6 @@ document.getElementById('content').value
 	});
 	</script>
 
+<%@ include file="../forward/footer.jsp" %>
 </body>
 </html>

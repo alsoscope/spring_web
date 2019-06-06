@@ -10,14 +10,16 @@
 <style type='text/css'>
 	table{
 		margin: auto;
-		width:600px !important
+		width:600px !important;
+	}
+	body{
+		margin-bottom:-130px !important;
 	}
 </style>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<%-- <%@ include file="../forward/nav_bar.jsp" %> --%>
-<%@ include file="../forward/test.jsp" %>
+<%@ include file="../forward/header.jsp" %>
 </head>
 <body>
 <br>
@@ -39,6 +41,9 @@
 <div style="text-align:center;">총 (${map.count })개의 게시물이 있습니다<!-- 레코드의 개수를 출력 -->&nbsp;
 <button type="button" id="btnWrite" class="btn btn-default">글쓰기</button></div>
 <br>
+
+<!-- <div class="container">
+<div class="row"> -->
 
 <%-- <form name="form1" method="post" action="${path }/sboard/search_list"> --%>
 <form id="form1" method="post">
@@ -184,9 +189,10 @@
 		</c:if> --%>
 	</ul>
 	
-	</div>
-
-<%-- <%@ include file="../forward/test_footer.jsp" %> --%>
+<!-- 	</div>
+	</div> -->
+</div>
+	<%@ include file="../forward/footer.jsp" %>
 	
 	<script>
 		var result='${msg}';
@@ -218,7 +224,5 @@
 		});
 	});
 	</script>
-	
-	<%-- <%@ include file="../forward/test_footer.jsp" %> --%>
 </body>
 </html>

@@ -15,12 +15,12 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<%@ include file="../forward/nav_bar.jsp" %>
+<%@ include file="../forward/header.jsp" %>
 </head>
 <body>
 	<h2 align="center">회원등록</h2>
 	<br>
-	<form class="form" name="form1" method="post" action="${path }/member/insert.do">
+	<form class="form" name="form1" method="post" action="${path }/member/insert">
 		  <div class="form-group">
 		    <label for="exampleInputEmail1">아이디 입력</label>
 		    <input name="userId" class="form-control" id="exampleInputEmail1" placeholder="아이디를 입력하세요">
@@ -48,6 +48,7 @@
 			  <button type="reset" class="btn btn-default">취소</button>
 		  </div>
 	</form>
+<%@ include file="../forward/footer.jsp" %>
 
 <%-- <form name="form1" method="post" action="${path }/member/insert.do">
 	<table>

@@ -26,6 +26,7 @@ form {
 <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
 <body>
+<%@ include file="../forward/header.jsp" %>
 <form name="form1" method="post" action="${path }/sboard/registerPOST">
 	<h2>게시글 작성</h2>
 	<br>
@@ -58,8 +59,9 @@ form {
 		<!-- <a href="javascript:history.back">뒤뒤</a> -->
 		<input class="btn btn-default" type="button" value="뒤로가기" onClick="goBack();"/>
 	</div>
-
 </form>
+
+<%@ include file="../forward/footer.jsp" %>
 
 	<script>
 	$(document).ready(function(){

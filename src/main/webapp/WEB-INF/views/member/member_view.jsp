@@ -30,7 +30,7 @@
 </script>
 </head>
 <body>
-<%-- <%@ include file="../include/member_menu.jsp" %> --%>
+<%@ include file="../forward/header.jsp" %>
 	
 	<h2>회원정보 상세보기</h2>
 	<form name="form1" method="post">
@@ -65,5 +65,6 @@
 		</tr>
 	</table>
 	</form>
+<%@ include file="../forward/footer.jsp" %>
 </body>
 </html>
