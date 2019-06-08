@@ -37,6 +37,30 @@ public class ProductController {
 	@Inject
 	ProductService productService;
 
+	//1. 상품 등록 페이지 매핑
+	@RequestMapping("product_regist")
+	public String insert(ProductDTO vo) {
+		/*String filename="";
+		//첨부파일(상품사진)이 있으면
+		if(!vo.getProduct_Photo().isEmpty()) {
+			filename=vo.getProduct_Photo().getOriginalFilename();
+			//개발 디렉토리 - 파일 업로드 경로
+			//배포 디렉토리 - 파일 업로드 경로
+			String path="c:\\";
+			try {
+				new File(path).mkdirs(); //이미지 파일을 저장할 디렉토리 생성
+				//임시 디렉토리(서버)에 지정된 파일을 지정된 디렉토리로 전송.
+				//path 디렉토리, filename 원본 이미지 파일명, 서버에 임시 저장된 파일을 저장 디렉토리로 전송
+				vo.getProduct_Photo().transferTo(new File(path+filename));
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			vo.setProduct_url(filename);
+			//productService.insertProduct(vo);
+		}*/
+		return "/product/product_regist";
+	}
+	
 	//1. 상품 전체 목록 페이지 매핑. service에서 가져온 리스트 객체 리턴
 /*	@RequestMapping(value="/", method=RequestMethod.GET)
 	public String listProduct(Model model) {

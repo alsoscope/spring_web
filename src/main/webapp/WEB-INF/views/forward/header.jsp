@@ -272,7 +272,7 @@ li {
             <a class="nav-link" href="${path }/admin/adminlogout">관리자 로그아웃</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="${path }/shop/product/product_write">상품등록</a>
+            <a class="nav-link" href="${path }/shop/product/product_regist">상품등록</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/member/member_list">회원관리</a>
