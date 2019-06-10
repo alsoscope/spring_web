@@ -264,11 +264,6 @@ li {
             <a class="nav-link" href="${path }/member/loginGET"></a>
           </li>
           <li class="nav-item">
-          	<li class="nav-aaa">
-	            ddd님 접속중
-            </li>
-          </li>
-          <li class="nav-item">
             <a class="nav-link" href="${path }/admin/adminlogout">관리자 로그아웃</a>
           </li>
           <li class="nav-item">

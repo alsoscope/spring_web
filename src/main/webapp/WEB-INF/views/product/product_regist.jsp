@@ -12,14 +12,16 @@
 	}
 </style>
 <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>	
+<script src="../js/dropzone.js"></script>
 <%@ include file="../forward/header.jsp" %>
 </head>
 <body>
-
-<h2>상품 등록</h2>
+<br>
+<br>
+<h2 style="text-align:center;">상품 등록</h2>
 
 	<br>
 	<form class="form" name="form1" method="post" enctype="multipart/form-data">
@@ -35,14 +37,29 @@
 		    <label for="exampleInputEmail1">상품 상세</label>
 		    <textarea id="product_desc" class="form-control" rows="5" cols="60"></textarea>
 		  </div>
+		  
+		  
 		  <div class="form-group">
 		    <label for="exampleInputEmail1">상품 이미지</label>
-		    <input type="file" name="product_photo" id="product_photo">
+		    
+		    <input type="file" name="file" id="product_photo" />
+		    <!-- <input type="file" name="product_photo" id="product_photo"> -->
 		  </div>
+		  <!-- <div class="form-group">
+		    <label for="exampleInputEmail1">상품 이미지</label>
+		    <input type="file" name="product_photo" id="product_photo">
+		  </div> -->
+		  
 		  <div align="center">
 			  <button type="submit" class="btn btn-default" id="addBtn">등록</button>
 			  <button type="reset" class="btn btn-default" id="btnList">목록</button>
 		  </div>
+	</form>
+	
+	<form action="/file-upload" class="dropzone">
+	  <div class="fallback">
+	    <input name="file" type="file" multiple />
+	  </div>
 	</form>
 	
 <script>
