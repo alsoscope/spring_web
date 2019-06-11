@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE>
 <html>
 <head>
@@ -14,8 +15,11 @@
 <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>	
-<script src="../js/dropzone.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script src="<c:url value="../../resources/js/dropzone.js"/>"></script>
+<link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
+
 <%@ include file="../forward/header.jsp" %>
 </head>
 <body>
@@ -36,14 +40,12 @@
 		  <div class="form-group">
 		    <label for="exampleInputEmail1">상품 상세</label>
 		    <textarea id="product_desc" class="form-control" rows="5" cols="60"></textarea>
-		  </div>
-		  
+		  </div>		  
 		  
 		  <div class="form-group">
-		    <label for="exampleInputEmail1">상품 이미지</label>
-		    
-		    <input type="file" name="file" id="product_photo" />
-		    <!-- <input type="file" name="product_photo" id="product_photo"> -->
+		    <label for="exampleInputEmail1">상품 이미지</label>		    
+		    <!-- <input type="file" name="file" id="product_photo" /> -->
+		    <div class="dropzone" id="fileDropzone"></div>
 		  </div>
 		  <!-- <div class="form-group">
 		    <label for="exampleInputEmail1">상품 이미지</label>
@@ -52,16 +54,16 @@
 		  
 		  <div align="center">
 			  <button type="submit" class="btn btn-default" id="addBtn">등록</button>
-			  <button type="reset" class="btn btn-default" id="btnList">목록</button>
+			  <button type="reset" class="btn btn-default" id="goBack">목록</button>
 		  </div>
 	</form>
 	
-	<form action="/file-upload" class="dropzone">
-	  <div class="fallback">
-	    <input name="file" type="file" multiple />
-	  </div>
+	<!-- <form name="fname">
+		<label for="fld">필드</label>
+		<input type="text" name="fld" id="fld" value="">
+		<div class="dropzone" id="fileDropzone"></div>
 	</form>
-	
+ -->
 <script>
 	$(document).ready(function(){
 		//상품 등록 유효검사
@@ -91,10 +93,87 @@
 			document.form1.submit();
 		});
 		//상품 목록 이동
-		$("#btnList").click(function{
+		$("#btnList").click(function(){
 			location.href="${path}/shop/product/product_list";
 		});
+		
+		function goBack(){
+			window.history.back(); //window.history.go(-1);
+		}
+
 	});
+</script>
+
+<script>
+Dropzone.options.fileDropzone = {
+    url: './fileUpload.php',
+    autoProcessQueue: false,
+    uploadMultiple: true,
+    parallelUploads: 2,
+    maxFiles: 2,
+    maxFilesize: 1,
+    acceptedFiles: 'image/*',
+    addRemoveLinks: true,
+    removedfile: function(file) {
+        var srvFile = $(file._removeLink).data("srvFile");
+        $.ajax({
+            type: 'POST',
+            async: false,
+            cache: false,
+            url: './fileDelete.php',
+            data: { file: srvFile }
+        });
+        var _ref;
+        (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+        setFilesName();
+        return;
+    },
+    init: function() {
+        var fileDropzone = this;
+        // Uploaded images
+        
+        // First change the button to actually tell Dropzone to process the queue.
+        document.querySelector("button[type=submit]").addEventListener("click", function(e) {
+            // Make sure that the form isn't actually being sent.
+            e.preventDefault();
+            e.stopPropagation();
+            // Form check
+            if(checkForm()) {
+                if (fileDropzone.getQueuedFiles().length > 0) {
+                    fileDropzone.processQueue();
+                } else {
+                    setFilesName();
+                    submitForm();
+                }
+            }
+        });
+        // Append all the additional input data of your form here!
+        this.on("sending", function(file, xhr, formData) {
+            formData.append("token", $("input[name=token]").val());
+        });
+        // Listen to the sendingmultiple event. In this case, it's the sendingmultiple event instead
+        // of the sending event because uploadMultiple is set to true.
+        this.on("sendingmultiple", function() {
+            // Gets triggered when the form is actually being sent.
+            // Hide the success button or the complete form.
+        });
+        this.on("successmultiple", function(files, response) {
+            // Gets triggered when the files have successfully been sent.
+            // Redirect user or notify of success.
+            var obj = JSON.parse(response);
+            for(i=0; i<files.length; i++) {
+                $(files[i]._removeLink).data('srvFile', obj[files[i].name]);
+            }
+            setFilesName();
+            // form submit
+            submitForm();
+        });
+        this.on("errormultiple", function(files, response) {
+            // Gets triggered when there was an error sending the files.
+            // Maybe show form again, and notify user of error
+        });
+    }
+};
 </script>
 
 <%@ include file="../forward/footer.jsp" %>
