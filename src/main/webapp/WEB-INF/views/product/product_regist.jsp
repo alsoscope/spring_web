@@ -44,7 +44,6 @@
 		  
 		  <div class="form-group">
 		    <label for="exampleInputEmail1">상품 이미지</label>		    
-		    <!-- <input type="file" name="file" id="product_photo" /> -->
 		    <div class="dropzone" id="fileDropzone"></div>
 		  </div>
 		  <!-- <div class="form-group">
@@ -54,7 +53,8 @@
 		  
 		  <div align="center">
 			  <button type="submit" class="btn btn-default" id="addBtn">등록</button>
-			  <button type="reset" class="btn btn-default" id="goBack">목록</button>
+			  <!-- <button type="reset" class="btn btn-default" id="goBack">목록</button> -->
+		  	  <input type="button" class="btn btn-default" value="목록" onClick="goBack();"/>
 		  </div>
 	</form>
 	
@@ -96,17 +96,43 @@
 		$("#btnList").click(function(){
 			location.href="${path}/shop/product/product_list";
 		});
-		
-		function goBack(){
-			window.history.back(); //window.history.go(-1);
-		}
-
 	});
 </script>
 
+<script type="text/javascript">
+	function goBack(){
+		window.history.back(); //window.history.go(-1);
+	}
+</script>
+
 <script>
-Dropzone.options.fileDropzone = {
-    url: './fileUpload.php',
+var myDropzone = new Dropzone("div#fileDropzone",
+		{ 
+		  url:"파일 업로드 경로",
+		  addRemoveLinks:true,
+		  maxFiles:5,
+		  success:function(){
+			var imgName=response.serFileNm;
+			var oriName=response.orgFileNm;
+			if(imgName!=''){
+				var adClass=imgName.replace('.',"");
+					file.previewElement.classList.add("dz-success");
+					file.previewElement.classList.add(adClass);
+				var html+='<input type="hidden" name="serFileNm" value="'+imgName+'">';
+					html+='<input type="hidden" name="orgFileNm" value="'+oriName'">';
+				$("."+adClass).append(html);
+			}
+		  },error:function(){
+			file.previewElement.classList.add("dz-maxsize-error");
+			alert("파일은 최대 5개까지만 업로드 가능합니다.");
+			$(".dz-maxsize-error").empty();
+		  }
+		});
+</script>
+
+<script>
+/* Dropzone.options.fileDropzone = {
+    url: './fileUpload.jsp',
     autoProcessQueue: false,
     uploadMultiple: true,
     parallelUploads: 2,
@@ -120,7 +146,7 @@ Dropzone.options.fileDropzone = {
             type: 'POST',
             async: false,
             cache: false,
-            url: './fileDelete.php',
+            url: './fileDelete.jsp',
             data: { file: srvFile }
         });
         var _ref;
@@ -173,7 +199,7 @@ Dropzone.options.fileDropzone = {
             // Maybe show form again, and notify user of error
         });
     }
-};
+}; */
 </script>
 
 <%@ include file="../forward/footer.jsp" %>

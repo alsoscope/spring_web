@@ -61,6 +61,9 @@ public class ProductController {
 		return "/product/product_regist";
 	}
 	
+	//Dropzone.js 를 이용한 파일 업로드
+	
+	
 	//1. 상품 전체 목록 페이지 매핑. service에서 가져온 리스트 객체 리턴
 /*	@RequestMapping(value="/", method=RequestMethod.GET)
 	public String listProduct(Model model) {
