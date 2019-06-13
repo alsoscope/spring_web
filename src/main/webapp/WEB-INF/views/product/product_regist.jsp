@@ -11,6 +11,17 @@
 		margin: auto;
 		width:300px !important
 	}
+    #dropzone
+    {
+        /* border:2px dotted #3292A2;
+        width:90%;
+        height:50px;
+        color:#92AAB0;
+        text-align:center;
+        font-size:24px;
+        padding-top:12px;
+        margin-top:10px; */
+    }
 </style>
 <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -44,7 +55,7 @@
 		  
 		  <div class="form-group">
 		    <label for="exampleInputEmail1">상품 이미지</label>		    
-		    <div class="dropzone" id="fileDropzone"></div>
+		    <div class="dropzone" id="dropzone"></div>
 		  </div>
 		  <!-- <div class="form-group">
 		    <label for="exampleInputEmail1">상품 이미지</label>
@@ -106,7 +117,75 @@
 </script>
 
 <script>
-var myDropzone = new Dropzone("div#fileDropzone",
+$(function () {
+    var obj = $("#dropzone");
+
+    obj.on('dragenter', function (e) {
+         e.stopPropagation();
+         e.preventDefault();
+         /* $(this).css('border', '2px solid #5272A0'); */
+         $(this).css('border', '2px solid');
+    });
+
+    obj.on('dragleave', function (e) {
+         e.stopPropagation();
+         e.preventDefault();
+         /* $(this).css('border', '2px dotted #8296C2'); */
+         $(this).css('border', '2px dotted');
+    });
+
+    obj.on('dragover', function (e) {
+         e.stopPropagation();
+         e.preventDefault();
+    });
+
+    obj.on('drop', function (e) {
+         e.preventDefault();
+         /* $(this).css('border', '2px dotted #8296C2'); */
+         $(this).css('border', '2px dotted');
+
+         var files = e.originalEvent.dataTransfer.files;
+         if(files.length < 1)
+              return;
+
+         F_FileMultiUpload(files, obj);
+    });
+
+});
+
+//파일 멀티 업로드
+/* function F_FileMultiUpload(files, obj) {
+     if(confirm(files.length + "개의 파일을 업로드 하시겠습니까?") ) {
+         var data = new FormData();
+         for (var i = 0; i < files.length; i++) {
+            data.append('file', files[i]);
+         }
+
+         var url = "<서버 파일업로드 URL>";
+         $.ajax({
+            url: url,
+            method: 'post',
+            data: data,
+            dataType: 'json',
+            processData: false,
+            contentType: false,
+            success: function(res) {
+                F_FileMultiUpload_Callback(res.files);
+            }
+         });
+     }
+}
+
+// 파일 멀티 업로드 Callback
+function F_FileMultiUpload_Callback(files) {
+     for(var i=0; i < files.length; i++)
+         console.log(files[i].file_nm + " - " + files[i].file_size);
+} */
+
+</script>
+
+<script>
+/* var myDropzone = new Dropzone("div#fileDropzone",
 		{ 
 		  url:"파일 업로드 경로",
 		  addRemoveLinks:true,
@@ -127,11 +206,11 @@ var myDropzone = new Dropzone("div#fileDropzone",
 			alert("파일은 최대 5개까지만 업로드 가능합니다.");
 			$(".dz-maxsize-error").empty();
 		  }
-		});
+		}); */
 </script>
 
 <script>
-/* Dropzone.options.fileDropzone = {
+ Dropzone.options.dropzone = {
     url: './fileUpload.jsp',
     autoProcessQueue: false,
     uploadMultiple: true,
@@ -165,8 +244,8 @@ var myDropzone = new Dropzone("div#fileDropzone",
             e.stopPropagation();
             // Form check
             if(checkForm()) {
-                if (fileDropzone.getQueuedFiles().length > 0) {
-                    fileDropzone.processQueue();
+                if (dropzone.getQueuedFiles().length > 0) {
+                	dropzone.processQueue();
                 } else {
                     setFilesName();
                     submitForm();
@@ -199,7 +278,7 @@ var myDropzone = new Dropzone("div#fileDropzone",
             // Maybe show form again, and notify user of error
         });
     }
-}; */
+};
 </script>
 
 <%@ include file="../forward/footer.jsp" %>
