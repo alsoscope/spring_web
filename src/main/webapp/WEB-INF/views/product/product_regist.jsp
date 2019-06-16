@@ -13,8 +13,8 @@
 	}
     #dropzone
     {
-        /* border:2px dotted #3292A2;
-        width:90%;
+        border:2px dotted;
+        /* width:90%;
         height:50px;
         color:#92AAB0;
         text-align:center;
@@ -39,7 +39,8 @@
 <h2 style="text-align:center;">상품 등록</h2>
 
 	<br>
-	<form class="form" name="form1" method="post" enctype="multipart/form-data">
+	<!-- <form class="form" name="form1" method="post" enctype="multipart/form-data"> -->
+	<form class="form" name="form1" method="post">
 		  <div class="form-group">
 		    <label for="exampleInputEmail1">상품명</label>
 		    <input type="text" name="product_name" class="form-control" id="product_name">
@@ -50,7 +51,7 @@
 		  </div>
 		  <div class="form-group">
 		    <label for="exampleInputEmail1">상품 상세</label>
-		    <textarea id="product_desc" class="form-control" rows="5" cols="60"></textarea>
+		    <textarea id="product_desc" name="product_desc" class="form-control" rows="5" cols="60"></textarea>
 		  </div>		  
 		  
 		  <div class="form-group">
@@ -82,7 +83,7 @@
 			var product_name=$("#product_name").val();
 			var product_price=$("#product_price").val();
 			var product_desc=$("#product_desc").val(); //상품 description
-			var product_photo=$("#product_photo").val();
+			//var product_photo=$("#product_photo").val();
 			
 			//상품등록 클릭 이벤트가 발생하면 폼 내부 값 유효성 체크한 뒤 서버로 전송
 			if(product_name==""){
@@ -92,15 +93,15 @@
 				alert("상품가격 미입력!");
 				product_price.focus();
 			}else if(product_desc==""){
-				alert("상품상세 미입력!");
+				alert("상품설명 미입력!");
 				product_desc.focus();
-			}else if(product_photo==""){
+			}/* else if(product_photo==""){
 				alert("상품사진 미등록!");
 				product_photo.focus();
-			}
+			} */
 			
 			//상품 정보 전송
-			document.form1.action="${path}/shop/product/product_insert";
+			document.form1.action="${path}/shop/product/insertProduct";
 			document.form1.submit();
 		});
 		//상품 목록 이동
@@ -145,10 +146,13 @@ $(function () {
          $(this).css('border', '2px dotted');
 
          var files = e.originalEvent.dataTransfer.files;
+    
          if(files.length < 1)
               return;
 
-         F_FileMultiUpload(files, obj);
+         console.log(files);
+
+         /* F_FileMultiUpload(files, obj); */
     });
 
 });
@@ -210,8 +214,8 @@ function F_FileMultiUpload_Callback(files) {
 </script>
 
 <script>
- Dropzone.options.dropzone = {
-    url: './fileUpload.jsp',
+Dropzone.options.dropzone = {
+    url: '/insertProduct',
     autoProcessQueue: false,
     uploadMultiple: true,
     parallelUploads: 2,
@@ -234,7 +238,7 @@ function F_FileMultiUpload_Callback(files) {
         return;
     },
     init: function() {
-        var fileDropzone = this;
+        var dropzone = this;
         // Uploaded images
         
         // First change the button to actually tell Dropzone to process the queue.

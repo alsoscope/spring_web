@@ -8,6 +8,8 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.p.project.DTO.ProductDTO;
 import com.p.project.DTO.SearchCriteria;
@@ -38,12 +41,31 @@ public class ProductController {
 	ProductService productService;
 
 	//1. 상품 등록 페이지 매핑
-	@RequestMapping("product_regist")
-	public String insert(ProductDTO vo) {
-		/*String filename="";
+	@RequestMapping(value="product_regist")
+	public String product_regist() {
+
+		return "/product/product_regist";
+	}
+	
+	//Dropzone.js 를 이용한 파일 업로드
+	@ResponseBody
+	@RequestMapping(value="/uploadAjax", method=RequestMethod.POST, produces="text/plain;charset=UTF-8")
+	public ResponseEntity<String> uploadAjax(MultipartFile file) throws Exception{
+		
+		logger.info("originalName : " + file.getOriginalFilename());
+		logger.info("size : " + file.getSize());
+		logger.info("contentType : " + file.getContentType());
+		
+		return new ResponseEntity<>(file.getOriginalFilename(), HttpStatus.CREATED);
+	}
+	
+	//상품 등록 처리 매핑
+	@RequestMapping(value="insertProduct", method=RequestMethod.POST, produces="text/plain;charset=UTF-8")
+	public String insertProduct(ProductDTO dto, MultipartFile file) {
+/*		String filename="";
 		//첨부파일(상품사진)이 있으면
-		if(!vo.getProduct_Photo().isEmpty()) {
-			filename=vo.getProduct_Photo().getOriginalFilename();
+		if(!dto.getProduct_Photo().isEmpty()) {
+			filename=dto.getProduct_Photo().getOriginalFilename();
 			//개발 디렉토리 - 파일 업로드 경로
 			//배포 디렉토리 - 파일 업로드 경로
 			String path="c:\\";
@@ -51,18 +73,22 @@ public class ProductController {
 				new File(path).mkdirs(); //이미지 파일을 저장할 디렉토리 생성
 				//임시 디렉토리(서버)에 지정된 파일을 지정된 디렉토리로 전송.
 				//path 디렉토리, filename 원본 이미지 파일명, 서버에 임시 저장된 파일을 저장 디렉토리로 전송
-				vo.getProduct_Photo().transferTo(new File(path+filename));
+				dto.getProduct_Photo().transferTo(new File(path+filename));
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
-			vo.setProduct_url(filename);
-			//productService.insertProduct(vo);
+			dto.setProduct_url(filename);
 		}*/
-		return "/product/product_regist";
+
+		logger.info("insert Product : " + dto);
+		productService.insertProduct(dto);
+
+		logger.info("originalName : " + file.getOriginalFilename());
+		logger.info("size : " + file.getSize());
+		logger.info("contentType : " + file.getContentType());
+		
+		return "redirect:/";
 	}
-	
-	//Dropzone.js 를 이용한 파일 업로드
-	
 	
 	//1. 상품 전체 목록 페이지 매핑. service에서 가져온 리스트 객체 리턴
 /*	@RequestMapping(value="/", method=RequestMethod.GET)

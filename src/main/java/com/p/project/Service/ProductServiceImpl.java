@@ -40,8 +40,8 @@ public class ProductServiceImpl implements ProductService{
 
 	//5. 상품 등록
 	@Override
-	public void insertProduct(ProductDTO vo) {
-		productDao.insertProduct(vo);
+	public void insertProduct(ProductDTO dto) {
+		productDao.insertProduct(dto);
 	}
 
 	//6. 상품 이미지 삭제 위한 이미지 파일 정보

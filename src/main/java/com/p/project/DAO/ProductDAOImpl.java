@@ -42,8 +42,8 @@ public class ProductDAOImpl implements ProductDAO {
 
 	//5. 상품 추가
 	@Override
-	public void insertProduct(ProductDTO vo) {
-		sqlSession.insert("product.insertProduct", vo);
+	public void insertProduct(ProductDTO dto) {
+		sqlSession.insert("product.insertProduct", dto);
 	}
 
 	//6. 상품 이미지 삭제 위한 이미지 파일 정보

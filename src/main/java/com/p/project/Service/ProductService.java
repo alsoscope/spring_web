@@ -20,7 +20,7 @@ public interface ProductService {
 	public void deleteProduct(int product_id);
 	
 	//5. 상품 등록
-	public void insertProduct(ProductDTO vo);
+	public void insertProduct(ProductDTO dto);
 	
 	//6. 상품 이미지 삭제 위한 이미지 파일 정보
 	public String fileInfo(int product_id);

@@ -47,8 +47,9 @@
 	
 	<!-- 03. 상품 추가하기 -->
 	<insert id="insertProduct">
-		insert into tbl_product
-		values ( #{product_name},#{product_price},#{product_desc},#{product_url} )
+		insert into tbl_product (product_name, product_price, product_desc)
+		values ( #{product_name},#{product_price},#{product_desc} )
+		<!-- values ( #{product_name},#{product_price},#{product_desc},#{product_url} ) -->
 	</insert>
 	
 	<!-- 04. 상품 수정/편집 -->
