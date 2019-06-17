@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.p.project.DTO.ProductDTO;
 import com.p.project.DTO.SearchCriteria;
+import com.p.project.FileUpload.FileUpload;
 import com.p.project.Service.BoardService;
 import com.p.project.Service.MemberService;
 import com.p.project.Service.ProductService;
@@ -47,20 +48,8 @@ public class ProductController {
 		return "/product/product_regist";
 	}
 	
-	//Dropzone.js 를 이용한 파일 업로드
-	@ResponseBody
-	@RequestMapping(value="/uploadAjax", method=RequestMethod.POST, produces="text/plain;charset=UTF-8")
-	public ResponseEntity<String> uploadAjax(MultipartFile file) throws Exception{
-		
-		logger.info("originalName : " + file.getOriginalFilename());
-		logger.info("size : " + file.getSize());
-		logger.info("contentType : " + file.getContentType());
-		
-		return new ResponseEntity<>(file.getOriginalFilename(), HttpStatus.CREATED);
-	}
-	
 	//상품 등록 처리 매핑
-	@RequestMapping(value="insertProduct", method=RequestMethod.POST, produces="text/plain;charset=UTF-8")
+	@RequestMapping(value="insertProduct", method=RequestMethod.POST)
 	public String insertProduct(ProductDTO dto, MultipartFile file) {
 /*		String filename="";
 		//첨부파일(상품사진)이 있으면
@@ -82,10 +71,6 @@ public class ProductController {
 
 		logger.info("insert Product : " + dto);
 		productService.insertProduct(dto);
-
-		logger.info("originalName : " + file.getOriginalFilename());
-		logger.info("size : " + file.getSize());
-		logger.info("contentType : " + file.getContentType());
 		
 		return "redirect:/";
 	}
