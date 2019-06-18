@@ -24,14 +24,17 @@ public class FileUpload {
 	//별도의 데이터가 보관될 필요가 없기 때문에 static으로 설계.
 	public static String uploadFile(String uploadPath, String originalName, byte[] fileData)throws Exception {
 		
+		//UUID 발급
 		UUID uid=UUID.randomUUID();
 		
 		String savedName=uid.toString() + "_" + originalName;
 		
 		String savedPath=calcPath(uploadPath);
 		
+		//파일 경로(기존 업로드 경로+날짜별 경로), 파일명을 받아 파일 객체 생성
 		File target=new File(uploadPath + savedPath, savedName);
 		
+		//임시 디렉토리에 업로드된 파일을 지정된 디렉토리로 복사
 		FileCopyUtils.copy(fileData, target);
 		
 		String formatName=originalName.substring(originalName.lastIndexOf(".")+1);
@@ -42,15 +45,17 @@ public class FileUpload {
 			uploadedFileName=makeThumbnail(uploadPath, savedPath, savedName);	
 		}else{
 			uploadedFileName=makeIcon(uploadPath, savedPath, savedName);
-		}
-		
+		}		
 		return uploadedFileName;
 	}
 	
+	//아이콘 생성
 	private static String makeIcon(String uploadPath, String path, String fileName) throws Exception {
 		
 		String iconName=uploadPath+path+File.separator+fileName;
 		
+		//아이콘 이름 리턴. File.separatorChar : 디렉토리 구분자
+		//윈도우 : \ , 유닉스(리눅스) : /
 		return iconName.substring(uploadPath.length()).replace(File.separatorChar, '/');
 	}
 	
@@ -59,12 +64,14 @@ public class FileUpload {
 		
 		Calendar cal=Calendar.getInstance();
 		
+		//File.separator : 디렉토리 구분자(\\)
 		String yearPath=File.separator+cal.get(Calendar.YEAR);
 		
 		String monthPath=yearPath+File.separator+new DecimalFormat("00").format(cal.get(Calendar.MONTH)+1);
 		
 		String datePath=monthPath+File.separator+new DecimalFormat("00").format(cal.get(Calendar.DATE));
 		
+		//디렉토리 생성 메소드 호출
 		makeDir(uplaodPath, yearPath, monthPath, datePath);
 		
 		logger.info(datePath);
@@ -72,16 +79,21 @@ public class FileUpload {
 		return datePath;
 	}
 	
+	//디렉토리 생성
 	private static void makeDir(String uploadPath, String... paths) {
+		
+		//디렉토리가 존재하면
 		if(new File(paths[paths.length-1]).exists()){
 			return;
 		}
 		
+		//디렉토리 존재하지 않으면
 		for(String path : paths) {
 			File dirPath=new File(uploadPath + path);
 			
+			//디렉토리 존재하지 않으면
 			if(!dirPath.exists()) {
-				dirPath.mkdir();
+				dirPath.mkdir();//디렉토리 생성
 			}
 		}
 	}
@@ -89,8 +101,10 @@ public class FileUpload {
 	//썸네일 이미지 생성
 	private static String makeThumbnail(String uploadPath, String path, String fileName)throws Exception{
 		
+		//이미지를 읽기 위한 버퍼
 		BufferedImage sourceImg=ImageIO.read(new File(uploadPath + path, fileName));
 		
+		//100px 단위의 썸네일 생성
 		BufferedImage destImg=Scalr.resize(sourceImg, Scalr.Method.AUTOMATIC, Scalr.Mode.FIT_TO_HEIGHT,100);
 		
 		String thumbnailName=uploadPath + path + File.separator + "s_" + fileName;
@@ -99,8 +113,10 @@ public class FileUpload {
 		
 		String formatName=fileName.substring(fileName.lastIndexOf(".")+1);
 		
+		//썸네일 생성
 		ImageIO.write(destImg, formatName.toUpperCase(), newFile);
 		
+		//썸네일의 이름을 리턴함
 		return thumbnailName.substring(uploadPath.length()).replace(File.separatorChar, '/');
 	}
 

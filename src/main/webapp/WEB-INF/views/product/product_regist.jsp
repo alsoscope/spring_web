@@ -39,8 +39,8 @@
 <h2 style="text-align:center;">상품 등록</h2>
 
 	<br>
-	<!-- <form class="form" name="form1" method="post" enctype="multipart/form-data"> -->
-	<form class="form" name="form1" method="post">
+	<form class="form" name="form1" method="post" enctype="multipart/form-data">
+	<!-- <form class="form" name="form1" method="post"> -->
 		  <div class="form-group">
 		    <label for="exampleInputEmail1">상품명</label>
 		    <input type="text" name="product_name" class="form-control" id="product_name">
@@ -146,12 +146,18 @@ $(function () {
          $(this).css('border', '2px dotted');
 
          var files = e.originalEvent.dataTransfer.files;
-    
+    	 var file=files[0];
+         
+    	 console.log(file);
+         
+    	 var formData=new FormData();
+    	 
+    	 
+    	 
          if(files.length < 1)
               return;
 
-         console.log(files);
-
+		 
          /* F_FileMultiUpload(files, obj); */
     });
 
