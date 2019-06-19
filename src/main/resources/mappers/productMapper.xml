@@ -37,7 +37,7 @@
 	<!-- 02. 상품 상세 보기 -->
 	<select id="detailProduct" resultType="com.p.project.DTO.ProductDTO">
 		SELECT product_id, product_name, product_price, 
-		product_desc, product_url
+		product_desc
 		FROM tbl_product WHERE product_id=#{productId}
 		
 		<!-- SELECT product_id AS productId, product_name AS productName, product_price AS producrPrice, 
@@ -55,7 +55,7 @@
 	<!-- 04. 상품 수정/편집 -->
 	<update id="updateProduct">
 		update tbl_product set product_name=#{product_name}, product_price=#{product_price}, 
-		product_desc=#{product_desc}, product_url=#{product_url}
+		product_desc=#{product_desc}
 		where product_id=#{product_id}
 	</update>
 	
@@ -66,10 +66,10 @@
 	</delete>
 	
 	<!-- 06. 삭제를 위한 상품 이미지 파일 이름 select -->
-	<select id="fileInfo" resultType="String">
+	<!-- <select id="fileInfo" resultType="String">
 		select product_url from tbl_product
 		where product_id=#{product_id}
-	</select>
+	</select> -->
 	
 	<!-- 페이징 처리 -->
 	<select id="listCriteria" resultType="com.p.project.DTO.ProductDTO">

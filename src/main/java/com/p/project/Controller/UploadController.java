@@ -29,7 +29,7 @@ public class UploadController {
 	@Resource(name="uploadPath")
 	private String uploadPath;
 	
-	//Dropzone.js 를 이용한 파일 업로드
+	//ajax로  파일 업로드
 	@ResponseBody
 	@RequestMapping(value="/uploadAjax", method=RequestMethod.POST, produces="text/plain;charset=UTF-8")
 	public ResponseEntity<String> uploadAjax(MultipartFile file) throws Exception{
@@ -43,6 +43,7 @@ public class UploadController {
 				file.getBytes()),
 				HttpStatus.CREATED);
 	}
+	//HttpStatus.CREATED : RESTFul 응답결과 상태.The resource was created successfully.
 	
 	//displayFile()은 파라미터로 브라우저에서 전송받기를 원하는 파일의 이름을 받는다
 	@ResponseBody

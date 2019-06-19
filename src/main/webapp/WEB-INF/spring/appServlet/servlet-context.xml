@@ -48,8 +48,6 @@
 	<!-- 특정 경로에 접근하는 경우 현재 사용자가 로그인한 상태의 사용자인지를 체크하는 역할 처리 -->
 	<beans:bean id="authInterceptor" class="com.p.project.Interceptor.AuthInterceptor" />
 	
-	
-	
 	<!-- 로그인한 사용자에 대해 postHandle()을 이용해 HttpSession에 보관하는 처리 담당 -->
 	<beans:bean id="loginInterceptor" class="com.p.project.Interceptor.LoginInterceptor" />
 		<interceptors>
@@ -82,10 +80,10 @@
 	</beans:bean>
 
 	<!-- 업로드된 파일의 저장 위치 지정 -->
-	<beans:bean id="uploadPath" class="java.lang.String">
+	<!-- <beans:bean id="uploadPath" class="java.lang.String">
 		<beans:constructor-arg value="C:\\_shop"></beans:constructor-arg>
 	</beans:bean>
-
+ -->
 	<context:component-scan base-package="com.p.project" />
 
 </beans:beans>

@@ -148,16 +148,29 @@ $(function () {
          var files = e.originalEvent.dataTransfer.files;
     	 var file=files[0];
          
+    	 console.log("file : " + file);
     	 console.log(file);
          
     	 var formData=new FormData();
     	 
-    	 
+    	 formData.append("file", file);
     	 
          if(files.length < 1)
               return;
 
-		 
+		 $.ajax({
+			url:'/uploadAjax',
+			data:formData,
+			dataType:'text',
+			processData:false,
+			contentType:false,
+			type:'POST',
+			success:function(data){
+				alert(data)
+			}
+			 
+		 });
+         
          /* F_FileMultiUpload(files, obj); */
     });
 
@@ -220,7 +233,7 @@ function F_FileMultiUpload_Callback(files) {
 </script>
 
 <script>
-Dropzone.options.dropzone = {
+/* Dropzone.options.dropzone = {
     url: '/insertProduct',
     autoProcessQueue: false,
     uploadMultiple: true,
@@ -288,7 +301,7 @@ Dropzone.options.dropzone = {
             // Maybe show form again, and notify user of error
         });
     }
-};
+}; */
 </script>
 
 <%@ include file="../forward/footer.jsp" %>

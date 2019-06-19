@@ -43,5 +43,10 @@
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
 	    <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"></constructor-arg>
 	</bean>
-		
+	
+	<!-- 업로드된 파일의 저장 위치 지정 -->
+	<bean id="uploadPath" class="java.lang.String">
+		<constructor-arg value="C:\\_shop"></constructor-arg>
+	</bean>
+	
 </beans>

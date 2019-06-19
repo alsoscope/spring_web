@@ -24,17 +24,19 @@ public class FileUpload {
 	//별도의 데이터가 보관될 필요가 없기 때문에 static으로 설계.
 	public static String uploadFile(String uploadPath, String originalName, byte[] fileData)throws Exception {
 		
-		//UUID 발급
+		//UUID 발급. 파일 이름 중복을 위한 유니크한 값 생성
 		UUID uid=UUID.randomUUID();
 		
+		//원본파일 이름과 UUID 결합
 		String savedName=uid.toString() + "_" + originalName;
 		
+		//파일을 저장할 폴더 생성(년/월/일 기준)
 		String savedPath=calcPath(uploadPath);
 		
-		//파일 경로(기존 업로드 경로+날짜별 경로), 파일명을 받아 파일 객체 생성
+		//파일 경로(기존 업로드 경로+날짜별 경로), 파일명을 받아 파일 객체 생성. 저장할 파일 준비.
 		File target=new File(uploadPath + savedPath, savedName);
 		
-		//임시 디렉토리에 업로드된 파일을 지정된 디렉토리로 복사
+		//임시 디렉토리에 업로드된 파일을 지정된 디렉토리로 복사. 파일 저장.
 		FileCopyUtils.copy(fileData, target);
 		
 		String formatName=originalName.substring(originalName.lastIndexOf(".")+1);
@@ -49,17 +51,10 @@ public class FileUpload {
 		return uploadedFileName;
 	}
 	
-	//아이콘 생성
-	private static String makeIcon(String uploadPath, String path, String fileName) throws Exception {
-		
-		String iconName=uploadPath+path+File.separator+fileName;
-		
-		//아이콘 이름 리턴. File.separatorChar : 디렉토리 구분자
-		//윈도우 : \ , 유닉스(리눅스) : /
-		return iconName.substring(uploadPath.length()).replace(File.separatorChar, '/');
-	}
-	
+	//@SuppressWarnings : 컴파일 경고를 사용하지 않도록 설정
+	//("unused") : 사용하지 않은 코드 및 불필요한 코드와 관련된 경고 억제
 	//업로드 폴더의 생성 처리
+	@SuppressWarnings("unused")
 	private static String calcPath(String uplaodPath) {
 		
 		Calendar cal=Calendar.getInstance();
@@ -118,6 +113,16 @@ public class FileUpload {
 		
 		//썸네일의 이름을 리턴함
 		return thumbnailName.substring(uploadPath.length()).replace(File.separatorChar, '/');
+	}
+	
+	//아이콘 생성
+	private static String makeIcon(String uploadPath, String path, String fileName) throws Exception {
+		
+		String iconName=uploadPath+path+File.separator+fileName;
+		
+		//아이콘 이름 리턴. File.separatorChar : 디렉토리 구분자
+		//윈도우 : \ , 유닉스(리눅스) : /
+		return iconName.substring(uploadPath.length()).replace(File.separatorChar, '/');
 	}
 
 }
