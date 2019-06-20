@@ -30,15 +30,16 @@ public class FileUpload {
 		//원본파일 이름과 UUID 결합
 		String savedName=uid.toString() + "_" + originalName;
 		
-		//파일을 저장할 폴더 생성(년/월/일 기준)
+		//파일을 저장할 폴더 생성(년/월/일 기준)을 위한 계산
 		String savedPath=calcPath(uploadPath);
 		
 		//파일 경로(기존 업로드 경로+날짜별 경로), 파일명을 받아 파일 객체 생성. 저장할 파일 준비.
 		File target=new File(uploadPath + savedPath, savedName);
 		
-		//임시 디렉토리에 업로드된 파일을 지정된 디렉토리로 복사. 파일 저장.
+		//임시 디렉토리에 업로드된 파일을 지정된 디렉토리로 복사. 원본 파일 저장.
 		FileCopyUtils.copy(fileData, target);
 		
+		//원본 파일의 확장자. 이를 이용해서 MediaUtils 클래스의 getMediaType()을 이용해 이미지 파일/아닌 경우를 나누어 처리
 		String formatName=originalName.substring(originalName.lastIndexOf(".")+1);
 		
 		String uploadedFileName=null;
@@ -48,6 +49,9 @@ public class FileUpload {
 		}else{
 			uploadedFileName=makeIcon(uploadPath, savedPath, savedName);
 		}		
+		
+		logger.info("uploadFile : " + uploadedFileName);
+
 		return uploadedFileName;
 	}
 	
@@ -69,7 +73,7 @@ public class FileUpload {
 		//디렉토리 생성 메소드 호출
 		makeDir(uplaodPath, yearPath, monthPath, datePath);
 		
-		logger.info(datePath);
+		logger.info("datePath : " + datePath);
 		
 		return datePath;
 	}

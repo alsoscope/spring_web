@@ -152,3 +152,19 @@ mysql sysdate(), now() timestamp not null default current_timestamp 차이 ?
 여기서는 2번 사용. 1번으로 하려면 코드를 많이 수정해야하기 때문에 테이블 추가.
 
 파일첨부 테이블
+create table tbl_attach(
+	fullName varchar(150) not null,
+	product_id int not null,
+	regdate timestamp default CURRENT_TIMESTAMP,
+	primary key(fullName)
+);
+
+alter table tbl_attach add constraint fk_product_attach
+foreign key(product_id) references tbl_product(product_id);
+
+Query OK
+
+ProductDTO 수정
+productMapper.xml 수정
+ProductDAO, DAOImpl 수정
+ProductService, ServiceImpl 수정

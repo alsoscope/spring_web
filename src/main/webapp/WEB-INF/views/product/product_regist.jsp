@@ -70,6 +70,12 @@
 		  </div>
 	</form>
 	
+	<ul class="mailbox-attachments clearfix uploadedList">
+	</ul>
+	
+	<script id="template" type="text/x-handlebars-templat">
+	</script>
+	
 	<!-- <form name="fname">
 		<label for="fld">필드</label>
 		<input type="text" name="fld" id="fld" value="">
@@ -233,7 +239,7 @@ function F_FileMultiUpload_Callback(files) {
 </script>
 
 <script>
-/* Dropzone.options.dropzone = {
+ /* Dropzone.options.dropzone = {
     url: '/insertProduct',
     autoProcessQueue: false,
     uploadMultiple: true,

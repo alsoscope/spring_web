@@ -87,4 +87,9 @@
 	
 	<!-- infinite scroll -->
 	
+	<!-- 첨부파일 기능 : MySQL의 경우, 바로 직전에 생성된 PK를 알아낼 때 LAST_INSERT_ID()를 활용 -->
+	<insert id="addAttach">
+		insert into tbl_attach (fullName, product_id) values (#{fullName}, LAST_INSERT_ID())
+	</insert>
+	
 </mapper>

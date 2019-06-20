@@ -169,7 +169,8 @@
   	<div class="container1">
   
         <div class="row post">
-        <c:forEach var="row" items="${list }" begin="1" end="6" step="1">
+        <%-- <c:forEach var="row" items="${list }" begin="1" end="6" step="1"> --%>
+        <c:forEach var="row" items="${list }">
 	          <div class="col-lg-4 col-md-6 mb-4" data-bno="${row.product_id }" >
 	            <div class="card h-100"  >
 	              <a href="/shop/product/detail/${row.product_id }"><img class="card-img-top" src="/resources/images/movie/${row.product_url}"

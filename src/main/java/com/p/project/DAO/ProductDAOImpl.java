@@ -91,5 +91,12 @@ public class ProductDAOImpl implements ProductDAO {
 	}
 	//++++++++++++++++++胶农费傅 Test++++++++++++++++++
 
+	//梅何颇老
+	@Override
+	public void addAttach(String fullName) throws Exception {
+		sqlSession.insert(namespace+".addAttach", fullName);
+		
+	}
+
 	
 }

@@ -38,4 +38,7 @@ public interface ProductDAO {
 	//scroll
 	public List<ProductDTO> infiniteScrollDown(Integer product_id);
 	public List<ProductDTO> infiniteScrollUp(Integer product_id);
+	
+	//Ã·ºÎÆÄÀÏ
+	public void addAttach(String fullName)throws Exception;
 }

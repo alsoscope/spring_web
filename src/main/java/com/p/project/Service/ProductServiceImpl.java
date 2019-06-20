@@ -5,6 +5,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.p.project.DAO.ProductDAO;
 import com.p.project.DTO.Criteria;
@@ -37,11 +38,26 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public void deleteProduct(int product_id) {
 	}
-
+	
 	//5. 상품 등록
+	//첨부파일 기능 추가, @Transactional : 선언적 트랜잭션 처리. insertProduct의 쿼리문이 처리 도중 에러가 났을 때 처리한 쿼리를 자동으로 rollback해주기 위해 사용
+	//트랜잭션 처리 하지 않으면, 정상적으로 완료가 되었다는 처리가 나기에 데이터를 복구 시켜놔야함.
+	//인터페이스를 구현한 클래스로 선언된 빈은 인터페이스 메소드에 한해서 트랜잭션 적용/인터페이스에 선언한 것은 인터페이스 내 모든 메소드에 적용됨
+	@Transactional
 	@Override
-	public void insertProduct(ProductDTO dto) {
+	public void insertProduct(ProductDTO dto) throws Exception {
+	
 		productDao.insertProduct(dto);
+		
+		String[] files=dto.getFiles();
+		
+		if(files==null) {
+			return;
+		}
+		
+		for(String fileName : files) {
+			productDao.addAttach(fileName);
+		}
 	}
 
 	//6. 상품 이미지 삭제 위한 이미지 파일 정보

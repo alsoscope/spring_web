@@ -41,7 +41,7 @@ public class UploadController {
 		return new ResponseEntity<>(FileUpload.uploadFile(uploadPath,
 				file.getOriginalFilename(), 
 				file.getBytes()),
-				HttpStatus.CREATED);
+				HttpStatus.CREATED);//Http상태코드 CREATED 대신 OK라 해도 됨
 	}
 	//HttpStatus.CREATED : RESTFul 응답결과 상태.The resource was created successfully.
 	
@@ -51,11 +51,14 @@ public class UploadController {
 	public ResponseEntity<byte[]> displayFile(String fileName)throws Exception{
 		
 		InputStream in=null;
+		
+		//ResponseBody를 이용해서 byte[] 데이터가 그대로 전송될 것임을 명시.
 		ResponseEntity<byte[]> entity=null;
 		
 		logger.info("FILE NAME : " + fileName);
 
 		try {
+			//가장 먼저 하는 작업. 파일 이름에서 확장자 추출, 이미지 타입의 파일인 경우는 적절한 MIME 타입을 지정.
 			String formatName=fileName.substring(fileName.lastIndexOf(".")+1);
 			
 			MediaType mType=MediaUtils.getMediaType(formatName);
@@ -64,11 +67,20 @@ public class UploadController {
 			
 			in = new FileInputStream(uploadPath+fileName);
 			
-			if(mType != null) {
-				headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-				headers.add("Content-Disposition", "attachment; filename=\""+new String(fileName.getBytes("UTF-8"),"ISO-8859-1")+"\"");
-			}
+				if(mType != null) {
+					headers.setContentType(mType);
+				}else {
+					fileName=fileName.substring(fileName.indexOf("_")+1);
+					
+					//이미지가 아닌 경우 MIME 타입을 다운로드 용으로 사용되게 한다. 사용자에게 자동으로 다운로드 창을 열어줌.
+					headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+					//한글처리
+					headers.add("Content-Disposition", "attachment; filename=\""+new String(fileName.getBytes("UTF-8"),"ISO-8859-1")+"\"");
+				}
+
+				//실제로 데이터를 읽는 부분. commons 라이브러리의 기능을 활용해 대상 파일에서 데이터를 읽어내는 IOUtils.toByteArray()
 				entity=new ResponseEntity<byte[]>(IOUtils.toByteArray(in),headers,HttpStatus.CREATED);		
+				
 			}catch(Exception e) {
 				e.printStackTrace();
 				entity=new ResponseEntity<byte[]>(HttpStatus.BAD_REQUEST);
