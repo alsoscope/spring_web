@@ -10,6 +10,10 @@ CINEPHILE (VOD 웹 사이트)
 
 객체지향의 가장 기본적인 방식으로 제작.
 
+Ref : 코드로 배우는 스프링 웹 프로젝트(구멍가게 코딩단 지음)
+
+
+## 기본 기능
 
 회원가입, 로그인, 로그아웃 : OAuth2.0(네이버 아이디 로그인), HttpSession
 
@@ -19,9 +23,9 @@ CINEPHILE (VOD 웹 사이트)
 
 
 ### 개발환경
-- IDE : Spring Tool Suite (STS) 버전 4.2.4
-- JDK 1.8
-- Language : Java
+- IDE : Spring Tool Suite (STS) Version 4.2.4
+- JDK : 1.8
+- Language : Java Version 8
 - DATABASE : MySQL 5.7
 - FRONT-END : BootStrap (HTML, CSS)
 - Libary Management : MAVEN
@@ -30,10 +34,10 @@ CINEPHILE (VOD 웹 사이트)
 - JSTL, EL
 
 ### 목적
-- 영화 VOD  사이트
+- 영화 VOD 웹사이트(국내/해외/기타)
 - 로그인 화면(회원가입/관리자 로그인)
-- 자유 게시판(크리틱)
-- 관리자 메뉴(회원목록 확인, 게시글 등록)
+- 자유 게시판
+- 관리자 메뉴(회원목록 확인, 상품 등록(첨부파일 - Ajax/Drag & Drop))
 
 ### 분류
 - .java
@@ -53,10 +57,11 @@ CINEPHILE (VOD 웹 사이트)
 
 ### DATABASE
 - table
-  - tbl_board
-  - tbl_member2
-  - tbl_admin
-  - tbl_reply
-  - tbl_cart
+  - tbl_board (게시판)
+  - tbl_member2 (회원관리)
+  - tbl_admin (관리자)
+  - tbl_reply (댓글)
+  - tbl_cart (장바구니)
+  - tbl_attach (첨부파일)
   
 ### ERMaster
