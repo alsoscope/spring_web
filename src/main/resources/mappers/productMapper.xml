@@ -92,4 +92,9 @@
 		insert into tbl_attach (fullName, product_id) values (#{fullName}, LAST_INSERT_ID())
 	</insert>
 	
+	<!-- 특정 게시물의 첨부파일을 시간 순서대로 가져오는 SQL문 -->
+	<select id="getAttach">
+		select fullName from tbl_attach where product_id=#{product_id} order by regdate
+	</select>
+	
 </mapper>

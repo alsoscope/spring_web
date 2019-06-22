@@ -91,6 +91,13 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public List<ProductDTO> infiniteScrollUp(Integer product_id) {
 		return productDao.infiniteScrollUp(product_id);
-	};
+	}
+
 	//++++++++++++++++++스크롤링 Test++++++++++++++++++
+
+	//첨부파일 조회
+	@Override
+	public List<String> getAttach(Integer product_id) throws Exception {
+		return productDao.getAttach(product_id);
+	};
 }

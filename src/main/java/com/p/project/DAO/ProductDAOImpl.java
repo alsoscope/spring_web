@@ -98,5 +98,11 @@ public class ProductDAOImpl implements ProductDAO {
 		
 	}
 
+	//첨부파일 있는 게시물 조회
+	@Override
+	public List<String> getAttach(Integer product_id) throws Exception {
+		return sqlSession.selectList(namespace + ".getAttach", product_id);
+	}
+
 	
 }

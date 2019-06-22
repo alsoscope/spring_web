@@ -1,5 +1,6 @@
 package com.p.project.Controller;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
@@ -89,4 +90,30 @@ public class UploadController {
 			}
 			return entity;
 	}
-}
+	
+	
+	//삭제처리
+	//파라미터로 삭제할 파일의 이름을 받는다. 이미지의 경우 썸네일 이름, 일반 파일은 실제 이름이 된다
+	@ResponseBody
+	@RequestMapping(value="/deleteFile", method=RequestMethod.POST)
+		public ResponseEntity<String> deleteFile(String fileName){
+			
+			logger.info("deleteFile : " + fileName);
+			
+			String formatName=fileName.substring(fileName.lastIndexOf(".")+1);
+			
+			MediaType mType=MediaUtils.getMediaType(formatName);
+			
+			//이미지 파일이 확인되면 원본 파일 먼저 삭제, 이후에 파일을 삭제한다
+			if(mType!=null) {
+				String front=fileName.substring(0, 12);
+				String end=fileName.substring(14);
+				
+				new File(uploadPath + (front+end).replace('/', File.separatorChar)).delete();
+			}
+			new File(uploadPath+fileName.replace('/', File.separatorChar)).delete();
+			
+			return new ResponseEntity<String>("delete", HttpStatus.OK);
+		}
+
+}//UploadController

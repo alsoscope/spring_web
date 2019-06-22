@@ -30,6 +30,18 @@
 .aa.active-color { color:#f67599; }
 .aa:hover:not(.active) {background-color: #ddd;} */
 
+.popup{
+	position:absolute;
+}
+.back{
+	background-color:gray; opacity:0.5; width:100%; height:300%; overflow:hidden; z-index:1101;
+}
+.front{
+	z-index:1110; opacity:1; border:1px; margin:auto;
+}
+.show{
+	position:relative; max-width:1200px; max-height:800px; overflow:auto;
+}
 </style>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -190,8 +202,17 @@
 		  </c:forEach>
         </div><!-- /.row -->
 
+	<!-- ---------임시--------- 조회 페이지에서 업로드 된 파일들이 보여질 영억 -->
+	<ul class="mailbox-attachments clearfix uploadedList"></ul>
+	<!-- ---------임시--------- 조회 페이지에서 업로드 된 파일들이 보여질 영억 -->
+	
+	<div class="popup back" style="display:none;"></div>
+		<div id="popup_front" class="popup front" style="display:none;">
+			<img id="popup_img">
+		</div>
+	
 	</div>
-
+	
 	<div id="loader" class="active">
 			<img src="/resources/images/loading.gif">
 			LOADING...
@@ -222,6 +243,33 @@
   	
   	$('.container1').removeClass(".active");
   	$('.container1').addClass(".active");
+	</script>
+	
+	<!-- 첨부파일에 대한 템플릿. 업로드 된 파일이 보여지도록 upload.js 와 handlebars 설정 -->
+	<script>
+		 var bno=${productDTO.product_id};
+		 var template=Handlebars.compile($("#templateAttach").htm;());
+		 
+		 $.getJSON("/shop/product/getAttach/"+product_id, function(list){
+			$(list).each(function(){
+				var fileInfo=getFileInfo(this);
+				
+				var html=template(fileInfo);
+				
+				$(".uploadedList").append(html);
+			});
+		 });
+		 
+	</script>
+	
+	<!-- handlebars의 템플릿 -->
+	<script id="templateAttach" type="text/x-handlebars-template">
+	<li data-src='{{fullName}}'>
+		<span class="mailbox-attachment-icon has-img"><img src="{{imgsrc}}" alt="Attachment"></span>
+			<div class="mailbox-attachment-info">
+				<a href="{{getLink}}" c lass="mailbox-attachment-name">{{fileName}}</a>
+			</div>
+	</li>
 	</script>
 	
 </body>

@@ -160,4 +160,12 @@ public class ProductController {
 		return "/product/product_list_etcetera";
 	}
 
+	//Ajax로 호출되는 특정 게시물의 첨부파일을 처리하는 메소드
+	@ResponseBody
+	@RequestMapping("/getAttach/{product_id}")
+	public List<String> getAttach(@PathVariable("product_id")Integer product_id) throws Exception{
+
+		return productService.getAttach(product_id);
+	}
+	
 }//ProductController
