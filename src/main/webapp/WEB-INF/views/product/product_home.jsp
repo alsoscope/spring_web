@@ -16,6 +16,7 @@
   <!-- Custom styles for this template -->
   <link href="${pageContext.request.contextPath }/resources/css/shop-homepage.css" rel="stylesheet">
 
+<link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath }../resources/images/icons/favicon.ico"/>
 <style type="text/css">
 body{
 	padding:0 !important;

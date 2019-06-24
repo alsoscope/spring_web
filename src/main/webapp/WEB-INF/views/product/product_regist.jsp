@@ -27,11 +27,10 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-<%-- <script src="<c:url value="../../resources/js/dropzone.js"/>"></script> --%>
+<script src="<c:url value="../../resources/js/dropzone.js"/>"></script>
 <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
-
 <script src="<c:url value="../../resources/js/upload.js"/>"></script><!-- /resources/js 의 파일 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.2/handlebars.js"></script>
 <%@ include file="../forward/header.jsp" %>
 </head>
 <body>
@@ -41,7 +40,6 @@
 
 	<br>
 	<form class="form" name="form1" method="post" enctype="multipart/form-data">
-	<!-- <form class="form" name="form1" method="post"> -->
 		  <div class="form-group">
 		    <label for="exampleInputEmail1">상품명</label>
 		    <input type="text" name="product_name" class="form-control" id="product_name">
@@ -72,21 +70,21 @@
 	
 	<ul class="mailbox-attachments clearfix uploadedList">
 	</ul>
-	
-	<!-- handlebars.js 를 이용해서 각 파일을 템플릿으로 작성한다. -->
+
+	<!-- handlebars.js 를 이용해서 첨부할 파일을 템플릿으로 작성한다. -->
 	<script id="template" type="text/x-handlebars-template">
 		<li>
 			<span class="mailbox-attachment-icon has-img"><img src="{{imgsrc}}" alt="Attachment"></span>
 			<div class="mailbox-attachment-info">
 				<a href="{{getLink}}" class="mailbox-attachment-name">{{fileName}}</a>
 				<a href="{{fullName}}" class="btn btn-default btn-xs pull-right delbtn">
-					<i class="fa fa-fw fa-remove"></i></a>
+					<small>X</small></a>
 			</div>
 		</li>
 	</script>
- 
+<!-- 					<i class="fa fa-fw fa-remove"></i></a> -->
 </form>
-
+	
 <script>
 $(function () {
     var obj = $("#dropzone");
@@ -108,24 +106,6 @@ $(function () {
     obj.on('dragover', function (e) {
          e.stopPropagation();
          e.preventDefault();
-    });
-    
-    //첨부파일 삭제처리
-    obj.on("click", "small", function(event){
-    	var that=$(this);
-    	
-    	$.ajax({
-    		url:"deleteFile",
-    		type:"post",
-    		data:{fileName:$(this).attr("data-src")},
-    		dataType:"text",
-    		success:function(result){
-    			if(result=='delete'){
-    				that.parent("div").remove();
-    				alert("deleted");
-    			}
-    		}
-    	});    	
     });   
 
     obj.on('drop', function (e) {
@@ -136,6 +116,8 @@ $(function () {
          var files = e.originalEvent.dataTransfer.files;
     	 var file=files[0];
          
+		 var template=Handlebars.compile($("#template").html());
+			
     	 console.log("file : " + file);
     	 console.log(file);
          
@@ -157,25 +139,26 @@ $(function () {
 				
 				alert(data)
 				
-				var str="";
+				/* var str=""; */
 				
 				console.log(data);
 				console.log(checkImageType(data));
 				
-					if(checkImageType(data)){
+					/* if(checkImageType(data)){
 						str="<div>"+"<img src='displayFile?fileName="+data+"'/>"+data+"</div>";
 					}else{
 						str="<div>"+data+"</div>";
 					}
 					
-				$(".uploadedList").append(str);//위의 코드를 이용해 파일을 업로드하면 이미지 파일의 경우 썸네일 이미지가 보여짐.
-				//일반파일인 경우 파일의 이름만 출력됨.
+				$(".uploadedList").append(str);*/
+				//위의 코드를 이용해 파일을 업로드하면 이미지 파일의 경우 썸네일 이미지가 보여짐.
+				//일반파일인 경우 파일의 이름만 출력됨. 
 				
 				var fileInfo=getFileInfo(data);
 				
 				var html=template(fileInfo);
 				
-					if(checkImageType(data)){
+					/* if(checkImageType(data)){
 						str="<div><a href=displayFile?fileName="+getImageLink(data)+">"
 							+"<img src='displayFile?fileName="+data+"'/>"
 							+"</a><small data-src="+data+">X</small></div>";
@@ -183,13 +166,33 @@ $(function () {
 						str="<div><a href='displayFile?fileName="+data+"'>"
 							+getOriginalName(data)+"</a>"
 							+"<small data-src"+data+">X</small></div>";
-					}
+					} */
 					
 				$(".uploadedList").append(html);
 			}
 		 });
          
          /* F_FileMultiUpload(files, obj); */
+    });
+    
+    //첨부파일 삭제처리
+    /* obj.on("#delBtn", "click", "small", function(event){ */
+    $("#delbtn").click(function(){
+    	
+    	var that=$(this);
+    	
+    	$.ajax({
+    		url:"deleteFile",
+    		type:"post",
+    		data:{fileName:$(this).attr("data-src")},
+    		dataType:"text",
+    		success:function(result){
+    			if(result=='delete'){
+    				that.parent("div").remove();
+    				alert("deleted");
+    			}
+    		}
+    	});    	
     });
 });
 </script>
@@ -231,7 +234,7 @@ $(function () {
 				var str="";
 				
 				$(".uploadedList .delbtn").each(function(index){
-					str+="<input type='hidden' name='files["+index+"]' value='"$(this).attr("href")+"'>";
+					str+="<input type='hidden' name='files["+index+"]' value='"+$(this).attr("href")+"'>";
 				});
 				
 				that.append(str);
@@ -332,7 +335,7 @@ function F_FileMultiUpload_Callback(files) {
 </script>
 
 <script>
- /* Dropzone.options.dropzone = {
+  /* Dropzone.options.dropzone = {
     url: '/insertProduct',
     autoProcessQueue: false,
     uploadMultiple: true,
@@ -347,7 +350,7 @@ function F_FileMultiUpload_Callback(files) {
             type: 'POST',
             async: false,
             cache: false,
-            url: './fileDelete.jsp',
+            url: './deleteFile',
             data: { file: srvFile }
         });
         var _ref;

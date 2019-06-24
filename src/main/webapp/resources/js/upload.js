@@ -3,7 +3,7 @@
 //파일이 이미지인 경우. checkImageType()을 이용해 썸네일 이미지 파일의 경로를 계산하거나, 다운로드, 원본 이미지 파일의 경로 계산
 function checkImageType(fileName){
 	//정규표현식을 이용해 파일의 확장자 존재여부 확인(i의 의미는 대, 소문자 고문 없음)
-	var pattern="/jpg|gif|png|jpeg/i";
+	var pattern=/jpg|gif|png|jpeg/i;
 	
 	return fileName.match(pattern);
 }
@@ -17,17 +17,22 @@ function getFileInfo(fullName){//파라미터로 서버에서 전송된 파일�
 	
 	var fileLink;
 	
+	var imgsrc=document.getElementId('imgsrc');
+	
 	//파일이 이미지인 경우 체크
 	if(checkImageType(fullName)){
-		imgsrc="/displayFile?fileName="+fullName;
+		imgsrc="/displayFile?fileName=";
 		fileLink=fullName.substr(14);
 		
 		var front=fullName.substr(0,12); // /년/월/일의 경로를 추출하는 용도
 		var end=fullName.substr(14); //썸네일을 나타내는 파일 이름 앞의 '_s'를 제거하는 용도
 		
-		getLink="/displayFile?fileName="+front+end;
+		window.open("/displayFile?fileName="+front+end, "새 창", "width=800, height=700");
 	
-	}else{
+	}else{		
+			imgsrc.style.height="100px";
+			imgsrc.style.width="200px";
+	
 		imgsrc="/resources/images/file.png";
 		fileLink=fullName.substr(12);
 		getLink="/displayFile?fileName="+fullName;
