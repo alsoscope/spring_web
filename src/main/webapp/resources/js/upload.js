@@ -17,22 +17,24 @@ function getFileInfo(fullName){//파라미터로 서버에서 전송된 파일�
 	
 	var fileLink;
 	
-	var imgsrc=document.getElementId('imgsrc');
+	//일반 파일일 때 대신 열리는 기본 이미지 파일 사이즈 조정
+	var imgsrc=document.getElementById('imgsrc');
 	
 	//파일이 이미지인 경우 체크
 	if(checkImageType(fullName)){
-		imgsrc="/displayFile?fileName=";
+		imgsrc="/displayFile?fileName="+fullName;
 		fileLink=fullName.substr(14);
 		
 		var front=fullName.substr(0,12); // /년/월/일의 경로를 추출하는 용도
 		var end=fullName.substr(14); //썸네일을 나타내는 파일 이름 앞의 '_s'를 제거하는 용도
 		
-		window.open("/displayFile?fileName="+front+end, "새 창", "width=800, height=700");
+		getLink="/displayFile?fileName="+front+end;
+		
+		//첨부되면서 동시에 window.open 실행, a태그 클릭하면 404. on.click으로 해결해야함
+		/*getLink=window.open("/displayFile?fileName="+front+end);*/
+		
 	
-	}else{		
-			imgsrc.style.height="100px";
-			imgsrc.style.width="200px";
-	
+	}else{
 		imgsrc="/resources/images/file.png";
 		fileLink=fullName.substr(12);
 		getLink="/displayFile?fileName="+fullName;

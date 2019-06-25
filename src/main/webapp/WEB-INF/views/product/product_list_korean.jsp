@@ -64,6 +64,9 @@
   
   <script src="https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.js"></script>
 
+  <!-- 첨부파일의 조회 -->
+  <script src="<c:url value="../../resources/js/upload.js"/>"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.2/handlebars.js"></script>
   
 	<script>
 
@@ -248,7 +251,7 @@
 	<!-- 첨부파일에 대한 템플릿. 업로드 된 파일이 보여지도록 upload.js 와 handlebars 설정 -->
 	<script>
 		 var bno=${productDTO.product_id};
-		 var template=Handlebars.compile($("#templateAttach").htm;());
+		 var template=Handlebars.compile($("#templateAttach").html());
 		 
 		 $.getJSON("/shop/product/getAttach/"+product_id, function(list){
 			$(list).each(function(){
@@ -261,16 +264,5 @@
 		 });
 		 
 	</script>
-	
-	<!-- handlebars의 템플릿 -->
-	<script id="templateAttach" type="text/x-handlebars-template">
-	<li data-src='{{fullName}}'>
-		<span class="mailbox-attachment-icon has-img"><img src="{{imgsrc}}" alt="Attachment"></span>
-			<div class="mailbox-attachment-info">
-				<a href="{{getLink}}" c lass="mailbox-attachment-name">{{fileName}}</a>
-			</div>
-	</li>
-	</script>
-	
 </body>
 </html>
