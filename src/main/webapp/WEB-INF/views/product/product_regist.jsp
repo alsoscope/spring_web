@@ -27,7 +27,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="<c:url value="../../resources/js/dropzone.js"/>"></script>
+<%-- <script src="<c:url value="../../resources/js/dropzone.js"/>"></script> --%>
 <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
 <script src="<c:url value="../../resources/js/upload.js"/>"></script><!-- /resources/js 의 파일 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.2/handlebars.js"></script>
@@ -142,17 +142,6 @@ $(function () {
 				/* var str=""; */
 				
 				console.log(data);
-				console.log(checkImageType(data));
-				
-					/* if(checkImageType(data)){
-						str="<div>"+"<img src='displayFile?fileName="+data+"'/>"+data+"</div>";
-					}else{
-						str="<div>"+data+"</div>";
-					}
-					
-				$(".uploadedList").append(str);*/
-				//위의 코드를 이용해 파일을 업로드하면 이미지 파일의 경우 썸네일 이미지가 보여짐.
-				//일반파일인 경우 파일의 이름만 출력됨. 
 				
 				var fileInfo=getFileInfo(data);
 				
@@ -226,19 +215,22 @@ $(function () {
 			//document.form1.submit();
 			
 			//첨부파일. 최종 submit이 일어나면 서버에는 사용자가 업로드한 파일의 정보를 같이 전송하는데, 업로드 된 파일의 이름을 form태그 내부로 포함 시켜 전송한다.
-			
 			$("#addBtn").submit(function(event){
-				event.preventDefault();
+				event.preventDefault();//먼저 기본 동작을 막는다.
 				
 				var that=$(this);
 				var str="";
 				
+				//현재까지 업로드 된 파일을 form태그 내붕에 hidden으로 추가. 각 파일은 files[0]의 이름으로 추가됨.
+				//이 배열 표시를 이용해 컨트롤러에서 ProductDTO의 files 파라미터를 수집하게 된다.
 				$(".uploadedList .delbtn").each(function(index){
 					str+="<input type='hidden' name='files["+index+"]' value='"+$(this).attr("href")+"'>";
 				});
 				
 				that.append(str);
 				
+				//모든 파일의 정보를 <input type='hidden'>으로 생성한 후, <form> 데이터의 submit()을 호출해서 서버를 호출한다.
+				//jQuery의 get(0)은 순수한 DOM 객체를 얻어내기 위해 사용.
 				that.get(0).submit();
 			});
 			
