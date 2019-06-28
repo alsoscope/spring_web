@@ -142,6 +142,46 @@ document.getElementById('content').value
 		$("")
 	});
 	</script>
+	
+	<script id="template" type="text/x-handlebars-template">
+{{#each.}}
+<li class="replyLi" data-rno={{rno}}>
+
+</li>
+{{/each}}
+</script>
+
+<!-- 댓글 등록에 필요한 <div> -->
+<div class="row">
+	<div class="col-md-12">
+		<div class="box box-success">
+			<div class="box-header">
+				<h3 class="box-title">ADD NEW REPLY</h3>
+			</div>
+			<div class="box-body">
+				<label for="newReplyWriter">Writer</label>
+					<input class="form-control" type="text" placeholder="USER ID" id="newReplyWriter">
+					<label for="newReplyText">ReplyText</label>
+					<input class="form-control" type="text" placeholder="REPLY TEXT" id="newReplyText">
+			</div>
+			<!-- /.box-body -->
+			<div class="box-footer">
+				<button type="submit" class="btn btn-primary" id="replyAddBtn">ADD REPLY</button>
+			</div>
+		</div>		
+	</div>
+</div>
+
+<!-- 댓글 목록과 페이징 처리에 필요한 <div> -->
+<!-- The time line -->
+<ul class="timeline">
+	<!-- timeline time label -->
+	<li class="time-label" id="repliesDiv"><span class="bg-green">Replies List</span></li>
+</ul>
+
+<div class='text-center'>
+	<ul id="pagination" class="pagination pagination-sm no-margin "></ul>
+</div>
 
 <%@ include file="../forward/footer.jsp" %>
 </body>
