@@ -121,6 +121,57 @@ document.getElementById('content').value
 		</div>
 	</div>
 	
+	<!-- 댓글 등록 -->
+	<div class="form-group">
+		<div class="col-md-12">
+			<div class="box box-success">
+				<div class="box-header">
+					<h3 class="box-title">ADD NEW REPLY</h3>
+				</div>
+				<div class="box-body">
+					<label for="newReplyWriter">Writer</label>
+						<input class="form-control" type="text" placeholder="USER ID" id="newReplyWriter">
+						<label for="newReplyText">ReplyText</label>
+						<input class="form-control" type="text" placeholder="REPLY TEXT" id="newReplyText">
+				</div>
+				<!-- /.box-body -->
+				<div class="box-footer">
+					<button type="submit" class="btn btn-primary" id="replyAddBtn">ADD REPLY</button>
+				</div>
+			</div>		
+		</div>
+	</div>
+	
+	<!-- handlebars.js 적용 템플릿 -->
+	<script id="template" type="text/x-handlebars-template">
+	{{#each.}}
+	<li class="replyLi" data-rno={{rno}}>
+	<i class=""></i>
+		<div>
+			<span class="">
+				<i class></i>{{prettifyDate regdate}}
+			</span>
+			<h3><strong>{{rno}}</strong> - {{replyer}}</h3>
+			<div>{{replytext}}</div>
+			<div>
+				<a data-toggle="model" data-target="#modifyModal">Modify</a>
+			</div>
+		</div>
+	</li>
+	{{/each}}
+	</script>
+	
+	<!-- 댓글 목록 The time line -->
+	<ul class="timeline">
+		<!-- timeline time label -->
+		<li class="time-label" id="repliesDiv"><span class="bg-green">Replies List</span></li>
+	</ul>
+	
+	<!-- 댓글 목록 페이징 처리 -->
+	<div class='text-center'>
+		<ul id="pagination" class="pagination pagination-sm no-margin "></ul>
+	</div>
+
 	<!-- 뒤로가기 처리 두 가지 방법 중 1번째 -->
 	<script type="text/javascript">
 	function goBack(){
@@ -143,45 +194,58 @@ document.getElementById('content').value
 	});
 	</script>
 	
-	<script id="template" type="text/x-handlebars-template">
-{{#each.}}
-<li class="replyLi" data-rno={{rno}}>
-
-</li>
-{{/each}}
-</script>
-
-<!-- 댓글 등록에 필요한 <div> -->
-<div class="row">
-	<div class="col-md-12">
-		<div class="box box-success">
-			<div class="box-header">
-				<h3 class="box-title">ADD NEW REPLY</h3>
-			</div>
-			<div class="box-body">
-				<label for="newReplyWriter">Writer</label>
-					<input class="form-control" type="text" placeholder="USER ID" id="newReplyWriter">
-					<label for="newReplyText">ReplyText</label>
-					<input class="form-control" type="text" placeholder="REPLY TEXT" id="newReplyText">
-			</div>
-			<!-- /.box-body -->
-			<div class="box-footer">
-				<button type="submit" class="btn btn-primary" id="replyAddBtn">ADD REPLY</button>
-			</div>
-		</div>		
-	</div>
-</div>
-
-<!-- 댓글 목록과 페이징 처리에 필요한 <div> -->
-<!-- The time line -->
-<ul class="timeline">
-	<!-- timeline time label -->
-	<li class="time-label" id="repliesDiv"><span class="bg-green">Replies List</span></li>
-</ul>
-
-<div class='text-center'>
-	<ul id="pagination" class="pagination pagination-sm no-margin "></ul>
-</div>
+	<!-- prettifyDate regdate에 대한 handlebar 기능 확장 JavaScript 처리 -->
+	<!-- helper 라는 기능을 이용해서 데이터의 상세한 처리에 필요한 기능 처리. 원하는 기능이 없을 경우, registerHelper()로 새로운 기능을 추가할 수 있다 -->
+	<script>
+	Handlebars.registerHelper("prettifyDate", function(timeValue){
+		var dateObj=new Date(timeValue);
+		var year=dateObj.getFullYear();
+		var month=dateObj.getMonth()+1;
+		var date=dateObj.getDate();
+		return year+"/"+month+"/"+date;
+	});
+	
+	var printData=function(replyArr, target, templateObject){
+		var template=Handlebars.compile(templateObject.html());
+		
+		var html=template(replyArr);
+		$(".replyLi").remove();
+		target.after(html);
+	}
+	</script>
+	
+	<!-- 페이징 처리를 위한 함수. 내부적으로 jQuery로 JSON 타입의 데이터를 처리한다 -->
+	<script>
+	var bno=${dto.bno};
+	var replyPage=1;
+	
+	function getPage(pageInfo){
+		$.getJSON(pageInfo, function(data){
+			printData(data.list, $("#repliesDiv"), $('#template'));
+			printPaging(data.pageMaker, $('.pagination'));
+		});
+	}
+	
+	var printPaging=function(pageMaker, target){
+		var str="";
+		
+		if(pageMaker.prev){
+			str+="<li><a href='"+(pageMaker.startPage-1)+"'> << </li>";
+		}
+		
+		for(var i=pageMaker.startPage, len=pageMaker.endPage; i<=len; i++){
+			var strClass=pageMaker.cri.page==i?'class=active':'';
+			str+="<li "+strClarr+"><a href='"+i+"'>"+i+"</a></li>";
+		}
+		
+		if(pageMaker.next){
+			str+="<li><a href='"+(pageMaker.endPage+1)+"'> >> </a></li>";
+		}
+		
+		target.html(str);
+	}
+	
+	</script>
 
 <%@ include file="../forward/footer.jsp" %>
 </body>
