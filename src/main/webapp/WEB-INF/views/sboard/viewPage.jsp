@@ -119,10 +119,8 @@ document.getElementById('content').value
 			<!-- <input type="button" value="뒤로가기" onClick="goBack();"/> -->
 			<button class="btn btn-default" type="submit" id="btn_back">뒤로가기</button><!-- viewcount 수정되어 나옴 -->
 		</div>
-	</div>
 	
 	<!-- 댓글 등록 -->
-	<div class="form-group">
 		<div class="col-md-12">
 			<div class="box box-success">
 				<div class="box-header">
@@ -136,7 +134,7 @@ document.getElementById('content').value
 				</div>
 				<!-- /.box-body -->
 				<div class="box-footer">
-					<button type="submit" class="btn btn-primary" id="replyAddBtn">ADD REPLY</button>
+					<button type="submit" class="btn btn-default" id="replyAddBtn">ADD REPLY</button>
 				</div>
 			</div>		
 		</div>
@@ -161,36 +159,33 @@ document.getElementById('content').value
 	{{/each}}
 	</script>
 	
-	<!-- 댓글 목록 The time line -->
-	<ul class="timeline">
-		<!-- timeline time label -->
-		<li class="time-label" id="repliesDiv"><span class="bg-green">Replies List</span></li>
-	</ul>
-	
-	<!-- 댓글 목록 페이징 처리 -->
-	<div class='text-center'>
-		<ul id="pagination" class="pagination pagination-sm no-margin "></ul>
-	</div>
-
-	<!-- 뒤로가기 처리 두 가지 방법 중 1번째 -->
-	<script type="text/javascript">
-	function goBack(){
-		window.history.back(); //window.history.go(-1);
-	}
-	</script>
-	
-	<script type="text/javascript">
-	$(document).ready(function(){
-		var formObj=$("form[role='form']");
-		console.log(formObj);
-
-		$("#btn_back").on("click", function(){
-			formObj.attr("method","get");
-			formObj.attr("action","/sboard/search_list");
-			formObj.submit();
-		});
+	<!-- 댓글등록 처리 JavaScript -->
+	<script>
+	$("#replyAddBtn").on("click", function(){
+		var replyer=$("$newReplyWriter");
+		var replytext=$("#newReplyText");
 		
-		$("")
+		//jQuery를 이용해 $.ajax() 를 통해 서버를 호출. 전송하는 데이터는 JSON으로 구성된 문자열 사용. 전송받는 결과는 단순 문자열.
+		$.ajax({
+			type:'post',
+			url:'/replies',
+			headers:{
+				"Content-Type" : "application/json",
+				"X-HTTP-Method-Override" : "POST"
+			},
+			dataType:'text',
+			data:JSON.stringyfy({
+				bno:bno,
+				replyer:replyer,
+				replytext:replytext
+			}),
+			success:function(result){
+				if(result=='SUCCESS'){
+					alert("등록 되었습니다");
+					getAllList();//댓글 등록 후 전체 댓글 목록의 갱신 
+				}
+			}
+		})
 	});
 	</script>
 	
@@ -244,7 +239,40 @@ document.getElementById('content').value
 		
 		target.html(str);
 	}
+	</script>
 	
+	<!-- 지속적인 목록 갱신. <li>가 반복적으로 구성, 이를 <ul>태그의 내용물로 추가하는 방식. 문자열로 이루어지기에 지저분한 코드. JS 템플릿을 적용. -->
+	<!-- 댓글 목록 The time line -->
+	<!-- <ul class="timeline">
+		timeline time label
+		<li class="time-label" id="repliesDiv"><span class="bg-green">Replies List</span></li>
+	</ul>
+	
+	댓글 목록 페이징 처리
+	<div class='text-center'>
+		<ul id="pagination" class="pagination pagination-sm no-margin "></ul>
+	</div> -->
+	
+	<!-- 뒤로가기 처리 두 가지 방법 중 1번째 -->
+	<script type="text/javascript">
+	function goBack(){
+		window.history.back(); //window.history.go(-1);
+	}
+	</script>
+	
+	<script type="text/javascript">
+	$(document).ready(function(){
+		var formObj=$("form[role='form']");
+		console.log(formObj);
+
+		$("#btn_back").on("click", function(){
+			formObj.attr("method","get");
+			formObj.attr("action","/sboard/search_list");
+			formObj.submit();
+		});
+		
+		$("")
+	});
 	</script>
 
 <%@ include file="../forward/footer.jsp" %>
