@@ -119,7 +119,139 @@ document.getElementById('content').value
 			<!-- <input type="button" value="뒤로가기" onClick="goBack();"/> -->
 			<button class="btn btn-default" type="submit" id="btn_back">뒤로가기</button><!-- viewcount 수정되어 나옴 -->
 		</div>
+	
+	<!-- 댓글 등록 -->
+		<div class="col-md-12">
+			<div class="box box-success">
+				<div class="box-header">
+					<h3 class="box-title">ADD NEW REPLY</h3>
+				</div>
+				<div class="box-body">
+					<label for="newReplyWriter">Writer</label>
+						<input class="form-control" type="text" placeholder="USER ID" id="newReplyWriter">
+						<label for="newReplyText">ReplyText</label>
+						<input class="form-control" type="text" placeholder="REPLY TEXT" id="newReplyText">
+				</div>
+				<!-- /.box-body -->
+				<div class="box-footer">
+					<button type="submit" class="btn btn-default" id="replyAddBtn">ADD REPLY</button>
+				</div>
+			</div>		
+		</div>
 	</div>
+	
+	<!-- handlebars.js 적용 템플릿 -->
+	<script id="template" type="text/x-handlebars-template">
+	{{#each.}}
+	<li class="replyLi" data-rno={{rno}}>
+	<i class=""></i>
+		<div>
+			<span class="">
+				<i class></i>{{prettifyDate regdate}}
+			</span>
+			<h3><strong>{{rno}}</strong> - {{replyer}}</h3>
+			<div>{{replytext}}</div>
+			<div>
+				<a data-toggle="model" data-target="#modifyModal">Modify</a>
+			</div>
+		</div>
+	</li>
+	{{/each}}
+	</script>
+	
+	<!-- 댓글등록 처리 JavaScript -->
+	<script>
+	$("#replyAddBtn").on("click", function(){
+		var replyer=$("$newReplyWriter");
+		var replytext=$("#newReplyText");
+		
+		//jQuery를 이용해 $.ajax() 를 통해 서버를 호출. 전송하는 데이터는 JSON으로 구성된 문자열 사용. 전송받는 결과는 단순 문자열.
+		$.ajax({
+			type:'post',
+			url:'/replies',
+			headers:{
+				"Content-Type" : "application/json",
+				"X-HTTP-Method-Override" : "POST"
+			},
+			dataType:'text',
+			data:JSON.stringyfy({
+				bno:bno,
+				replyer:replyer,
+				replytext:replytext
+			}),
+			success:function(result){
+				if(result=='SUCCESS'){
+					alert("등록 되었습니다");
+					getAllList();//댓글 등록 후 전체 댓글 목록의 갱신 
+				}
+			}
+		})
+	});
+	</script>
+	
+	<!-- prettifyDate regdate에 대한 handlebar 기능 확장 JavaScript 처리 -->
+	<!-- helper 라는 기능을 이용해서 데이터의 상세한 처리에 필요한 기능 처리. 원하는 기능이 없을 경우, registerHelper()로 새로운 기능을 추가할 수 있다 -->
+	<script>
+	Handlebars.registerHelper("prettifyDate", function(timeValue){
+		var dateObj=new Date(timeValue);
+		var year=dateObj.getFullYear();
+		var month=dateObj.getMonth()+1;
+		var date=dateObj.getDate();
+		return year+"/"+month+"/"+date;
+	});
+	
+	var printData=function(replyArr, target, templateObject){
+		var template=Handlebars.compile(templateObject.html());
+		
+		var html=template(replyArr);
+		$(".replyLi").remove();
+		target.after(html);
+	}
+	</script>
+	
+	<!-- 페이징 처리를 위한 함수. 내부적으로 jQuery로 JSON 타입의 데이터를 처리한다 -->
+	<script>
+	var bno=${dto.bno};
+	var replyPage=1;
+	
+	function getPage(pageInfo){
+		$.getJSON(pageInfo, function(data){
+			printData(data.list, $("#repliesDiv"), $('#template'));
+			printPaging(data.pageMaker, $('.pagination'));
+		});
+	}
+	
+	var printPaging=function(pageMaker, target){
+		var str="";
+		
+		if(pageMaker.prev){
+			str+="<li><a href='"+(pageMaker.startPage-1)+"'> << </li>";
+		}
+		
+		for(var i=pageMaker.startPage, len=pageMaker.endPage; i<=len; i++){
+			var strClass=pageMaker.cri.page==i?'class=active':'';
+			str+="<li "+strClarr+"><a href='"+i+"'>"+i+"</a></li>";
+		}
+		
+		if(pageMaker.next){
+			str+="<li><a href='"+(pageMaker.endPage+1)+"'> >> </a></li>";
+		}
+		
+		target.html(str);
+	}
+	</script>
+	
+	<!-- 지속적인 목록 갱신. <li>가 반복적으로 구성, 이를 <ul>태그의 내용물로 추가하는 방식. 문자열로 이루어지기에 지저분한 코드. JS 템플릿을 적용. -->
+	<!-- 댓글 목록 The time line -->
+	<!-- <ul class="timeline">
+		timeline time label
+		<li class="time-label" id="repliesDiv"><span class="bg-green">Replies List</span></li>
+	</ul>
+	
+	댓글 목록 페이징 처리
+	<div class='text-center'>
+		<ul id="pagination" class="pagination pagination-sm no-margin "></ul>
+	</div> -->
 	
 	<!-- 뒤로가기 처리 두 가지 방법 중 1번째 -->
 	<script type="text/javascript">
@@ -142,46 +274,6 @@ document.getElementById('content').value
 		$("")
 	});
 	</script>
-	
-	<script id="template" type="text/x-handlebars-template">
-{{#each.}}
-<li class="replyLi" data-rno={{rno}}>
-
-</li>
-{{/each}}
-</script>
-
-<!-- 댓글 등록에 필요한 <div> -->
-<div class="row">
-	<div class="col-md-12">
-		<div class="box box-success">
-			<div class="box-header">
-				<h3 class="box-title">ADD NEW REPLY</h3>
-			</div>
-			<div class="box-body">
-				<label for="newReplyWriter">Writer</label>
-					<input class="form-control" type="text" placeholder="USER ID" id="newReplyWriter">
-					<label for="newReplyText">ReplyText</label>
-					<input class="form-control" type="text" placeholder="REPLY TEXT" id="newReplyText">
-			</div>
-			<!-- /.box-body -->
-			<div class="box-footer">
-				<button type="submit" class="btn btn-primary" id="replyAddBtn">ADD REPLY</button>
-			</div>
-		</div>		
-	</div>
-</div>
-
-<!-- 댓글 목록과 페이징 처리에 필요한 <div> -->
-<!-- The time line -->
-<ul class="timeline">
-	<!-- timeline time label -->
-	<li class="time-label" id="repliesDiv"><span class="bg-green">Replies List</span></li>
-</ul>
-
-<div class='text-center'>
-	<ul id="pagination" class="pagination pagination-sm no-margin "></ul>
-</div>
 
 <%@ include file="../forward/footer.jsp" %>
 </body>
