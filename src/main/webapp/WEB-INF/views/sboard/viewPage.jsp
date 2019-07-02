@@ -140,7 +140,9 @@ document.getElementById('content').value
 		</div>
 	</div>
 	
-	<!-- handlebars.js 적용 템플릿 -->
+	<!-- handlebars.js 적용 템플릿 코드. 기존 div의 ul, li의 반복적인 문자열을 위한 템플릿.
+	템플릿 선언부의 {{each.}}를 이용하는데, 'each'는 배열의 루프를 순환함. '.'은 배열을 도는 동안의 해당 객체를 의미함
+	arr이라는 배열이라면 arr[i] 번째의 객체를 의미할 때 사용함 -->
 	<script id="template" type="text/x-handlebars-template">
 	{{#each.}}
 	<li class="replyLi" data-rno={{rno}}>
@@ -157,6 +159,60 @@ document.getElementById('content').value
 		</div>
 	</li>
 	{{/each}}
+	</script>
+	
+	<!-- prettifyDate regdate에 대한 handlebar 기능 확장 JavaScript 처리 -->
+	<!-- helper 라는 기능을 이용해서 데이터의 상세한 처리에 필요한 기능 처리. 원하는 기능이 없을 경우, registerHelper()로 새로운 기능을 추가할 수 있다 -->
+	<script>
+	Handlebars.registerHelper("prettifyDate", function(timeValue){
+		var dateObj=new Date(timeValue);
+		var year=dateObj.getFullYear();
+		var month=dateObj.getMonth()+1;
+		var date=dateObj.getDate();
+		return year+"/"+month+"/"+date;
+	});
+	
+	var printData=function(replyArr, target, templateObject){
+		var template=Handlebars.compile(templateObject.html());
+		var html=template(replyArr);
+		
+		$(".replyLi").remove();
+		target.after(html);
+	}
+	</script>
+	
+	<!-- 위의 템플릿을 이용하는 페이지를 처리하는 JavaScript의 기능. 페이징 처리를 위한 함수. 내부적으로 jQuery로 JSON 타입의 데이터를 처리한다 -->
+	<script>
+	var bno=${dto.bno};//bno : JSP에 처리되는 문자열로 해당 게시물의 번호를 의미
+	var replyPage=1;//replyPage는 수정이나 삭제 작업 이후에 사용자가 보던 댓글의 페이지를 가지고 다시 목록을 출력하기 위해 유지되는 데이터
+	
+	//getPage()는 특정한 게시물에 대한 페이징 처리를 위해 호출되는 함수. 페이지 번호를 파라미터로 전달받고, jQuery의 getJSON()을 이용해 댓글의 목록 데이털르 처리.
+	function getPage(pageInfo){
+		$.getJSON(pageInfo, function(data){
+			printData(data.list, $("#repliesDiv"), $('#template'));
+			printPaging(data.pageMaker, $('.pagination'));
+		});
+	}
+	
+	//댓글의 목록 데이터는 'pageMaker'와 'list'로 구성되므로 이를 printPaging(), printData()에서 처리함.
+	var printPaging=function(pageMaker, target){
+		var str="";
+		
+		if(pageMaker.prev){
+			str+="<li><a href='"+(pageMaker.startPage-1)+"'> << </li>";
+		}
+		
+		for(var i=pageMaker.startPage, len=pageMaker.endPage; i<=len; i++){
+			var strClass=pageMaker.cri.page==i?'class=active':'';
+			str+="<li "+strClarr+"><a href='"+i+"'>"+i+"</a></li>";
+		}
+		
+		if(pageMaker.next){
+			str+="<li><a href='"+(pageMaker.endPage+1)+"'> >> </a></li>";
+		}
+		
+		target.html(str);
+	}
 	</script>
 	
 	<!-- 댓글등록 처리 JavaScript -->
@@ -187,58 +243,24 @@ document.getElementById('content').value
 			}
 		})
 	});
-	</script>
 	
-	<!-- prettifyDate regdate에 대한 handlebar 기능 확장 JavaScript 처리 -->
-	<!-- helper 라는 기능을 이용해서 데이터의 상세한 처리에 필요한 기능 처리. 원하는 기능이 없을 경우, registerHelper()로 새로운 기능을 추가할 수 있다 -->
-	<script>
-	Handlebars.registerHelper("prettifyDate", function(timeValue){
-		var dateObj=new Date(timeValue);
-		var year=dateObj.getFullYear();
-		var month=dateObj.getMonth()+1;
-		var date=dateObj.getDate();
-		return year+"/"+month+"/"+date;
+	//댓글 목록의 이벤트 처리.Replies List 버튼을 클릭하면 댓글 목록을 가져온다.
+	$("#repliesDiv").on("click", function(){
+		//목록의 size()를 체크하는 코드는 목록을 가져오는 버튼이 보여지는 <li>만 있는 경우, 1페이지의 댓글 목록을 가져오기 위해 처리한 코드.
+		if($(".timeline li").size() > 1){
+			return;
+		}
+		getPage("/replies/" + bno + "/1");
 	});
 	
-	var printData=function(replyArr, target, templateObject){
-		var template=Handlebars.compile(templateObject.html());
+	//댓글 페이징의 이벤트 처리
+	$(".pagination").on("click", "li a", function(event){
+		event.preventDefault();
 		
-		var html=template(replyArr);
-		$(".replyLi").remove();
-		target.after(html);
-	}
-	</script>
-	
-	<!-- 페이징 처리를 위한 함수. 내부적으로 jQuery로 JSON 타입의 데이터를 처리한다 -->
-	<script>
-	var bno=${dto.bno};
-	var replyPage=1;
-	
-	function getPage(pageInfo){
-		$.getJSON(pageInfo, function(data){
-			printData(data.list, $("#repliesDiv"), $('#template'));
-			printPaging(data.pageMaker, $('.pagination'));
-		});
-	}
-	
-	var printPaging=function(pageMaker, target){
-		var str="";
+		replyPage=$(this).attr("href");
 		
-		if(pageMaker.prev){
-			str+="<li><a href='"+(pageMaker.startPage-1)+"'> << </li>";
-		}
-		
-		for(var i=pageMaker.startPage, len=pageMaker.endPage; i<=len; i++){
-			var strClass=pageMaker.cri.page==i?'class=active':'';
-			str+="<li "+strClarr+"><a href='"+i+"'>"+i+"</a></li>";
-		}
-		
-		if(pageMaker.next){
-			str+="<li><a href='"+(pageMaker.endPage+1)+"'> >> </a></li>";
-		}
-		
-		target.html(str);
-	}
+		getPage("/replies/"+bno+"/"+replyPage);
+	});
 	</script>
 	
 	<!-- 지속적인 목록 갱신. <li>가 반복적으로 구성, 이를 <ul>태그의 내용물로 추가하는 방식. 문자열로 이루어지기에 지저분한 코드. JS 템플릿을 적용. -->
