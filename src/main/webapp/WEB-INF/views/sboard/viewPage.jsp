@@ -15,6 +15,7 @@
 }
 </style>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.2/handlebars.js"></script>
 <script>
 	$(document).ready(function(){
 		var formObj=$("form[role='form']");
@@ -28,7 +29,7 @@
 		}); */
 		$("#btnDelete").on("click",function(){
 			//formObj.attr("method","get");
-			formObj.attr("action","/sboard/delete.do");
+			formObj.attr("action","/sboard/delete");
 			formObj.submit();
 		});
   		/* $("#btn_update").click(function(){
@@ -38,7 +39,7 @@
 			}
 		}); */
 		$("#btn_update").on("click", function(){
-			formObj.attr("action", "/sboard/updateGet.do");//.attr(attributeName, value) 2개의 인자는 속성값을 요소에 부여하는 것
+			formObj.attr("action", "/sboard/updateGet");//.attr(attributeName, value) 2개의 인자는 속성값을 요소에 부여하는 것
 			formObj.attr("method","get");
 			formObj.submit();
 		});
@@ -120,25 +121,38 @@ document.getElementById('content').value
 			<button class="btn btn-default" type="submit" id="btn_back">뒤로가기</button><!-- viewcount 수정되어 나옴 -->
 		</div>
 	
-	<!-- 댓글 등록 -->
-		<div class="col-md-12">
+		<!-- 댓글 등록 -->
+		<div>
 			<div class="box box-success">
 				<div class="box-header">
 					<h3 class="box-title">ADD NEW REPLY</h3>
 				</div>
 				<div class="box-body">
 					<label for="newReplyWriter">Writer</label>
-						<input class="form-control" type="text" placeholder="USER ID" id="newReplyWriter">
-						<label for="newReplyText">ReplyText</label>
-						<input class="form-control" type="text" placeholder="REPLY TEXT" id="newReplyText">
-				</div>
-				<!-- /.box-body -->
-				<div class="box-footer">
+						<input class="form-control" placeholder="USER ID" name="newReplyWriter" id="newReplyWriter">
+					<label for="newReplyText">ReplyText</label>
+						<input class="form-control" placeholder="REPLY TEXT" name="newReplyText" id="newReplyText">
+				</div><p>
+				<div>
 					<button type="submit" class="btn btn-default" id="replyAddBtn">ADD REPLY</button>
 				</div>
 			</div>		
 		</div>
+
+	<!-- 지속적인 목록 갱신. <li>가 반복적으로 구성, 이를 <ul>태그의 내용물로 추가하는 방식. 문자열로 이루어지기에 지저분한 코드. JS 템플릿을 적용. -->
+	<!-- 댓글 목록 The time line -->
+	<ul class="timeline">
+		<li class="time-label" id="repliesDiv">
+		<button class="btn btn-default" id="replyList">Replies List</button>		
+		</li>
+	</ul>
+	
+	<!-- 댓글 목록 페이징 처리 -->
+	<div class='text-center'>
+		<ul id="pagination" class="pagination pagination-sm no-margin "></ul>
 	</div>
+	
+	</div><!-- <div class=viewPage> -->
 	
 	<!-- handlebars.js 적용 템플릿 코드. 기존 div의 ul, li의 반복적인 문자열을 위한 템플릿.
 	템플릿 선언부의 {{each.}}를 이용하는데, 'each'는 배열의 루프를 순환함. '.'은 배열을 도는 동안의 해당 객체를 의미함
@@ -146,12 +160,8 @@ document.getElementById('content').value
 	<script id="template" type="text/x-handlebars-template">
 	{{#each.}}
 	<li class="replyLi" data-rno={{rno}}>
-	<i class=""></i>
 		<div>
-			<span class="">
-				<i class></i>{{prettifyDate regdate}}
-			</span>
-			<h3><strong>{{rno}}</strong> - {{replyer}}</h3>
+			<h3><strong>{{rno}}</strong> - {{replyer}}</h3> <h4 style="align:right;">{{prettifyDate regdate}}</h4>
 			<div>{{replytext}}</div>
 			<div>
 				<a data-toggle="model" data-target="#modifyModal">Modify</a>
@@ -186,7 +196,7 @@ document.getElementById('content').value
 	var bno=${dto.bno};//bno : JSP에 처리되는 문자열로 해당 게시물의 번호를 의미
 	var replyPage=1;//replyPage는 수정이나 삭제 작업 이후에 사용자가 보던 댓글의 페이지를 가지고 다시 목록을 출력하기 위해 유지되는 데이터
 	
-	//getPage()는 특정한 게시물에 대한 페이징 처리를 위해 호출되는 함수. 페이지 번호를 파라미터로 전달받고, jQuery의 getJSON()을 이용해 댓글의 목록 데이털르 처리.
+	//getPage()는 특정한 게시물에 대한 페이징 처리를 위해 호출되는 함수. 페이지 번호를 파라미터로 전달받고, jQuery의 getJSON()을 이용해 댓글의 목록 데이터를 처리.
 	function getPage(pageInfo){
 		$.getJSON(pageInfo, function(data){
 			printData(data.list, $("#repliesDiv"), $('#template'));
@@ -204,13 +214,12 @@ document.getElementById('content').value
 		
 		for(var i=pageMaker.startPage, len=pageMaker.endPage; i<=len; i++){
 			var strClass=pageMaker.cri.page==i?'class=active':'';
-			str+="<li "+strClarr+"><a href='"+i+"'>"+i+"</a></li>";
+			str+="<li "+strClass+"><a href='"+i+"'>"+i+"</a></li>";
 		}
 		
 		if(pageMaker.next){
 			str+="<li><a href='"+(pageMaker.endPage+1)+"'> >> </a></li>";
-		}
-		
+		}		
 		target.html(str);
 	}
 	</script>
@@ -218,36 +227,40 @@ document.getElementById('content').value
 	<!-- 댓글등록 처리 JavaScript -->
 	<script>
 	$("#replyAddBtn").on("click", function(){
-		var replyer=$("$newReplyWriter");
-		var replytext=$("#newReplyText");
+		var replyerObj=$("#newReplyWriter");
+		var replytextObj=$("#newReplyText");
+		var replyer=replyerObj.val();
+		var replytext=replytextObj.val();
 		
 		//jQuery를 이용해 $.ajax() 를 통해 서버를 호출. 전송하는 데이터는 JSON으로 구성된 문자열 사용. 전송받는 결과는 단순 문자열.
 		$.ajax({
 			type:'post',
-			url:'/replies',
-			headers:{
-				"Content-Type" : "application/json",
-				"X-HTTP-Method-Override" : "POST"
-			},
+			url:'/replies/',
+			headers:{"Content-Type" : "application/json",
+					"X-HTTP-Method-Override" : "POST"},
 			dataType:'text',
-			data:JSON.stringyfy({
+			data:JSON.stringify({
 				bno:bno,
 				replyer:replyer,
 				replytext:replytext
 			}),
 			success:function(result){
+				console.log("result : " + result);
 				if(result=='SUCCESS'){
 					alert("등록 되었습니다");
-					getAllList();//댓글 등록 후 전체 댓글 목록의 갱신 
+					//getAllList();//댓글 등록 후 전체 댓글 목록의 갱신
+					replyPage=1;
+					getPage("/replies/"+bno+"/"+replyPage);
+					replyerObj.val("");
+					replytextObj.val("");
 				}
-			}
-		})
+			}});
 	});
 	
 	//댓글 목록의 이벤트 처리.Replies List 버튼을 클릭하면 댓글 목록을 가져온다.
 	$("#repliesDiv").on("click", function(){
 		//목록의 size()를 체크하는 코드는 목록을 가져오는 버튼이 보여지는 <li>만 있는 경우, 1페이지의 댓글 목록을 가져오기 위해 처리한 코드.
-		if($(".timeline li").size() > 1){
+		if($(".timeline li").length > 1){
 			return;
 		}
 		getPage("/replies/" + bno + "/1");
@@ -262,26 +275,7 @@ document.getElementById('content').value
 		getPage("/replies/"+bno+"/"+replyPage);
 	});
 	</script>
-	
-	<!-- 지속적인 목록 갱신. <li>가 반복적으로 구성, 이를 <ul>태그의 내용물로 추가하는 방식. 문자열로 이루어지기에 지저분한 코드. JS 템플릿을 적용. -->
-	<!-- 댓글 목록 The time line -->
-	<!-- <ul class="timeline">
-		timeline time label
-		<li class="time-label" id="repliesDiv"><span class="bg-green">Replies List</span></li>
-	</ul>
-	
-	댓글 목록 페이징 처리
-	<div class='text-center'>
-		<ul id="pagination" class="pagination pagination-sm no-margin "></ul>
-	</div> -->
-	
-	<!-- 뒤로가기 처리 두 가지 방법 중 1번째 -->
-	<script type="text/javascript">
-	function goBack(){
-		window.history.back(); //window.history.go(-1);
-	}
-	</script>
-	
+
 	<script type="text/javascript">
 	$(document).ready(function(){
 		var formObj=$("form[role='form']");
@@ -297,6 +291,13 @@ document.getElementById('content').value
 	});
 	</script>
 
+	<!-- 뒤로가기 처리 두 가지 방법 중 1번째 -->
+	<script type="text/javascript">
+	/* function goBack(){
+		window.history.back(); //window.history.go(-1);
+	} */
+	</script>
+	
 <%@ include file="../forward/footer.jsp" %>
 </body>
 </html>
