@@ -66,23 +66,23 @@
 			  <button type="submit" class="btn btn-default" id="addBtn">등록</button>
 			  <!-- <button type="reset" class="btn btn-default" id="goBack">목록</button> -->
 		  	  <input type="button" class="btn btn-default" value="목록" onClick="goBack();"/>
+		  	  <input type="button" class="btn btn-default" value="목록" onClick="btnList();"/>
 		  </div>
 	
-	<ul class="mailbox-attachments clearfix uploadedList">
+	<ul class="uploadedList">
 	</ul>
 
 	<!-- handlebars.js 를 이용해서 첨부할 파일을 템플릿으로 작성한다. -->
-	<script id="template" type="text/x-handlebars-template">
+	<script id="templateAttach" type="text/x-handlebars-template">
 		<li>
-			<span class="mailbox-attachment-icon has-img"><img src="{{imgsrc}}" alt="Attachment"></span>
-			<div class="mailbox-attachment-info">
-				<a href="{{getLink}}" class="mailbox-attachment-name">{{fileName}}</a>
-				<a href="{{fullName}}" class="btn btn-default btn-xs pull-right delbtn">
-					<small>X</small></a>
+			<span><img src="{{imgsrc}}" alt="Attachment"></span>
+			<div>
+				<a href="{{getLink}}">{{fileName}}</a>
+				<a href="{{fullName}}" class="btn btn-default ">
+					<small class="delbtn">X</small></a>
 			</div>
 		</li>
 	</script>
-<!-- 					<i class="fa fa-fw fa-remove"></i></a> -->
 </form>
 	
 <script>
@@ -116,10 +116,9 @@ $(function () {
          var files = e.originalEvent.dataTransfer.files;
     	 var file=files[0];
          
-		 var template=Handlebars.compile($("#template").html());
+		 var template=Handlebars.compile($("#templateAttach").html());
 			
     	 console.log("file : " + file);
-    	 console.log(file);
          
     	 var formData=new FormData();
     	 
@@ -136,52 +135,16 @@ $(function () {
 			contentType:false,
 			type:'POST',
 			success:function(data){
-				
-				alert(data)
-				
-				/* var str=""; */
-				
+				alert(data);
 				console.log(data);
 				
 				var fileInfo=getFileInfo(data);
 				
 				var html=template(fileInfo);
-				
-					/* if(checkImageType(data)){
-						str="<div><a href=displayFile?fileName="+getImageLink(data)+">"
-							+"<img src='displayFile?fileName="+data+"'/>"
-							+"</a><small data-src="+data+">X</small></div>";
-					}else{
-						str="<div><a href='displayFile?fileName="+data+"'>"
-							+getOriginalName(data)+"</a>"
-							+"<small data-src"+data+">X</small></div>";
-					} */
 					
 				$(".uploadedList").append(html);
 			}
 		 });
-         
-         /* F_FileMultiUpload(files, obj); */
-    });
-    
-    //첨부파일 삭제처리
-    /* obj.on("#delBtn", "click", "small", function(event){ */
-    $("#delbtn").click(function(){
-    	
-    	var that=$(this);
-    	
-    	$.ajax({
-    		url:"deleteFile",
-    		type:"post",
-    		data:{fileName:$(this).attr("data-src")},
-    		dataType:"text",
-    		success:function(result){
-    			if(result=='delete'){
-    				that.parent("div").remove();
-    				alert("deleted");
-    			}
-    		}
-    	});    	
     });
 });
 </script>
@@ -221,7 +184,7 @@ $(function () {
 				var that=$(this);
 				var str="";
 				
-				//현재까지 업로드 된 파일을 form태그 내붕에 hidden으로 추가. 각 파일은 files[0]의 이름으로 추가됨.
+				//현재까지 업로드 된 파일을 form태그 내부에 hidden으로 추가. 각 파일은 files[0]의 이름으로 추가됨.
 				//이 배열 표시를 이용해 컨트롤러에서 ProductDTO의 files 파라미터를 수집하게 된다.
 				$(".uploadedList .delbtn").each(function(index){
 					str+="<input type='hidden' name='files["+index+"]' value='"+$(this).attr("href")+"'>";
@@ -235,11 +198,32 @@ $(function () {
 			});
 			
 		});
+		
 		//상품 목록 이동
 		$("#btnList").click(function(){
-			location.href="${path}/shop/product/product_list";
+			location.href="${path}/";
 		});
 	});
+	
+    //첨부파일 삭제처리
+    /* obj.on("#delBtn", "click", "small", function(event){ */
+    $("#delbtn").click(function(){
+    	
+    	var that=$(this);
+    	
+    	$.ajax({
+    		url:"/deleteFile",
+    		type:"post",
+    		data:{fileName:$(this).attr("data-src")},
+    		dataType:"text",
+    		success:function(result){
+    			if(result=='deleted'){
+    				that.parent("div").remove();//jQuery의 remove() 이용하면 간단하게 원하는 요소(첨부파일 보여주기 위한<div>) 삭제
+    				alert("deleted");
+    			}
+    		}
+    	});    	
+    });
 	
 	function goBack(){
 		window.history.back(); //window.history.go(-1);

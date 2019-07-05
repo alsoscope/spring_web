@@ -49,10 +49,10 @@ public class ReplyController {
 	@ResponseBody
 	@RequestMapping(value="/all/{bno}", method=RequestMethod.GET)
 	public ResponseEntity<List<ReplyVO>> list(@PathVariable("bno") int bno){
-		ResponseEntity<List<ReplyVO>> entity=null;
-		
+		ResponseEntity<List<ReplyVO>> entity=null;	
 		try {
 			entity=new ResponseEntity<>(service.listReply(bno), HttpStatus.OK);
+			System.out.println("ReplyList called by ReplyController");
 		}catch(Exception e) {
 			e.printStackTrace();
 			entity=new ResponseEntity<>(HttpStatus.BAD_REQUEST);

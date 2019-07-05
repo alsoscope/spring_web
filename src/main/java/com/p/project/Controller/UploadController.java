@@ -35,7 +35,7 @@ public class UploadController {
 	@RequestMapping(value="/uploadAjax", method=RequestMethod.POST, produces="text/plain;charset=UTF-8")
 	public ResponseEntity<String> uploadAjax(MultipartFile file) throws Exception{
 		
-		logger.info("originalName : " + file.getOriginalFilename());
+		logger.info("uploadFile originalName : " + file.getOriginalFilename());
 		/*logger.info("size : " + file.getSize());
 		logger.info("contentType : " + file.getContentType());*/
 		
@@ -56,7 +56,7 @@ public class UploadController {
 		//ResponseBody를 이용해서 byte[] 데이터가 그대로 전송될 것임을 명시.
 		ResponseEntity<byte[]> entity=null;
 		
-		logger.info("FILE NAME : " + fileName);
+		logger.info("displayFile FILE NAME : " + fileName);
 
 		try {
 			//가장 먼저 하는 작업. 파일 이름에서 확장자 추출, 이미지 타입의 파일인 경우는 적절한 MIME 타입을 지정.
@@ -90,7 +90,6 @@ public class UploadController {
 			}
 			return entity;
 	}
-	
 	
 	//삭제처리
 	//파라미터로 삭제할 파일의 이름을 받는다. 이미지의 경우 썸네일 이름, 일반 파일은 실제 이름이 된다
