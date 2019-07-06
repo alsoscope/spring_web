@@ -143,7 +143,7 @@ document.getElementById('content').value
 	<!-- 댓글 목록 The time line -->
 	<ul class="timeline">
 		<li class="time-label" id="repliesDiv">
-		<button class="btn btn-default" id="replyList">Replies List</button>		
+		<span class="btn btn-default" id="replyList">Replies List</span>		
 		</li>
 	</ul>
 	
@@ -175,6 +175,7 @@ document.getElementById('content').value
 	<!-- helper 라는 기능을 이용해서 데이터의 상세한 처리에 필요한 기능 처리. 원하는 기능이 없을 경우, registerHelper()로 새로운 기능을 추가할 수 있다 -->
 	<script>
 	Handlebars.registerHelper("prettifyDate", function(timeValue){
+		//date 객체 : 날짜, 시간을 위한 메소드를 제공하는 빌트인 객체이면서 생성자 함수이다.
 		var dateObj=new Date(timeValue);
 		var year=dateObj.getFullYear();
 		var month=dateObj.getMonth()+1;
@@ -183,11 +184,14 @@ document.getElementById('content').value
 	});
 	
 	var printData=function(replyArr, target, templateObject){
+		//핸들바 템플릿을 가져와서 precompile한다
 		var template=Handlebars.compile(templateObject.html());
+		//핸들바 템플릿에 데이터를 바인딩해서 HTML 생성
 		var html=template(replyArr);
 		
 		$(".replyLi").remove();
-		target.after(html);
+		//.after() 메소드는 선택한 요소의 바로 뒤쪽에 새로운 요소나 콘텐츠를 추가한다.
+		target.after(html);//생성된 HTML을 뿌려줌
 	}
 	</script>
 	
