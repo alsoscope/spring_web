@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>상품등록</title>
 <style type="text/css">
-	.form{
+	.form1{
 		margin: auto;
 		width:300px !important
 	}
@@ -39,7 +39,7 @@
 <h2 style="text-align:center;">상품 등록</h2>
 
 	<br>
-	<form class="form" name="form1" method="post" enctype="multipart/form-data">
+	<form class="form1" id="form1" method="post" enctype="multipart/form-data" action="/shop/product/insertProduct">
 		  <div class="form-group">
 		    <label for="exampleInputEmail1">상품명</label>
 		    <input type="text" name="product_name" class="form-control" id="product_name">
@@ -65,8 +65,8 @@
 		  <div align="center">
 			  <button type="submit" class="btn btn-default" id="addBtn">등록</button>
 			  <!-- <button type="reset" class="btn btn-default" id="goBack">목록</button> -->
-		  	  <input type="button" class="btn btn-default" value="목록" onClick="goBack();"/>
-		  	  <input type="button" class="btn btn-default" value="목록" onClick="btnList();"/>
+		  	  <!-- <input type="button" class="btn btn-default" value="목록" onClick="goBack();"/> -->
+		  	  <input type="button" class="btn btn-default" value="목록" id="btnList"/>
 		  </div>
 	
 	<ul class="uploadedList">
@@ -79,7 +79,7 @@
 			<div>
 				<a href="{{getLink}}">{{fileName}}</a>
 				<a href="{{fullName}}" class="btn btn-default ">
-					<small class="delbtn">X</small></a>
+					</a><small class="delbtn">X</small>
 			</div>
 		</li>
 	</script>
@@ -150,7 +150,7 @@ $(function () {
 </script>
 
 <script>
-	$(document).ready(function(){
+	/* $(document).ready(function(){ */
 		//상품 등록 유효검사
 		$("#addBtn").click(function(){
 			var product_name=$("#product_name").val();
@@ -176,38 +176,34 @@ $(function () {
 			//상품 정보 전송
 			//document.form1.action="${path}/shop/product/insertProduct";
 			//document.form1.submit();
+		});
+	
+		//첨부파일. 최종 submit이 일어나면 서버에는 사용자가 업로드한 파일의 정보를 같이 전송하는데, 업로드 된 파일의 이름을 form태그 내부로 포함 시켜 전송한다.
+		$("#form1").submit(function(event){
+			event.preventDefault();//먼저 기본 동작을 막는다.
 			
-			//첨부파일. 최종 submit이 일어나면 서버에는 사용자가 업로드한 파일의 정보를 같이 전송하는데, 업로드 된 파일의 이름을 form태그 내부로 포함 시켜 전송한다.
-			$("#addBtn").submit(function(event){
-				event.preventDefault();//먼저 기본 동작을 막는다.
-				
-				var that=$(this);
-				var str="";
-				
-				//현재까지 업로드 된 파일을 form태그 내부에 hidden으로 추가. 각 파일은 files[0]의 이름으로 추가됨.
-				//이 배열 표시를 이용해 컨트롤러에서 ProductDTO의 files 파라미터를 수집하게 된다.
-				$(".uploadedList .delbtn").each(function(index){
-					str+="<input type='hidden' name='files["+index+"]' value='"+$(this).attr("href")+"'>";
-				});
-				
-				that.append(str);
-				
-				//모든 파일의 정보를 <input type='hidden'>으로 생성한 후, <form> 데이터의 submit()을 호출해서 서버를 호출한다.
-				//jQuery의 get(0)은 순수한 DOM 객체를 얻어내기 위해 사용.
-				that.get(0).submit();
+			var that=$(this);
+			var str="";
+			
+			//현재까지 업로드 된 파일을 form태그 내부에 hidden으로 추가. 각 파일은 files[0]의 이름으로 추가됨.
+			//이 배열 표시를 이용해 컨트롤러에서 ProductDTO의 files 파라미터를 수집하게 된다.
+			$(".uploadedList .delbtn").each(function(index){
+				str+="<input type='hidden' name='files["+index+"]' value='"+$(this).attr("href")+"'>";
 			});
 			
-		});
+			that.append(str);
+			
+			//모든 파일의 정보를 <input type='hidden'>으로 생성한 후, <form> 데이터의 submit()을 호출해서 서버를 호출한다.
+			//jQuery의 get(0)은 순수한 DOM 객체를 얻어내기 위해 사용.
+			that.get(0).submit();
+		});	
 		
-		//상품 목록 이동
-		$("#btnList").click(function(){
-			location.href="${path}/";
-		});
-	});
+	/* }); */
+	
 	
     //첨부파일 삭제처리
     /* obj.on("#delBtn", "click", "small", function(event){ */
-    $("#delbtn").click(function(){
+    $("#delbtn").click("small", function(){
     	
     	var that=$(this);
     	
@@ -225,7 +221,12 @@ $(function () {
     	});    	
     });
 	
-	function goBack(){
+  	//상품 목록 이동
+	$("#btnList").click(function(){
+		location.href="${path}/";
+	});
+	
+  	function goBack(){
 		window.history.back(); //window.history.go(-1);
 	}
 </script>
