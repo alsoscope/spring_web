@@ -37,7 +37,7 @@
 		<!-- 관리자 세션체크 매핑 -->
 			<interceptor>
 				<mapping path="/shop/product/write"/>
-				<mapping path="/shop/product/insert"/>
+				<!-- <mapping path="/shop/product/insertProduct"/> -->
 				<mapping path="/shop/product/update"/>
 				<mapping path="/shop/product/edit/**"/>
 				<mapping path="/shop/product/delete"/>				

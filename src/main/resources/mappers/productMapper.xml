@@ -13,11 +13,11 @@
 	</select>
 	
 	<!-- ********//////무한 스크롤 테스트//////******** -->
-	<select id="listTest" resultType="com.p.project.DTO.ProductDTO">
+	<!-- <select id="listTest" resultType="com.p.project.DTO.ProductDTO">
 		SELECT * FROM tbl_product where product_id > 0 ORDER BY product_id asc limit 0, 10;
 	</select>
 	
-	<!-- 게시물 조회(무한 스크롤 다운) 마지막 product_id가 integer타입으로 넘어오는 상태. controller에서 product_id-1에 해당하는 것을 dao로 넘겨줄 것 -->
+	게시물 조회(무한 스크롤 다운) 마지막 product_id가 integer타입으로 넘어오는 상태. controller에서 product_id-1에 해당하는 것을 dao로 넘겨줄 것
 	<select id="infiniteScrollDown" resultType="com.p.project.DTO.ProductDTO">
 		<![CDATA[
 		select * from tbl_product where product_id <= #{product_id} and product_id > #{product_id}-10
@@ -25,13 +25,13 @@
 		]]>
 	</select>
 	
-	<!-- 마지막 product_id를 넘겨서 offset을 다르게 주어도 되지만 이론상 가장 첫 번째의 product_id를 받아와서 그것보다 먼저의 게시물 10개를 받아오는 것이 자연스럽기에 그렇게 구현함 -->
+	마지막 product_id를 넘겨서 offset을 다르게 주어도 되지만 이론상 가장 첫 번째의 product_id를 받아와서 그것보다 먼저의 게시물 10개를 받아오는 것이 자연스럽기에 그렇게 구현함
 	<select id="infiniteScrollUp" resultType="com.p.project.DTO.ProductDTO">
 		<![CDATA[
 		select * from tbl_product where product_id >= #{product_id} and product_id < #{product_id}+10
 		order by product_id asc
 		]]>
-	</select>
+	</select> -->
 	<!-- ********//////무한 스크롤 테스트//////******** -->
 	
 	<!-- 02. 상품 상세 보기 -->
@@ -89,11 +89,11 @@
 	
 	<!-- 첨부파일 기능 : MySQL의 경우, 바로 직전에 생성된 PK를 알아낼 때 LAST_INSERT_ID()를 활용 -->
 	<insert id="addAttach">
-		insert into tbl_attach (fullName, product_id) values (#{fullName}, LAST_INSERT_ID())
+		INSERT INTO tbl_attach (fullName, product_id) VALUES (#{fullName}, LAST_INSERT_ID())
 	</insert>
 	
 	<!-- 특정 게시물의 첨부파일을 시간 순서대로 가져오는 SQL문 -->
-	<select id="getAttach">
+	<select id="getAttach" resultType="string">
 		select fullName from tbl_attach where product_id=#{product_id} order by regdate
 	</select>
 	

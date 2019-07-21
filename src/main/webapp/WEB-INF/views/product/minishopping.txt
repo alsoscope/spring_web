@@ -14,7 +14,7 @@ create table tbl_product(
 
 dummy record
 
-insert into tbl_product(product_name, product_price, product_desc, product_url) values ('상품이름1',10000,'상품 설명1','photo1.jpg');
+insert into tbl_product(product_name, product_price, product_desc) values ('상품이름1',10000,'상품 설명1');
 insert into tbl_product(product_name, product_price, product_desc, product_url) values ('상품이름2',20000,'상품 설명2','photo2.jpg');
 insert into tbl_product(product_name, product_price, product_desc, product_url) values ('상품이름3',30000,'상품 설명3','photo3.jpg');
 insert into tbl_product(product_name, product_price, product_desc, product_url) values ('상품이름4',40000,'상품 설명4','photo4.jpg');
@@ -36,7 +36,6 @@ insert into tbl_product(product_name, product_price, product_desc, product_url) 
 insert into tbl_product(product_name, product_price, product_desc, product_url) values ('A TALE OF TWO SISTERS',900000,'장화, 홍련','movie_image (9).jpg');
 insert into tbl_product(product_name, product_price, product_desc, product_url) values ('ASAKO',1000000,'아사코','movie_image (10).jpg');
 insert into tbl_product(product_name, product_price, product_desc, product_url) values ('More Than Blue',1100000,'More Than Blue','movie_image (11).jpg');
-
 
 select * from tbl_product;
 
@@ -84,7 +83,7 @@ tbl_member의 userId값이 varchar(10), tbl_cart의 user_id varchar(30) 길이가 달라�
 필드타입 변경
 ALTER TABLE tbl_member MODIFY COLUMN userId varchar(30);
 
-Foreign key constrant 끄기
+Foreign key constraint 끄기
 SET FOREIGN_KEY_CHECKS=0; //외래키 검사하지 않음. 되돌리는 방법은 0 대신 1
 
 collation 변경
@@ -154,8 +153,8 @@ mysql sysdate(), now() timestamp not null default current_timestamp 차이 ?
 파일첨부 테이블
 create table tbl_attach(
 	fullName varchar(150) not null,
-	product_id int not null,
-	regdate timestamp default CURRENT_TIMESTAMP,
+	product_id int(11) not null,
+	regdate timestamp not null default CURRENT_TIMESTAMP,
 	primary key(fullName)
 );
 
@@ -168,3 +167,95 @@ ProductDTO 수정
 productMapper.xml 수정
 ProductDAO, DAOImpl 수정
 ProductService, ServiceImpl 수정
+
+tbl_cart, tbl_product, tbl_attach drop 후 다시 create.
+
+create table tbl_product(
+	product_id int not null auto_increment primary key,
+	product_name varchar(30) not null,
+	product_price int default 0 not null,
+	product_desc varchar(300) not null
+);
+
+CREATE TABLE `tbl_cart` (
+  `cartId` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` varchar(10) COLLATE utf8_bin NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `amount` int(11) DEFAULT '0',
+  PRIMARY KEY (`cartId`),
+  KEY `cart_product_fk` (`product_id`),
+  KEY `tbl_cart_fk` (`userId`),
+  CONSTRAINT `cart_product_fk` FOREIGN KEY (`product_id`) REFERENCES `tbl_product` (`product_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `tbl_cart_fk` FOREIGN KEY (`userId`) REFERENCES `tbl_member2` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_bin
+
+create table tbl_cart (
+	cartId int(11) not null auto_increment primary key,
+	userId varchar(10) not null,
+	product_id int(11) not null,
+	amount int(11) default 0
+);
+제약조건
+ALTER TABLE tbl_cart ADD CONSTRAINT cart_product_fk FOREIGN KEY(product_id)
+REFERENCES tbl_product(product_id) ON DELETE CASCADE ON UPDATE CASCADE;
+됨
+
+얘는 안됨
+ALTER TABLE tbl_cart ADD CONSTRAINT tbl_cart_fk FOREIGN KEY(userId)
+REFERENCES tbl_member2(userId) ON DELETE CASCADE ON UPDATE CASCADE;
+ERROR 1215 (HY000): Cannot add foreign key constraint
+tbl_member2 drop, 재 create 후 제약조건 거니 됨.
+
+CREATE TABLE `tbl_member2` (
+  `userId` varchar(10) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `userPw` varchar(10) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `userName` varchar(10) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `userRegdate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `userUpdatedate` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`userId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+create table tbl_member2(
+	userId varchar(10) not null primary key,
+	userPw varchar(10) null,
+	userName varchar(10) null,
+	userRegdate timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+	userUpdatedate timestamp NULL DEFAULT NULL
+);
+
+이래도 여전히
+INFO : com.p.project.Controller.ProductController - insert Product : ProductDTO [product_id=0, product_name=1111, product_price=1111, product_desc=1111, files=[undefined]]
+ERROR: jdbc.audit - 3. PreparedStatement.execute() insert into tbl_attach (fullName, product_id) values ('undefined', LAST_INSERT_ID()) 
+java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`spring_ex`.`tbl_attach`, CONSTRAINT `fk_product_attach` 
+FOREIGN KEY (`product_id`) REFERENCES `tbl_product` (`product_id`))
+
+기존의 제약 조건
+alter table tbl_attach add constraint fk_product_attach
+foreign key(product_id) references tbl_product(product_id);
+
+삭제, 갱신의 제약이 걸려있는 상태라 CASCADE 적용(참조하고 있는 곳을 찾아가서 자동으로 변경, 삭제되도록)
+-기존의 제약조건(RESTRICT) 제거
+ALTER TABLE tbl_attach DROP FOREIGN KEY fk_product_attach;
+
+-새로운 제약조건 CASCADE 적용
+ALTER TABLE tbl_attach ADD CONSTRAINT fk_product_attach FOREIGN KEY(product_id)
+REFERENCES tbl_product(product_id) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE tbl_attach ADD FOREIGN KEY (product_id) REFERENCES tbl_product (product_id);
+
+alter table tbl_cart drop foreign key cart_product_fk;
+alter table tbl_attach drop foreign key fk_product_attach;
+ALTER TABLE tbl_cart ADD CONSTRAINT cart_product_fk FOREIGN KEY(product_id)
+REFERENCES tbl_product(product_id) ON DELETE CASCADE ON UPDATE CASCADE;
+
+기존의 FK 제약조건
+ALTER TABLE tbl_attach ADD CONSTRAINT fk_product_attach FOREIGN KEY(product_id)
+REFERENCES tbl_product(product_id) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE tbl_attach NOCHECK ADD CONSTRAINT fk_product_attach FOREIGN KEY(product_id) REFERENCES tbl_product(product_id);
+
+ALTER TABLE tableanme WITH NOCHECK
+ADD CONSTRAINT FK_constraint_name
+FOREIGN KEY (child_column)
+REFERENCES parent_tablename(parent_column) --(O)
+

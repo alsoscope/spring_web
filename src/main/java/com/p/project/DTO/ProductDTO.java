@@ -2,8 +2,6 @@ package com.p.project.DTO;
 
 import java.util.Arrays;
 
-import org.springframework.web.multipart.MultipartFile;
-
 public class ProductDTO {
 	private int product_id;
 	private String product_name;

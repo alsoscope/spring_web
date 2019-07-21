@@ -30,18 +30,10 @@
 .aa.active-color { color:#f67599; }
 .aa:hover:not(.active) {background-color: #ddd;} */
 
-.popup{
-	position:absolute;
-}
-.back{
-	background-color:gray; opacity:0.5; width:100%; height:300%; overflow:hidden; z-index:1101;
-}
-.front{
-	z-index:1110; opacity:1; border:1px; margin:auto;
-}
-.show{
-	position:relative; max-width:1200px; max-height:800px; overflow:auto;
-}
+.popup{	position:absolute;}
+.back{background-color:gray; opacity:0.5; width:100%; height:300%; overflow:hidden; z-index:1101;}
+.front{z-index:1110; opacity:1; border:1px; margin:auto;}
+.show{position:relative; max-width:1200px; max-height:800px; overflow:auto;}
 </style>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -69,7 +61,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.2/handlebars.js"></script>
   
 	<script>
-
 	/* a.active-color { color:#000; }
 
 	$("a").click(function() {
@@ -183,8 +174,8 @@
   
   	<div class="container1">
   
-        <div class="row post">
-        <%-- <c:forEach var="row" items="${list }" begin="1" end="6" step="1"> --%>
+        <%-- <div class="row post">
+        <c:forEach var="row" items="${list }" begin="1" end="6" step="1">
         <c:forEach var="row" items="${list }">
 	          <div class="col-lg-4 col-md-6 mb-4" data-bno="${row.product_id }" >
 	            <div class="card h-100"  >
@@ -203,23 +194,31 @@
 	            </div><!-- <div class="card h-100"> --> 
 	          </div><!-- <div class="col-lg-4 col-md-6 mb-4"> -->
 		  </c:forEach>
-        </div><!-- /.row -->
+        </div><!-- /.row --> --%>
 
-	<!-- ---------임시--------- 조회 페이지에서 업로드 된 파일들이 보여질 영억 -->
-	<ul class="mailbox-attachments clearfix uploadedList"></ul>
-	<!-- ---------임시--------- 조회 페이지에서 업로드 된 파일들이 보여질 영억 -->
+	<!-- --------- 파일 첨부 리스트 --------- 조회 페이지에서 업로드 된 파일들이 보여질 영억 -->
+	<ul class="uploadedList"></ul>
 	
 	<div class="popup back" style="display:none;"></div>
 		<div id="popup_front" class="popup front" style="display:none;">
 			<img id="popup_img">
-		</div>
-	
+		</div>	
 	</div>
 	
-	<div id="loader" class="active">
+	<script id="templateAttach" type="text/x-handlebars-template">
+	<li data-src='{{fullName}}'>
+		<span><img src="{{imgsrc}}" alt="attachments"></imgsrc></span>
+		<div>
+			<a href={{getLink}}>{{fileName}}</a>
+		</div>
+	</li>
+	</script>
+	<!-- --------- 파일 첨부 리스트 --------- 조회 페이지에서 업로드 된 파일들이 보여질 영억 -->
+	
+	<!-- <div id="loader" class="active">
 			<img src="/resources/images/loading.gif">
 			LOADING...
-	</div>	
+	</div> -->	
 	
       </div><!-- /.col-lg-9 -->
     </div><!-- /.row -->
@@ -250,9 +249,10 @@
 	
 	<!-- 첨부파일에 대한 템플릿. 업로드 된 파일이 보여지도록 upload.js 와 handlebars 설정 -->
 	<script>
-		 var bno=${productDTO.product_id};
+		 var bno="${productDTO.product_id}";
 		 var template=Handlebars.compile($("#templateAttach").html());
 		 
+		 //컨트롤러에서 문자열의 리스트를 반환, JSON 형태로 데이터 전송하면 getJSON을 이용해 처리한다.
 		 $.getJSON("/shop/product/getAttach/"+product_id, function(list){
 			$(list).each(function(){
 				var fileInfo=getFileInfo(this);
@@ -262,7 +262,28 @@
 				$(".uploadedList").append(html);
 			});
 		 });
-		 
+	</script>
+	
+	<script>
+	$(".uploadedList").on("click", function(event){
+		var fileLink=$(this).attr("href");
+		
+		if(checkImageType(fileLink)){
+			event.preventDefault();
+			
+			var imgTag=$("#popup_img");
+			imgTag.attr("src", fileLink);
+			
+			console.log(imgTag.attr("src"));
+			
+			$(".popup").show('slow');
+			imgTag.addClass("show");
+		}
+	});
+	
+	$("#popup_img").on("click", function(){
+		$(".popup").hide('slow');
+	});
 	</script>
 </body>
 </html>

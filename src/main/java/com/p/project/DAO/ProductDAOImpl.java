@@ -42,7 +42,7 @@ public class ProductDAOImpl implements ProductDAO {
 
 	//5. 상품 추가
 	@Override
-	public void insertProduct(ProductDTO dto) {
+	public void insertProduct(ProductDTO dto) throws Exception{
 		sqlSession.insert("product.insertProduct", dto);
 	}
 
@@ -94,8 +94,7 @@ public class ProductDAOImpl implements ProductDAO {
 	//첨부파일
 	@Override
 	public void addAttach(String fullName) throws Exception {
-		sqlSession.insert(namespace+".addAttach", fullName);
-		
+		sqlSession.insert("product.addAttach", fullName);
 	}
 
 	//첨부파일 있는 게시물 조회
@@ -103,6 +102,5 @@ public class ProductDAOImpl implements ProductDAO {
 	public List<String> getAttach(Integer product_id) throws Exception {
 		return sqlSession.selectList(namespace + ".getAttach", product_id);
 	}
-
 	
 }
