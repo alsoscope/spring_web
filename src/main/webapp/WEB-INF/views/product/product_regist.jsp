@@ -11,8 +11,7 @@
 		margin: auto;
 		width:300px !important
 	}
-    #dropzone
-    {
+    #dropzone {
         border:2px dotted;
         /* width:90%;
         height:50px;
@@ -29,7 +28,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <%-- <script src="<c:url value="../../resources/js/dropzone.js"/>"></script> --%>
 <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
-<script src="<c:url value="../../resources/js/upload.js"/>"></script><!-- /resources/js 의 파일 -->
+<script src="<c:url value="../../resources/js/upload.js"/>"></script><!-- /resources/js 의 파일. 파일첨부 관련 자바 스크립트. -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.2/handlebars.js"></script>
 <%@ include file="../forward/header.jsp" %>
 </head>
@@ -39,7 +38,8 @@
 <h2 style="text-align:center;">상품 등록</h2>
 
 	<br>
-	<form class="form1" id="form1" method="post" enctype="multipart/form-data" action="/shop/product/insertProduct">
+	<!-- <form class="form1" id="form1" method="post" enctype="multipart/form-data" action="/shop/product/insertProduct"> -->
+	<form class="form1" id="form1" method="post" action="/shop/product/insertProduct">
 		  <div class="form-group">
 		    <label for="exampleInputEmail1">상품명</label>
 		    <input type="text" name="product_name" class="form-control" id="product_name">
@@ -63,31 +63,33 @@
 		  </div> -->
 		  
 		  <div align="center">
-			  <button type="submit" class="btn btn-default" id="addBtn">등록</button>
+			  <!-- <button type="submit" class="btn btn-default">등록</button> -->
 			  <!-- <button type="reset" class="btn btn-default" id="goBack">목록</button> -->
 		  	  <!-- <input type="button" class="btn btn-default" value="목록" onClick="goBack();"/> -->
-		  	  <input type="button" class="btn btn-default" value="목록" id="btnList"/>
+			  <input type="submit" class="btn btn-default" id="btnSubmit" value="상품 등록">
+		  	  <input type="button" class="btn btn-default" value="목록으로 돌아가기" id="btnList"/>
 		  </div>
 	
-	<ul class="uploadedList">
-	</ul>
+		<ul class="uploadedList">
+		</ul>
+		
+	</form>
 
-	<!-- handlebars.js 를 이용해서 첨부할 파일을 템플릿으로 작성한다. -->
-	<script id="templateAttach" type="text/x-handlebars-template">
+		<!-- handlebars.js 를 이용해서 첨부할 파일을 템플릿으로 작성한다. -->
+		<script id="templateAttach" type="text/x-handlebars-template">
 		<li>
 			<span><img src="{{imgsrc}}" alt="Attachment"></span>
 			<div>
 				<a href="{{getLink}}">{{fileName}}</a>
-				<a href="{{fullName}}" class="btn btn-default ">
-					</a><small class="delbtn">X</small>
+				<a href="{{fullName}}" class="btn btn-default">
+					<small class="delbtn">X</small></a>
 			</div>
 		</li>
-	</script>
-</form>
-	
+		</script>
+		
 <script>
 $(function () {
-    var obj = $("#dropzone");
+    var obj = $(".dropzone");
 
     obj.on('dragenter', function (e) {
          e.stopPropagation();
@@ -106,47 +108,81 @@ $(function () {
     obj.on('dragover', function (e) {
          e.stopPropagation();
          e.preventDefault();
-    });   
-
-    obj.on('drop', function (e) {
-         e.preventDefault();
+    });
+});
+    
+    $(".dropzone").on("drop", function(event) {
+    /* obj.on('drop', function (event) { */
+         event.preventDefault();//기본 효과 제한. 드래그해서 드롭하면 바로 파일이 실행되는 이벤트 제한.
          /* $(this).css('border', '2px dotted #8296C2'); */
          $(this).css('border', '2px dotted');
 
-         var files = e.originalEvent.dataTransfer.files;
-    	 var file=files[0];
+         var template=Handlebars.compile($("#templateAttach").html());
+         //var source=$("#templateAttach").html();
+         //var template=Handlebars.compile(source);
          
-		 var template=Handlebars.compile($("#templateAttach").html());
-			
+         //기본 event를 불러오고, 기본 event로 전송된 데이터를 가져와서 .files를 찾는다
+         var files = event.originalEvent.dataTransfer.files;//드래그한 파일들
+    	 var file=files[0];//첫 번째 첨부파일. 하나를 drop했다고 가정.
+		
+    	 /* console.log(files);
+    	 console.log("files : " + files); */
+    	 console.log(file);
     	 console.log("file : " + file);
-         
-    	 var formData=new FormData();
     	 
-    	 formData.append("file", file);
+    	 var formData=new FormData();//FormData 객체  	 
+    	 formData.append("file", file);//첨부파일 추가. formData객체에 key:value 형태로 (event로 전송된)files를 넣어준다.
     	 
-         if(files.length < 1)
-              return;
+         /* if(files.length < 1)
+              return; */
 
 		 $.ajax({
-			url:'/uploadAjax',
+			url:"/shop/product/uploadAjax",
 			data:formData,
-			dataType:'text',
-			processData:false,
-			contentType:false,
-			type:'POST',
+			dataType:"text",
+			processData:false, //header가 아닌 body로 전달
+			contentType:false, //기본값 있으나, multipart/form-data 방식으로 전송하기 위해 false로 지정
+			type:"POST",
 			success:function(data){
 				alert(data);
 				console.log(data);
 				
-				var fileInfo=getFileInfo(data);
-				
+				var fileInfo=getFileInfo(data);				
 				var html=template(fileInfo);
 					
 				$(".uploadedList").append(html);
 			}
-		 });
+		 });//$.ajax
     });
-});
+</script>
+
+<script type="text/javascript">
+	//첨부파일. 최종 submit이 일어나면 서버에는 사용자가 업로드한 파일의 정보를 같이 전송하는데, 업로드 된 파일의 이름을 form태그 내부로 포함 시켜 전송한다.	
+	$("#form1").submit(function(event){
+	/* $("#btnSubmit").click(function (event){ */
+		event.preventDefault();//먼저 기본 동작을 막는다.
+		
+		alert("form submit!!");
+		console.log(fullName);
+		
+		var that=$(this);
+		var str="";
+		
+		//현재까지 업로드 된 파일을 form태그 내부에 hidden으로 추가. 각 파일은 files[0]의 이름으로 추가됨.
+		//이 배열 표시를 이용해 컨트롤러에서 ProductDTO의 files 파라미터를 수집하게 된다.
+		//Handlebars 안에 있는 클래스는 직접 제어가 안된다. 바깥에 있는 아이디나 클래스를 가지고 제어.
+		$(".uploadedList").each(function(index){
+			str+="<input type='hidden' name='files["+index+"]' value='"+$(this).attr("href")+"'>";
+		});
+		
+		console.log("fileUpload submit");
+		
+		that.append(str);
+		
+		//모든 파일의 정보를 <input type='hidden'>으로 생성한 후, <form> 데이터의 submit()을 호출해서 서버를 호출한다.
+		//jQuery의 get(0)은 순수한 DOM 객체를 얻어내기 위해 사용.
+		that.get(0).submit();
+	});	
 </script>
 
 <script>
@@ -176,39 +212,18 @@ $(function () {
 			//상품 정보 전송
 			//document.form1.action="${path}/shop/product/insertProduct";
 			//document.form1.submit();
-		});
+		});		
+	/* }); */	
 	
-		//첨부파일. 최종 submit이 일어나면 서버에는 사용자가 업로드한 파일의 정보를 같이 전송하는데, 업로드 된 파일의 이름을 form태그 내부로 포함 시켜 전송한다.
-		$("#form1").submit(function(event){
-			event.preventDefault();//먼저 기본 동작을 막는다.
-			
-			var that=$(this);
-			var str="";
-			
-			//현재까지 업로드 된 파일을 form태그 내부에 hidden으로 추가. 각 파일은 files[0]의 이름으로 추가됨.
-			//이 배열 표시를 이용해 컨트롤러에서 ProductDTO의 files 파라미터를 수집하게 된다.
-			$(".uploadedList .delbtn").each(function(index){
-				str+="<input type='hidden' name='files["+index+"]' value='"+$(this).attr("href")+"'>";
-			});
-			
-			that.append(str);
-			
-			//모든 파일의 정보를 <input type='hidden'>으로 생성한 후, <form> 데이터의 submit()을 호출해서 서버를 호출한다.
-			//jQuery의 get(0)은 순수한 DOM 객체를 얻어내기 위해 사용.
-			that.get(0).submit();
-		});	
-		
-	/* }); */
-	
-	
-    //첨부파일 삭제처리
+    //첨부파일 삭제처리/ 태그.on("이벤트", "자손태그", 이벤트 핸들러)
     /* obj.on("#delBtn", "click", "small", function(event){ */
-    $("#delbtn").click("small", function(){
+    /* $(".delbtn").click("small", function(){ */
+    $(".uploadedList").on("click", "small", function(event){
     	
     	var that=$(this);
     	
     	$.ajax({
-    		url:"/deleteFile",
+    		url:"/shop/product/deleteFile",
     		type:"post",
     		data:{fileName:$(this).attr("data-src")},
     		dataType:"text",

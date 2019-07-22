@@ -54,10 +54,9 @@ public class ProductServiceImpl implements ProductService{
 		if(files==null) {
 			return;
 		}
-		
-		for(String fileName : files) {
-			productDao.addAttach(fileName);
-		}
+			for(String fileName : files) {
+				productDao.addAttach(fileName);
+			}		
 	}
 
 	//6. 상품 이미지 삭제 위한 이미지 파일 정보
