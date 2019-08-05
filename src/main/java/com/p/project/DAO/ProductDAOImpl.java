@@ -5,14 +5,19 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.p.project.DTO.Criteria;
 import com.p.project.DTO.ProductDTO;
+import com.p.project.Service.ProductServiceImpl;
 
 @Repository
 public class ProductDAOImpl implements ProductDAO {
 
+	private static final Logger logger=LoggerFactory.getLogger(ProductDAOImpl.class);
+	
 	@Inject
 	SqlSession sqlSession;
 	
@@ -91,10 +96,11 @@ public class ProductDAOImpl implements ProductDAO {
 	}
 	//++++++++++++++++++스크롤링 Test++++++++++++++++++
 
-	//첨부파일
+	//첨부파일 //fullName
 	@Override
 	public void addAttach(String fullName) throws Exception {
 		sqlSession.insert("product.addAttach", fullName);
+		logger.info("ProductDAOImpl fullName : " + fullName);
 	}
 
 	//첨부파일 있는 게시물 조회
