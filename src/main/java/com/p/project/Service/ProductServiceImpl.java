@@ -1,12 +1,16 @@
 package com.p.project.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.p.project.Controller.ProductController;
 import com.p.project.DAO.ProductDAO;
 import com.p.project.DTO.Criteria;
 import com.p.project.DTO.ProductDTO;
@@ -14,6 +18,8 @@ import com.p.project.DTO.ProductDTO;
 @Service
 public class ProductServiceImpl implements ProductService{
 
+	private static final Logger logger=LoggerFactory.getLogger(ProductServiceImpl.class);
+	
 	@Inject
 	ProductDAO productDao;
 	
@@ -47,16 +53,36 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public void insertProduct(ProductDTO dto) throws Exception {
 	
+		logger.info("INSERT 직전 시퀀스값 : " + dto.getProduct_id());
 		productDao.insertProduct(dto);
+		logger.info("dto : " + dto);
+		logger.info("INSERT 직후 시퀀스값 : " + dto.getProduct_id());
 		
 		String[] files=dto.getFiles();
+		System.out.println("Arrays.toString(files) : " + Arrays.toString(files));
 		
-		if(files==null) {
-			return;
-		}
-			for(String fileName : files) {
-				productDao.addAttach(fileName);
-			}		
+		logger.info("ProductServiceImpl files : " + files);
+		
+		try {			
+			if(files==null) {
+				System.out.println("files null");
+				return;
+			} else {
+				logger.info("files not null : " + files);
+				//System.out.println("files null");
+				
+				//향상된 for문. for each문의 형식 → for(변수타입 변수이름 : 배열 이름)
+				for(String fileName : files) {
+					productDao.addAttach(fileName);
+					System.out.println("fileName : " + fileName);
+					logger.info("ProductServiceImpl fileName : " + files);
+				}
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+			logger.info("e" + e);
+			logger.debug("debug : " + e);
+		}		
 	}
 
 	//6. 상품 이미지 삭제 위한 이미지 파일 정보

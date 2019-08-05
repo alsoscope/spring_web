@@ -18,7 +18,7 @@ function getFileInfo(fullName){//파라미터로 서버에서 전송된 파일�
 	var fileLink;
 	
 	//일반 파일일 때 대신 열리는 기본 이미지 파일 사이즈 조정
-	var imgsrc=document.getElementById('imgsrc');
+	//var imgsrc=document.getElementById('imgsrc');
 	
 	//파일이 이미지인 경우 체크
 	if(checkImageType(fullName)){

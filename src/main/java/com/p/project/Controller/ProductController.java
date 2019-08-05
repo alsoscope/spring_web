@@ -90,6 +90,9 @@ public class ProductController {
 		logger.info("insert Product : " + dto.toString());
 		productService.insertProduct(dto);
 		
+		/*String[] files=(String[])dto.getFiles();
+		logger.info("getFiles() : " + files);*/
+		
 		return "redirect:/";
 	}
 	
@@ -180,7 +183,7 @@ public class ProductController {
 		return "/product/product_list_etcetera";
 	}
 
-	//ajax로 파일 업로드
+	//Ajax로 파일 업로드 ----------------------------------------------------------------------------------------
 	//파일 업로드 흐름 : 업로드 버튼 클릭 → 임시 디렉토리에 업로드 → 지정된 디렉토리에 저장 → 파일정보가 file에 저장
 	//Ajax로 호출되는 특정 게시물의 첨부파일을 처리하는 메소드
 	@ResponseBody //view가 아닌 data리턴. produces= : 파일의 한글처리

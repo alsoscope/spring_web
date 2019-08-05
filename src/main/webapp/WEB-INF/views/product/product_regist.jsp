@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>상품등록</title>
 <style type="text/css">
-	.form1{
+	.create-form{
 		margin: auto;
 		width:300px !important
 	}
@@ -22,8 +22,8 @@
         margin-top:10px; */
     }
 </style>
-<script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<!-- <script src="//code.jquery.com/jquery-3.2.1.min.js"></script> -->
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <%-- <script src="<c:url value="../../resources/js/dropzone.js"/>"></script> --%>
@@ -38,8 +38,8 @@
 <h2 style="text-align:center;">상품 등록</h2>
 
 	<br>
-	<!-- <form class="form1" id="form1" method="post" enctype="multipart/form-data" action="/shop/product/insertProduct"> -->
-	<form class="form1" id="form1" method="post" action="/shop/product/insertProduct">
+	<form class="create-form" id="create-form" method="post" action="/shop/product/insertProduct">
+	<!-- <form class="form1" id="form1" method="post" action="/shop/product/insertProduct"> -->
 		  <div class="form-group">
 		    <label for="exampleInputEmail1">상품명</label>
 		    <input type="text" name="product_name" class="form-control" id="product_name">
@@ -66,26 +66,30 @@
 			  <!-- <button type="submit" class="btn btn-default">등록</button> -->
 			  <!-- <button type="reset" class="btn btn-default" id="goBack">목록</button> -->
 		  	  <!-- <input type="button" class="btn btn-default" value="목록" onClick="goBack();"/> -->
-			  <input type="submit" class="btn btn-default" id="btnSubmit" value="상품 등록">
+			  <!-- <input type="submit" class="btn btn-default" value="상품 등록"> -->
+			  <input type="submit" class="create btn btn-success btn-wide pull-right" value="상품 등록">
 		  	  <input type="button" class="btn btn-default" value="목록으로 돌아가기" id="btnList"/>
 		  </div>
 	
-		<ul class="uploadedList">
+		<ul class="uploadedList mailbox-attachments clearfix">
 		</ul>
 		
 	</form>
 
-		<!-- handlebars.js 를 이용해서 첨부할 파일을 템플릿으로 작성한다. -->
-		<script id="templateAttach" type="text/x-handlebars-template">
+	<!-- 첨부파일 템플릿 -->
+	<script id="templateAttach" type="text/x-handlebars-template">
 		<li>
-			<span><img src="{{imgsrc}}" alt="Attachment"></span>
-			<div>
-				<a href="{{getLink}}">{{fileName}}</a>
-				<a href="{{fullName}}" class="btn btn-default">
-					<small class="delbtn">X</small></a>
+			<span class="mailbox-attachment-icon has-img">
+				<img src="{{imgsrc}}" alt="Attachment">
+			</span>
+			<div class="mailbox-attachment-info">
+				<a href="{{getLink}}" class="mailbox-attachment-name">{{fileName}}</a>
+				<a href="{{fullName}}" class="btn btn-default btn-xs pull-right del-btn">
+					<i class="fa fa-fw fa-remove"></i>
+				</a>
 			</div>
 		</li>
-		</script>
+	</script>
 		
 <script>
 $(function () {
@@ -117,14 +121,22 @@ $(function () {
          /* $(this).css('border', '2px dotted #8296C2'); */
          $(this).css('border', '2px dotted');
 
-         var template=Handlebars.compile($("#templateAttach").html());
-         //var source=$("#templateAttach").html();
-         //var template=Handlebars.compile(source);
+         //var template=Handlebars.compile($("#templateAttach").html());
+         var source=$("#templateAttach").html();
+         var template=Handlebars.compile(source);
+         
+         //event.dataTransfer=event.originalEvent.dataTransfer;
+   		 //var files=event.target.files || event.dataTransfer.files;
          
          //기본 event를 불러오고, 기본 event로 전송된 데이터를 가져와서 .files를 찾는다
          var files = event.originalEvent.dataTransfer.files;//드래그한 파일들
-    	 var file=files[0];//첫 번째 첨부파일. 하나를 drop했다고 가정.
+    	 var file = files[0];//첫 번째 첨부파일. 하나를 drop했다고 가정.
 		
+    	 if(files.length > 1){
+    		 alert("파일 한 개 이상 첨부 안됨");
+    		 return; 
+   		 }
+  
     	 /* console.log(files);
     	 console.log("files : " + files); */
     	 console.log(file);
@@ -158,21 +170,25 @@ $(function () {
 
 <script type="text/javascript">
 	//첨부파일. 최종 submit이 일어나면 서버에는 사용자가 업로드한 파일의 정보를 같이 전송하는데, 업로드 된 파일의 이름을 form태그 내부로 포함 시켜 전송한다.	
-	$("#form1").submit(function(event){
+	$("#create-form").submit(function(event){
 	/* $("#btnSubmit").click(function (event){ */
 		event.preventDefault();//먼저 기본 동작을 막는다.
 		
 		alert("form submit!!");
-		console.log(fullName);
+		//console.log(fullName);
 		
-		var that=$(this);
-		var str="";
+		var that = $(this);
+		var str = "";
 		
 		//현재까지 업로드 된 파일을 form태그 내부에 hidden으로 추가. 각 파일은 files[0]의 이름으로 추가됨.
 		//이 배열 표시를 이용해 컨트롤러에서 ProductDTO의 files 파라미터를 수집하게 된다.
 		//Handlebars 안에 있는 클래스는 직접 제어가 안된다. 바깥에 있는 아이디나 클래스를 가지고 제어.
-		$(".uploadedList").each(function(index){
-			str+="<input type='hidden' name='files["+index+"]' value='"+$(this).attr("href")+"'>";
+		//$(".uploadedList").each(function(index){
+		//	str += "<input type='hidden' name='files[" + index + "]' value='" + $(this).attr("href") + "' >";
+		//});
+		
+		$(".uploadedList .del-btn").each(function (index) {
+			str += "<input type='hidden' name='files[" + index + "]' value='" + $(this).attr("href") + "' >";
 		});
 		
 		console.log("fileUpload submit");
@@ -218,18 +234,20 @@ $(function () {
     //첨부파일 삭제처리/ 태그.on("이벤트", "자손태그", 이벤트 핸들러)
     /* obj.on("#delBtn", "click", "small", function(event){ */
     /* $(".delbtn").click("small", function(){ */
-    $(".uploadedList").on("click", "small", function(event){
+    $(".uploadedList").on("click", ".del-btn", function(event){
+    	event.preventDefault();
     	
     	var that=$(this);
     	
     	$.ajax({
     		url:"/shop/product/deleteFile",
     		type:"post",
-    		data:{fileName:$(this).attr("data-src")},
+    		data:{fileName:$(this).attr("href")},
     		dataType:"text",
     		success:function(result){
+	    		console.log("deleted file : " + result)
     			if(result=='deleted'){
-    				that.parent("div").remove();//jQuery의 remove() 이용하면 간단하게 원하는 요소(첨부파일 보여주기 위한<div>) 삭제
+    				that.parent("li").remove();//jQuery의 remove() 이용하면 간단하게 원하는 요소(첨부파일 보여주기 위한<div>) 삭제
     				alert("deleted");
     			}
     		}
