@@ -7,6 +7,7 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,26 +64,33 @@ public class ProductServiceImpl implements ProductService{
 		
 		logger.info("ProductServiceImpl files : " + files);
 		
-		try {			
+		try {
 			if(files==null) {
 				System.out.println("files null");
 				return;
-			} else {
+			}
+			
+				//파일이 not null일 때
 				logger.info("files not null : " + files);
-				//System.out.println("files null");
 				
 				//향상된 for문. for each문의 형식 → for(변수타입 변수이름 : 배열 이름)
 				for(String fileName : files) {
+					
+					//int product_id=dto.getProduct_id();
+					
+					logger.info("fileName : " + fileName);
+					
+					int product_id=dto.getProduct_id();
 					productDao.addAttach(fileName);
-					System.out.println("fileName : " + fileName);
-					logger.info("ProductServiceImpl fileName : " + files);
+					logger.info("getProduct_id : " + product_id);
+					System.out.println("addAttach 완료 fileName : " + fileName);
+					logger.info("addAttach 완료 files : " + files);
 				}
-			}
-		}catch(Exception e) {
-			e.printStackTrace();
-			logger.info("e" + e);
-			logger.debug("debug : " + e);
-		}		
+				
+		} catch (DataIntegrityViolationException ex) { 
+			logger.info("DataIntegrityViolationException : " + ex);
+		}
+				
 	}
 
 	//6. 상품 이미지 삭제 위한 이미지 파일 정보

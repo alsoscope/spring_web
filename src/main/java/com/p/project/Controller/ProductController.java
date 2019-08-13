@@ -62,7 +62,7 @@ public class ProductController {
 	
 	//상품 등록 처리 매핑
 	@RequestMapping(value="insertProduct", method=RequestMethod.POST)
-	public String insertProduct(ProductDTO dto) throws Exception{
+	public String insertProduct(ProductDTO dto, ProductDTO product_id) throws Exception{
 /*		String filename="";
 		//첨부파일(상품사진)이 있으면
 		if(!dto.getProduct_Photo().isEmpty()) {
