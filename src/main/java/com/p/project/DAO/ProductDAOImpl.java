@@ -42,7 +42,7 @@ public class ProductDAOImpl implements ProductDAO {
 
 	//04. 상품 삭제
 	@Override
-	public void deleteProduct(int Product_id) {
+	public void deleteProduct(int product_id) {
 	}
 
 	//5. 상품 추가
@@ -101,6 +101,7 @@ public class ProductDAOImpl implements ProductDAO {
 	public void addAttach(String fullName) throws Exception {
 		sqlSession.insert("product.addAttach", fullName);
 		logger.info("ProductDAOImpl fullName : " + fullName);
+
 	}
 
 	//첨부파일 있는 게시물 조회

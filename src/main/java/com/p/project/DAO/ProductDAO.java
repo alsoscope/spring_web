@@ -17,7 +17,7 @@ public interface ProductDAO {
 	public void updateProduct(ProductDTO vo);
 	
 	//4.상품 삭제
-	public void deleteProduct(int Product_id);
+	public void deleteProduct(int product_id);
 	
 	//5. 상품추가
 	public void insertProduct(ProductDTO dto) throws Exception;
