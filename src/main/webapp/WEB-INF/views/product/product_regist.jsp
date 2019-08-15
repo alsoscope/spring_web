@@ -13,6 +13,13 @@
 	}
     #dropzone {
         border:2px dotted;
+        width:90%;
+        height:50px;
+        color:#92AAB0;
+        text-align:center;
+        font-size:24px;
+        padding-top:12px;
+        margin-top:10px;
         /* width:90%;
         height:50px;
         color:#92AAB0;
@@ -24,10 +31,10 @@
 </style>
 <!-- <script src="//code.jquery.com/jquery-3.2.1.min.js"></script> -->
 <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <%-- <script src="<c:url value="../../resources/js/dropzone.js"/>"></script> --%>
-<link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+<!-- <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css"> -->
 <script src="<c:url value="../../resources/js/upload.js"/>"></script><!-- /resources/js 의 파일. 파일첨부 관련 자바 스크립트. -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.2/handlebars.js"></script>
 <%@ include file="../forward/header.jsp" %>

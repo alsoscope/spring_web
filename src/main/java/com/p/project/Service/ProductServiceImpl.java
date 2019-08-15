@@ -60,37 +60,28 @@ public class ProductServiceImpl implements ProductService{
 		logger.info("INSERT 직후 시퀀스값 : " + dto.getProduct_id());
 		
 		String[] files=dto.getFiles();
-		System.out.println("Arrays.toString(files) : " + Arrays.toString(files));
-		
+		logger.info("Arrays.toString(files) : " + Arrays.toString(files));		
 		logger.info("ProductServiceImpl files : " + files);
 		
 		try {
 			if(files==null) {
 				System.out.println("files null");
 				return;
-			}
-			
+			}			
 				//파일이 not null일 때
 				logger.info("files not null : " + files);
 				
 				//향상된 for문. for each문의 형식 → for(변수타입 변수이름 : 배열 이름)
-				for(String fileName : files) {
-					
-					//int product_id=dto.getProduct_id();
-					
-					logger.info("fileName : " + fileName);
-					
+				for(String fileName : files) {	
 					int product_id=dto.getProduct_id();
-					productDao.addAttach(fileName);
+					productDao.addAttach(fileName, product_id);
 					logger.info("getProduct_id : " + product_id);
-					System.out.println("addAttach 완료 fileName : " + fileName);
+					logger.info("addAttach 완료 fileName : " + fileName);
 					logger.info("addAttach 완료 files : " + files);
-				}
-				
+				}				
 		} catch (DataIntegrityViolationException ex) { 
 			logger.info("DataIntegrityViolationException : " + ex);
-		}
-				
+		}				
 	}
 
 	//6. 상품 이미지 삭제 위한 이미지 파일 정보

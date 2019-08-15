@@ -1,6 +1,8 @@
 package com.p.project.DAO;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -96,13 +98,25 @@ public class ProductDAOImpl implements ProductDAO {
 	}
 	//++++++++++++++++++스크롤링 Test++++++++++++++++++
 
-	//첨부파일 //fullName
+	//첨부파일
 	@Override
-	public void addAttach(String fullName) throws Exception {
+	public int addAttach(String fullName, int product_id) throws Exception {
+		
+		//sqlSession.insert(namespace + ".addAttach", fullName);
+		
+		HashMap<String, Object> map=new HashMap<String, Object>();
+		map.put("fullName", fullName);
+		map.put("product_id", product_id);
+		
+		logger.info("ProductDAOImpl fullName : " + fullName);		
+		logger.info("ProductDAOImpl product_id : " + product_id);
+		return sqlSession.insert(namespace + ".addAttach", map);
+	}
+	/*public void addAttach(String fullName, int product_id) throws Exception {
 		sqlSession.insert("product.addAttach", fullName);
 		logger.info("ProductDAOImpl fullName : " + fullName);
-
-	}
+		logger.info("ProductDAOImpl product_id : " + product_id);
+	}*/
 
 	//첨부파일 있는 게시물 조회
 	@Override
