@@ -256,7 +256,58 @@ public class ProductController {
 				in.close();//스트림 닫기
 			}
 			return entity;
-	}
+	}//displayFile
+	
+	//displayFile()은 파라미터로 브라우저에서 전송받기를 원하는 파일의 이름을 받는다
+	@ResponseBody
+	@RequestMapping("/displayFile_detail")
+	public ResponseEntity<byte[]> displayFile_detail(String fileName)throws Exception{
+		
+		//서버의 파일을 다운로드하기 위한 스트림
+		InputStream in=null; //java.io
+		
+		//ResponseBody를 이용해서 byte[] 데이터가 그대로 전송될 것임을 명시.
+		ResponseEntity<byte[]> entity=null;
+		
+		logger.info("displayFilep_detail : " + fileName);
+
+		try {
+			//가장 먼저 하는 작업. 파일 이름에서 확장자 추출,formatName에 저장. 이미지 타입의 파일인 경우는 적절한 MIME 타입을 지정.
+			String formatName=fileName.substring(fileName.lastIndexOf(".")+1);
+			
+			//추출한 확장자를 MediaUtils클래스에서 이미지 파일 여부를 검사하고 리턴받아 mType에 저장
+			MediaType mType=MediaUtils.getMediaType(formatName);
+			
+			//헤더 구성 객체(외부에서 데이터를 주고받을 때에는 header와 body를 구성해야하기 때문에)
+			HttpHeaders headers=new HttpHeaders();
+			
+			//InputStream 생성
+			in = new FileInputStream(uploadPath+fileName);
+			
+				//이미지 파일인지 확인
+				if(mType != null) {
+					headers.setContentType(mType);
+				}else {
+					fileName=fileName.substring(fileName.indexOf("_")+1);
+					
+					//이미지가 아닌 경우 MIME 타입을 다운로드 용으로 사용되게 한다. 사용자에게 자동으로 다운로드 창을 열어줌.
+					headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+					//한글처리. new String : 바이트 배열을 스트링으로. 
+					headers.add("Content-Disposition", "attachment; filename=\""+new String(fileName.getBytes("UTF-8"),"ISO-8859-1")+"\"");
+				}
+
+				//실제로 데이터를 읽는 부분. commons 라이브러리의 기능을 활용해 대상 파일에서 데이터를 읽어내는 IOUtils.toByteArray()
+				//바이트 패열, 헤더, HTTP 상태코드
+				entity=new ResponseEntity<byte[]>(IOUtils.toByteArray(in),headers,HttpStatus.CREATED);		
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+				entity=new ResponseEntity<byte[]>(HttpStatus.BAD_REQUEST);//HTTP상태 코드()
+			}finally {
+				in.close();//스트림 닫기
+			}
+			return entity;
+	}//displayFile_detail
 	
 	//파일 삭제 매핑
 	//파라미터로 삭제할 파일의 이름을 받는다. 이미지의 경우 썸네일 이름, 일반 파일은 실제 이름이 된다

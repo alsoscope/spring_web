@@ -24,6 +24,32 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.2/handlebars.js"></script>
   <!-- Custom styles for this template -->
   <%-- <link href="${pageContext.request.contextPath }/resources/css/shop-item.css" rel="stylesheet"> --%>
+  
+<style type="text/css">
+.popup{
+	position:absolute;
+}
+.back{
+	/* background-color:gray;
+	opacity:0.5;
+	width:100%;
+	height:100%;
+	overflow:hidden;
+	z-index:1101; */
+}
+.front{
+	z-index:1110;
+	opacity:1;
+	boarder:1px;
+	margin:auto;
+}
+.show{
+	position:relative;
+	max-width:1200px;
+	max-height:800px;
+	overflow:auto;
+}
+</style>
 </head>
 <%@ include file="../forward/header.jsp" %>
 <body>
@@ -60,9 +86,9 @@
 	
 	<script id="templateAttach" type="text/x-handlebars-template">
 	<span data-src='{{fullName}}' class="card-img-top img-fluid">
-		<span><img class="card-img-top img-fluid" style="width:900px; height:400px;" src="{{imgsrc}}" alt="attachments"></span>
-		<div>
-			<a href={{getLink}}>{{fileName}}</a>
+		<span><img class="card-img-top img-fluid" style="width:900px; height:400px;" src="{{getLink}}" alt="attachments"></span>
+		<div class="img-pop">
+			<a href="{{getLink}}">클릭하면 확대됩니다  → {{fileName}}</a>
 		</div>
 	</span>
 	</script>
@@ -162,7 +188,7 @@
 	</script>
 	
 	<script>
-	$(".uploadedList").on("click", function(event){
+	$(".uploadedList").on("click", ".img-pop a", function(event){
 		var fileLink=$(this).attr("href");
 		
 		if(checkImageType(fileLink)){
