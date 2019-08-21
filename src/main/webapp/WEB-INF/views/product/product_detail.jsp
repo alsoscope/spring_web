@@ -14,62 +14,21 @@
 
   <!-- Bootstrap core CSS -->
   <link href="/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
+  <!-- Bootstrap core JavaScript -->
+  <script
+  src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <!-- display comment count -->
+  <script id="dsq-count-scr" src="//cinephile-1.disqus.com/count.js" async></script>
+  <!-- 첨부파일의 조회 -->
+  <script src="<c:url value="/resources/js/upload.js"/>"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.2/handlebars.js"></script>
   <!-- Custom styles for this template -->
-  <link href="${pageContext.request.contextPath }/resources/css/shop-item.css" rel="stylesheet">
+  <%-- <link href="${pageContext.request.contextPath }/resources/css/shop-item.css" rel="stylesheet"> --%>
 </head>
+<%@ include file="../forward/header.jsp" %>
 <body>
-  <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container">
-      <a class="navbar-brand" href="/">CINEPHILE</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Home
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
-          <li class="nav-item">
-          	<c:if test="${login.userId==null }">
-            <li>GUEST 접속중</li>
-            </c:if>
-          </li>
-          <li class="nav-item">
-          	<c:if test="${login.userId==null }">
-            <a class="nav-link" href="${path }/member/loginGET">로그인</a>
-            </c:if>
-          </li>
-          <li class="nav-item">
-          	<c:if test="${login.userId!=null }">
-            ${login.userId }님이 로그인 중입니다.
-            </c:if>
-          </li>
-          <li class="nav-item">
-          	<c:if test="${login.userId!=null }">
-            <a class="nav-link" href="${path }/member/logout">로그아웃</a>
-            </c:if>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="${path }/sboard/search_list">게시판</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/shop/cart/cart_list">장바구니</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/about">About</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-
   <!-- Page Content -->
   <div class="container">
-
     <div class="row">
 
       <div class="col-lg-3">
@@ -88,9 +47,28 @@
       <!-- /.col-lg-3 -->
 
       <div class="col-lg-9">
-
         <div class="card mt-4">
-          <img class="card-img-top img-fluid" style="width:900px; height:400px;" src="/resources/images/movie/${vo.product_url}"  alt="포스터" >
+        
+    <!-- --------- 파일 첨부 리스트 --------- 조회 페이지에서 업로드 된 파일들이 보여질 영억 -->
+	<ul class="uploadedList"></ul>
+	
+	<div class="popup back" style="display:none;"></div>
+		<div id="popup_front" class="popup front" style="display:none;">
+			<img id="popup_img">
+		</div>	
+	<!-- </div> -->
+	
+	<script id="templateAttach" type="text/x-handlebars-template">
+	<span data-src='{{fullName}}' class="card-img-top img-fluid">
+		<span><img class="card-img-top img-fluid" style="width:900px; height:400px;" src="{{imgsrc}}" alt="attachments"></span>
+		<div>
+			<a href={{getLink}}>{{fileName}}</a>
+		</div>
+	</span>
+	</script>
+	<!-- --------- 파일 첨부 리스트 --------- 조회 페이지에서 업로드 된 파일들이 보여질 영억 -->
+	
+          <%-- <img class="card-img-top img-fluid" style="width:900px; height:400px;" src="${vo.product_id}" alt="포스터" > --%>
 		<!-- <img class="card-img-top img-fluid" src="http://placehold.it/900x400" alt=""> -->
           <div class="card-body">
             <h3 class="card-title">${vo.product_name }</h3>
@@ -160,29 +138,51 @@
           </div> -->
         </div>
         <!-- /.card -->
-
       </div>
       <!-- /.col-lg-9 -->
-
     </div>
-
   </div>
   <!-- /.container -->
 
-  <!-- Footer -->
-  <footer class="py-5 bg-dark">
-    <div class="container">
-      <p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>
-    </div>
-    <!-- /.container -->
-  </footer>
+	<!-- 첨부파일에 대한 템플릿. 업로드 된 파일이 보여지도록 upload.js 와 handlebars 설정 -->
+	<script>
+		 var bno="${vo.product_id}";
+		 var template=Handlebars.compile($("#templateAttach").html());
+		 
+		 //컨트롤러에서 문자열의 리스트를 반환, JSON 형태로 데이터 전송하면 getJSON을 이용해 처리한다.
+		 $.getJSON("/shop/product/getAttach/"+bno, function(list){
+			$(list).each(function(){
+				var fileInfo=getFileInfo(this);
+				
+				var html=template(fileInfo);
+				
+				$(".uploadedList").append(html);
+			});
+		 });
+	</script>
+	
+	<script>
+	$(".uploadedList").on("click", function(event){
+		var fileLink=$(this).attr("href");
+		
+		if(checkImageType(fileLink)){
+			event.preventDefault();
+			
+			var imgTag=$("#popup_img");
+			imgTag.attr("src", fileLink);
+			
+			console.log(imgTag.attr("src"));
+			
+			$(".popup").show('slow');
+			imgTag.addClass("show");
+		}
+	});
+	
+	$("#popup_img").on("click", function(){
+		$(".popup").hide('slow');
+	});
+	</script>
 
-  <!-- display comment count -->
-  <script id="dsq-count-scr" src="//cinephile-1.disqus.com/count.js" async></script>
-  
-  <!-- Bootstrap core JavaScript -->
-  <script src="/resources/vendor/jquery/jquery.min.js"></script>
-  <script src="/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
+<%@ include file="../forward/footer.jsp" %>
 </body>
 </html>

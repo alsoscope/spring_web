@@ -83,6 +83,12 @@ public class ProductServiceImpl implements ProductService{
 			logger.info("DataIntegrityViolationException : " + ex);
 		}				
 	}
+	
+	//첨부파일 조회
+		@Override
+		public List<String> getAttach(int product_id) throws Exception {
+			return productDao.getAttach(product_id);
+		};
 
 	//6. 상품 이미지 삭제 위한 이미지 파일 정보
 	@Override
@@ -118,10 +124,4 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	//++++++++++++++++++스크롤링 Test++++++++++++++++++
-
-	//첨부파일 조회
-	@Override
-	public List<String> getAttach(Integer product_id) throws Exception {
-		return productDao.getAttach(product_id);
-	};
 }

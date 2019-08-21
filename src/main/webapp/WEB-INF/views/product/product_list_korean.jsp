@@ -46,15 +46,13 @@
   <!-- Bootstrap core CSS -->
   <link href="/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <!-- Custom styles for this template -->
-  <link href="${pageContext.request.contextPath }/resources/css/shop-homepage.css" rel="stylesheet">
+  <%-- <link href="${pageContext.request.contextPath }/resources/css/shop-homepage.css" rel="stylesheet"> --%>
   
   <!-- jQuery-UI (infinite scrolling) easing 효과 위하여. -->
   <!-- <script src="/resources/js/jquery-ui.min.js"></script> -->
-
   <!-- JSTL fmt태그 대용(Date Format) moment.js -->
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/af.js"></script> -->
-  
-  <script src="https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.js"></script>
+  <!-- <script src="https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.js"></script> -->
 
   <!-- 첨부파일의 조회 -->
   <script src="<c:url value="../../resources/js/upload.js"/>"></script>
@@ -73,62 +71,12 @@
 		});
 	}); */
 	</script>
-
+<%@ include file="../forward/header.jsp" %>
 </head>
 <body>
-  <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container">
-      <a class="navbar-brand" href="/">CINEPHILE</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="/">Home
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
-          <li class="nav-item">
-          	<c:if test="${login.userId==null }">
-            <li>GUEST 접속중</li>
-            </c:if>
-          </li>
-          <li class="nav-item">
-          	<c:if test="${login.userId==null }">
-            <a class="nav-link" href="${path }/member/loginGET">로그인</a>
-            </c:if>
-          </li>
-          <li class="nav-item">
-          	<c:if test="${login.userId!=null }">
-            ${login.userId }님이 로그인 중입니다.
-            </c:if>
-          </li>
-          <li class="nav-item">
-          	<c:if test="${login.userId!=null }">
-            <a class="nav-link" href="${path }/member/logout">로그아웃</a>
-            </c:if>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="${path }/sboard/search_list">게시판</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/shop/cart/listCart">장바구니</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/about">About</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-
   <!-- Page Content -->
   <div class="container">
-
     <div class="row">
-
       <div class="col-lg-3">
         <h3 class="my-4">영화 목록</h3>
         <div class="list-group">
@@ -172,14 +120,14 @@
           </a>
         </div>
   
-  	<div class="container1">
+  	<!-- <div class="container1"> -->
   
-        <%-- <div class="row post">
-        <c:forEach var="row" items="${list }" begin="1" end="6" step="1">
-        <c:forEach var="row" items="${list }">
+        <div class="row">
+        <%-- <c:forEach var="row" items="${list }" begin="1" end="6" step="1"> --%>
+        <c:forEach var="row" items="${vo }">
 	          <div class="col-lg-4 col-md-6 mb-4" data-bno="${row.product_id }" >
 	            <div class="card h-100"  >
-	              <a href="/shop/product/detail/${row.product_id }"><img class="card-img-top" src="/resources/images/movie/${row.product_url}"
+	              <a href="/shop/product/detail/${row.product_id }"><img class="card-img-top" src="${row.product_id}"
 	              													 style="width:700; height:400;" alt="포스터" title="클릭시 이동"></a>
 	              <div class="card-body">
 	                <h4 class="card-title">
@@ -194,26 +142,7 @@
 	            </div><!-- <div class="card h-100"> --> 
 	          </div><!-- <div class="col-lg-4 col-md-6 mb-4"> -->
 		  </c:forEach>
-        </div><!-- /.row --> --%>
-
-	<!-- --------- 파일 첨부 리스트 --------- 조회 페이지에서 업로드 된 파일들이 보여질 영억 -->
-	<ul class="uploadedList"></ul>
-	
-	<div class="popup back" style="display:none;"></div>
-		<div id="popup_front" class="popup front" style="display:none;">
-			<img id="popup_img">
-		</div>	
-	</div>
-	
-	<script id="templateAttach" type="text/x-handlebars-template">
-	<li data-src='{{fullName}}'>
-		<span><img src="{{imgsrc}}" alt="attachments"></imgsrc></span>
-		<div>
-			<a href={{getLink}}>{{fileName}}</a>
-		</div>
-	</li>
-	</script>
-	<!-- --------- 파일 첨부 리스트 --------- 조회 페이지에서 업로드 된 파일들이 보여질 영억 -->
+        </div><!-- /.row -->
 	
 	<!-- <div id="loader" class="active">
 			<img src="/resources/images/loading.gif">
@@ -223,13 +152,6 @@
       </div><!-- /.col-lg-9 -->
     </div><!-- /.row -->
   </div><!-- /.container -->
-
-  <!-- Footer -->
-  <footer class="py-5 bg-dark">
-    <div class="container">
-      <p class="m-0 text-center text-white">Copyright &copy; CINEPHILE 2019</p>
-    </div><!-- /.container -->
-  </footer>
   
   	<script>
   	$('.container1').infiniteScroll({
@@ -247,43 +169,6 @@
   	$('.container1').addClass(".active");
 	</script>
 	
-	<!-- 첨부파일에 대한 템플릿. 업로드 된 파일이 보여지도록 upload.js 와 handlebars 설정 -->
-	<script>
-		 var bno="${productDTO.product_id}";
-		 var template=Handlebars.compile($("#templateAttach").html());
-		 
-		 //컨트롤러에서 문자열의 리스트를 반환, JSON 형태로 데이터 전송하면 getJSON을 이용해 처리한다.
-		 $.getJSON("/shop/product/getAttach/"+product_id, function(list){
-			$(list).each(function(){
-				var fileInfo=getFileInfo(this);
-				
-				var html=template(fileInfo);
-				
-				$(".uploadedList").append(html);
-			});
-		 });
-	</script>
-	
-	<script>
-	$(".uploadedList").on("click", function(event){
-		var fileLink=$(this).attr("href");
-		
-		if(checkImageType(fileLink)){
-			event.preventDefault();
-			
-			var imgTag=$("#popup_img");
-			imgTag.attr("src", fileLink);
-			
-			console.log(imgTag.attr("src"));
-			
-			$(".popup").show('slow');
-			imgTag.addClass("show");
-		}
-	});
-	
-	$("#popup_img").on("click", function(){
-		$(".popup").hide('slow');
-	});
-	</script>
+<%@ include file="../forward/footer.jsp" %>
 </body>
 </html>

@@ -106,45 +106,51 @@ public class ProductController {
 	}*/
 	
 	//2. 상품 상세보기 페이지 매핑. 하나의 URL이 하나의 고유한 리소스를 대표(Rest)할 수 있도록 처리
-	//@ResponseBody
 	@RequestMapping("/detail/{product_id}")
 	public String detailProduct(Model model, @PathVariable("product_id")int product_id) throws Exception{
+		
 		model.addAttribute("vo", productService.detailProduct(product_id));
 		logger.info("클릭한 product_id : " + product_id);
+		
 		return "/product/product_detail";
 	}
 	
+	@ResponseBody
+	@RequestMapping("/getAttach/{product_id}")
+	public List<String> getAttach(@PathVariable("product_id")int product_id) throws Exception{
+		logger.info("getAttach : " + productService.getAttach(product_id).toString());
+		return productService.getAttach(product_id);
+	}
+	
 	//한국 영화 카테고리
-/*	@RequestMapping(value="product_list_korean")
+	@RequestMapping(value="product_list_korean")
 	public String product_list_korean(Model model, Criteria cri) throws Exception{
 	
 		System.out.println("product_list_korean");
 
 		List<ProductDTO> list=productService.listProduct();
-		List<ProductDTO> list=productService.criteriaList(cri);
-		model.addAttribute("list", list);
+		//List<ProductDTO> list=productService.criteriaList(cri);
+		model.addAttribute("vo", list);
 		
-		PageMaker pageMaker=new PageMaker();
+		/*PageMaker pageMaker=new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(productService.listCountCriteria(cri));
-		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("pageMaker", pageMaker);*/
 		
 		return "/product/product_list_korean";
 	}
-	*/
 	
-	@RequestMapping(value="product_list_korean")
+	/*@RequestMapping(value="product_list_korean")
 	public String product_list_korean(Model model, Integer product_id) throws Exception{
 	
 		logger.info("product_list_korean2..............");
 
 		//List<ProductDTO> list=productService.listTest();
-		model.addAttribute("list", productService.getAttach(product_id));
-		
+		model.addAttribute("list", productService.getAttach(product_id));		
 		
 		return "/product/product_list_korean";
-	}
-
+	}*/
+	
 	/*무한 스크롤. 브라우저에서 요청으로 온 JSON데이터를 객체로 자동으로 바인딩 시켜주는 @RequestBody를 이용하여 product_id를 멤버로 갖고 있는
 	ProductDTO 객체를 통해 product_id 값을 바인딩 시키고, 자동으로 리턴값을 JSON형태로 만들어주는 @ResponseBody 이용*/
 	/*@RequestMapping(value="infiniteScrollDown", method=RequestMethod.POST)
@@ -281,11 +287,4 @@ public class ProductController {
 			//데이터와 http상태 코드 전송
 			return new ResponseEntity<String>("delete", HttpStatus.OK);
 		}
-
-	@ResponseBody
-	@RequestMapping("/getAttach/{product_id}")
-	public List<String> getAttach(@PathVariable("product_id")Integer product_id) throws Exception{
-
-		return productService.getAttach(product_id);
-	}
 }//ProductController

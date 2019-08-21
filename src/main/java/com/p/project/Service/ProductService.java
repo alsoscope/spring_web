@@ -38,6 +38,6 @@ public interface ProductService {
 	public List<ProductDTO> infiniteScrollUp(Integer product_id);
 	
 	//첨부파일 게시물 조회
-	public List<String> getAttach(Integer product_id) throws Exception;
+	public List<String> getAttach(int product_id) throws Exception;
 	
 }

@@ -13,13 +13,6 @@
 	}
     #dropzone {
         border:2px dotted;
-        width:90%;
-        height:50px;
-        color:#92AAB0;
-        text-align:center;
-        font-size:24px;
-        padding-top:12px;
-        margin-top:10px;
         /* width:90%;
         height:50px;
         color:#92AAB0;
@@ -34,7 +27,7 @@
 <%-- <script src="<c:url value="../../resources/js/dropzone.js"/>"></script> --%>
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
-<!-- <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css"> -->
+<link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
 <script src="<c:url value="../../resources/js/upload.js"/>"></script><!-- /resources/js 의 파일. 파일첨부 관련 자바 스크립트. -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.2/handlebars.js"></script>
 <%@ include file="../forward/header.jsp" %>
@@ -83,7 +76,7 @@
 		
 	</form>
 
-	<!-- 첨부파일 템플릿 -->
+	<!-- 첨부파일 템플릿 handlebars.js 를 이용해서 첨부할 파일을 템플릿으로 작성한다-->
 	<script id="templateAttach" type="text/x-handlebars-template">
 		<li>
 			<span class="mailbox-attachment-icon has-img">
@@ -92,7 +85,7 @@
 			<div class="mailbox-attachment-info">
 				<a href="{{getLink}}" class="mailbox-attachment-name">{{fileName}}</a>
 				<a href="{{fullName}}" class="btn btn-default btn-xs pull-right del-btn">
-					<i class="fa fa-fw fa-remove"></i>
+					<small class="delbtn">X</small>
 				</a>
 			</div>
 		</li>
