@@ -51,7 +51,7 @@
       setTimeout(function(){$("body").fadeOut(1000);},100000);
       setTimeout(function(){location.href= "${pageContext.request.contextPath}/"},100000); //2초 뒤에 메인 화면  
     
-    })
+    });
   </script>
 
 </body>
