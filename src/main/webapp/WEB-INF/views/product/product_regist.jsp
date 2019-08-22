@@ -85,7 +85,7 @@
 			<div class="mailbox-attachment-info">
 				<a href="{{getLink}}" class="mailbox-attachment-name">{{fileName}}</a>
 				<a href="{{fullName}}" class="btn btn-default btn-xs pull-right del-btn">
-					<small class="delbtn">X</small>
+					<small class="del-btn">X</small>
 				</a>
 			</div>
 		</li>
@@ -242,12 +242,12 @@ $(function () {
     	$.ajax({
     		url:"/shop/product/deleteFile",
     		type:"post",
-    		data:{fileName:$(this).attr("href")},
+    		data:{fileName:that.attr("href")},
     		dataType:"text",
     		success:function(result){
-	    		console.log("deleted file : " + result)
+	    		console.log("deleted file : " + result);
     			if(result=='deleted'){
-    				that.parent("li").remove();//jQuery의 remove() 이용하면 간단하게 원하는 요소(첨부파일 보여주기 위한<div>) 삭제
+    				that.closest("li").remove();//jQuery의 remove() 이용하면 간단하게 원하는 요소(첨부파일 보여주기 위한<div>) 삭제
     				alert("deleted");
     			}
     		}

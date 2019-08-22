@@ -336,6 +336,6 @@ public class ProductController {
 			new File(uploadPath+fileName.replace('/', File.separatorChar)).delete();
 			
 			//데이터와 http상태 코드 전송
-			return new ResponseEntity<String>("delete", HttpStatus.OK);
+			return new ResponseEntity<String>("deleted", HttpStatus.OK);
 		}
 }//ProductController
