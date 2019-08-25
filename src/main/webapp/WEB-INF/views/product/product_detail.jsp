@@ -84,6 +84,7 @@
 		</div>	
 	<!-- </div> -->
 	
+	<!-- handlebars.js 를 이용해서 첨부할 파일을 템플릿으로 작성한다. -->
 	<script id="templateAttach" type="text/x-handlebars-template">
 	<span data-src='{{fullName}}' class="card-img-top img-fluid">
 		<span><img class="card-img-top img-fluid" style="width:900px; height:400px;" src="{{getLink}}" alt="attachments"></span>

@@ -4,8 +4,15 @@
 <mapper namespace="product">
 	<!-- DB에서 오는 컬럼명과 java에서 처리하는 변수명 일치를 위해 alias 처리 -->
 	<!-- 01. 상품 전체 목록 -->
-	<select id="listProduct" resultType="com.p.project.DTO.ProductDTO">
-		SELECT * FROM tbl_product ORDER BY product_id desc
+	<select id="listProduct" resultType="com.p.project.VO.ProductVO">
+		<!-- SELECT * FROM tbl_product ORDER BY product_id desc -->
+		
+		select product_name, product_price, product_desc, fullName
+
+		from tbl_product, tbl_attach
+		
+		where tbl_product.product_id = tbl_attach.product_id
+				
 		
 		<!-- SELECT product_id AS productId, product_name AS productName, product_price AS producrPrice, 
 		product_desc AS productDesc, product_url AS productUrl

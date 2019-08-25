@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
@@ -210,7 +211,7 @@ public class ProductController {
 	//displayFile()은 파라미터로 브라우저에서 전송받기를 원하는 파일의 이름을 받는다
 	@ResponseBody
 	@RequestMapping("/displayFile")
-	public ResponseEntity<byte[]> displayFile(String fileName)throws Exception{
+	public ResponseEntity<byte[]> displayFile(@RequestParam("fileName") String fileName)throws Exception{
 		
 		//서버의 파일을 다운로드하기 위한 스트림
 		InputStream in=null; //java.io
@@ -336,6 +337,6 @@ public class ProductController {
 			new File(uploadPath+fileName.replace('/', File.separatorChar)).delete();
 			
 			//데이터와 http상태 코드 전송
-			return new ResponseEntity<String>("delete", HttpStatus.OK);
+			return new ResponseEntity<String>("deleted", HttpStatus.OK);
 		}
 }//ProductController
