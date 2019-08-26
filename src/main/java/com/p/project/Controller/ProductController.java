@@ -211,7 +211,7 @@ public class ProductController {
 	//displayFile()은 파라미터로 브라우저에서 전송받기를 원하는 파일의 이름을 받는다
 	@ResponseBody
 	@RequestMapping("/displayFile")
-	public ResponseEntity<byte[]> displayFile(@RequestParam("fileName") String fileName)throws Exception{
+	public ResponseEntity<byte[]> displayFile(String fileName)throws Exception{
 		
 		//서버의 파일을 다운로드하기 위한 스트림
 		InputStream in=null; //java.io
@@ -221,7 +221,7 @@ public class ProductController {
 		
 		logger.info("displayFile FILE NAME : " + fileName);
 
-		try {
+		try {			
 			//가장 먼저 하는 작업. 파일 이름에서 확장자 추출,formatName에 저장. 이미지 타입의 파일인 경우는 적절한 MIME 타입을 지정.
 			String formatName=fileName.substring(fileName.lastIndexOf(".")+1);
 			
@@ -270,7 +270,7 @@ public class ProductController {
 		//ResponseBody를 이용해서 byte[] 데이터가 그대로 전송될 것임을 명시.
 		ResponseEntity<byte[]> entity=null;
 		
-		logger.info("displayFilep_detail : " + fileName);
+		logger.info("displayFile_detail : " + fileName);
 
 		try {
 			//가장 먼저 하는 작업. 파일 이름에서 확장자 추출,formatName에 저장. 이미지 타입의 파일인 경우는 적절한 MIME 타입을 지정.
