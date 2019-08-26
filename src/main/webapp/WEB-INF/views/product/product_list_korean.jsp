@@ -30,10 +30,15 @@
 .aa.active-color { color:#f67599; }
 .aa:hover:not(.active) {background-color: #ddd;} */
 
-.popup{	position:absolute;}
+/* .popup{	position:absolute;}
 .back{background-color:gray; opacity:0.5; width:100%; height:300%; overflow:hidden; z-index:1101;}
 .front{z-index:1110; opacity:1; border:1px; margin:auto;}
-.show{position:relative; max-width:1200px; max-height:800px; overflow:auto;}
+.show{position:relative; max-width:1200px; max-height:800px; overflow:auto;} */
+
+.nav-aaa{
+	padding:.8rem .8rem !important;
+}
+
 </style>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -57,6 +62,7 @@
   <!-- 첨부파일의 조회 -->
   <script src="<c:url value="../../resources/js/upload.js"/>"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.2/handlebars.js"></script>
+  <script src="<c:url value="/resources/js/upload.js"/>"></script>
   
 	<script>
 	/* a.active-color { color:#000; }
@@ -126,13 +132,11 @@
         <%-- <c:forEach var="row" items="${list }" begin="1" end="6" step="1"> --%>
         <c:forEach var="row" items="${vo }">
 	          <div class="col-lg-4 col-md-6 mb-4" data-bno="${row.product_id }" >
-	            <div class="card h-100"  >
-	            
+	            <div class="card h-100"  >            
 	              <a href="/shop/product/detail/${row.product_id }">
 	              	<img class="card-img-top" src="/shop/product/displayFile?fileName=${row.fullName}" style="width:700; height:400;" alt="포스터" title="클릭시 이동"/>
-	              	<%-- <img class="card-img-top" src="${row.fullName}" style="width:700; height:400;" alt="포스터" title="클릭시 이동"> --%>
+	              	<%-- <img class="card-img-top" src="${row.product_id}" style="width:700; height:400;" alt="포스터" title="클릭시 이동"> --%>
 	              </a>
-	              
 	              <div class="card-body">
 	                <h4 class="card-title">
 	                  <a href="${path }/shop/product/detail/${row.product_id }">${row.product_name }</a>
