@@ -104,7 +104,7 @@ public class FileUpload {
 		BufferedImage sourceImg=ImageIO.read(new File(uploadPath + path, fileName));
 		
 		//100px 단위의 썸네일 생성
-		BufferedImage destImg=Scalr.resize(sourceImg, Scalr.Method.AUTOMATIC, Scalr.Mode.FIT_TO_HEIGHT,100);
+		BufferedImage destImg=Scalr.resize(sourceImg, Scalr.Method.AUTOMATIC, Scalr.Mode.FIT_TO_HEIGHT,400);
 		
 		String thumbnailName=uploadPath + path + File.separator + "s_" + fileName;
 		

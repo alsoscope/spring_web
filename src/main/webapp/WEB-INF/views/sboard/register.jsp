@@ -45,11 +45,11 @@ form {
 	
 	<div class="form-group">
 		제목
-		<input class="form-control" name="title" id="title" size="50" placeholder="제목을 입력해주세요">
+		<input class="form-control" name="title" id="title" size="50" placeholder="제목을 입력해주세요" autofocus>
 	</div>
 	<div class="form-group">
 		내용
-		<textarea class="form-control" name="content" id="content" rows="4" cols="50" placeholder="내용을 입력해주세요"></textarea>
+		<textarea class="form-control" name="content" id="content" rows="4" cols="50" placeholder="내용을 입력해주세요" autofocus></textarea>
 	</div>
 	
 	<div style="text-align:center;">

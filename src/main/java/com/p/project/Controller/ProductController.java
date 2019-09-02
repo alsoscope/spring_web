@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.p.project.DTO.ProductDTO;
 import com.p.project.DTO.SearchCriteria;
@@ -57,7 +58,6 @@ public class ProductController {
 	//1. 상품 등록 페이지 매핑
 	@RequestMapping(value="product_regist")
 	public String product_regist() {
-
 		return "/product/product_regist";
 	}
 	
@@ -116,6 +116,34 @@ public class ProductController {
 		return "/product/product_detail";
 	}
 	
+	//게시글 수정 form
+	@RequestMapping(value="/product_update/{product_id}", method=RequestMethod.GET)
+	public String product_update(ProductDTO dto, Model model, @PathVariable("product_id")int product_id, RedirectAttributes rttr) throws Exception{
+		model.addAttribute("dto", productService.detailProduct(product_id));
+		rttr.addFlashAttribute("msg" , "success");
+		logger.info("수정할 product_id : " + product_id);
+		logger.info("----------product_update_form----------");
+		return "/product/product_update";
+	}
+	
+	//게시글 수정 post
+	@RequestMapping(value="/updatePost", method=RequestMethod.POST)
+	public String updatePost(@ModelAttribute ProductDTO dto) throws Exception{
+		productService.updateProduct(dto);
+		logger.info("------- updatePost -------");
+		return "redirect:/";
+	}
+	
+	@RequestMapping("product_remove")
+	public String product_remove(int product_id, RedirectAttributes rttr) throws Exception {
+		productService.deleteProduct(product_id);
+		
+		rttr.addFlashAttribute("msg", "SUCCESS");
+		
+		return "redirect:/";
+	}
+	
+	//첨부파일 이미지 (fullName) 불러오기
 	@ResponseBody
 	@RequestMapping("/getAttach/{product_id}")
 	public List<String> getAttach(@PathVariable("product_id")int product_id) throws Exception{
@@ -208,6 +236,16 @@ public class ProductController {
 	}
 	//HttpStatus.CREATED : RESTFul 응답결과 상태.The resource was created successfully.
 	
+	//첨부파일 업로드 (글 수정 폼)
+	@ResponseBody
+	@RequestMapping(value="/uploadUpdate/{product_id}", method=RequestMethod.POST, produces="text/plain;charset=UTF-8")
+	public ResponseEntity<String> uploadUpdate(MultipartFile file) throws Exception{
+		
+		logger.info("uploadFile originalName : " + file.getOriginalFilename());
+		
+		return new ResponseEntity<>(FileUpload.uploadFile(uploadPath,file.getOriginalFilename(), file.getBytes()), HttpStatus.CREATED);//Http상태코드 CREATED 대신 OK라 해도 됨
+	}//uploadUpdate
+	
 	//displayFile()은 파라미터로 브라우저에서 전송받기를 원하는 파일의 이름을 받는다
 	@ResponseBody
 	@RequestMapping("/displayFile")
@@ -222,6 +260,7 @@ public class ProductController {
 		logger.info("displayFile FILE NAME : " + fileName);
 
 		try {			
+
 			//가장 먼저 하는 작업. 파일 이름에서 확장자 추출,formatName에 저장. 이미지 타입의 파일인 경우는 적절한 MIME 타입을 지정.
 			String formatName=fileName.substring(fileName.lastIndexOf(".")+1);
 			
@@ -260,7 +299,7 @@ public class ProductController {
 	}//displayFile
 	
 	//displayFile()은 파라미터로 브라우저에서 전송받기를 원하는 파일의 이름을 받는다
-	@ResponseBody
+	/*@ResponseBody
 	@RequestMapping("/displayFile_detail")
 	public ResponseEntity<byte[]> displayFile_detail(String fileName)throws Exception{
 		
@@ -309,8 +348,8 @@ public class ProductController {
 			}
 			return entity;
 	}//displayFile_detail
-	
-	//파일 삭제 매핑
+*/	
+	//상품등록 폼에서 파일 삭제 매핑
 	//파라미터로 삭제할 파일의 이름을 받는다. 이미지의 경우 썸네일 이름, 일반 파일은 실제 이름이 된다
 	@ResponseBody
 	@RequestMapping(value="/deleteFile", method=RequestMethod.POST)
@@ -339,4 +378,32 @@ public class ProductController {
 			//데이터와 http상태 코드 전송
 			return new ResponseEntity<String>("deleted", HttpStatus.OK);
 		}
+	
+	//게시글 삭제시 기존의 첨부파일 함께 삭제
+	@ResponseBody
+	@RequestMapping(value="deleteAllFiles", method=RequestMethod.POST)
+	public ResponseEntity<String> deleteAllFiles(@RequestParam("files[]")String[] files){
+		logger.info("delete All Files : " + files);
+		
+		//여러 개의 파일 이름을 받을 수 있도록 String[]로 작성한다
+		if(files == null || files.length==0) {
+			return new ResponseEntity<String>("deleted", HttpStatus.OK);
+		}
+		
+		for(String fileName : files) {
+			String formatName=fileName.substring(fileName.lastIndexOf(".")+1);
+			
+			MediaType mType=MediaUtils.getMediaType(formatName);
+			
+			if(mType != null) {
+				String front=fileName.substring(0,12);
+				String end=fileName.substring(14);
+				new File(uploadPath + (front+end).replace('/', File.separatorChar)).delete();
+			}
+			
+			new File(uploadPath + fileName.replace('/', File.separatorChar)).delete();
+		}
+		return new ResponseEntity<String>("deleted", HttpStatus.OK);
+	}
+	
 }//ProductController

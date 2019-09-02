@@ -14,7 +14,7 @@ public interface ProductDAO {
 	public ProductDTO detailProduct(int product_id);
 	
 	//3.상품 수정
-	public void updateProduct(ProductDTO vo);
+	public void updateProduct(ProductDTO dto);
 	
 	//4.상품 삭제
 	public void deleteProduct(int product_id);
@@ -39,9 +39,15 @@ public interface ProductDAO {
 	public List<ProductDTO> infiniteScrollDown(Integer product_id);
 	public List<ProductDTO> infiniteScrollUp(Integer product_id);
 	
-	//첨부파일
+	//첨부파일 등록
 	public int addAttach(String fullName, int product_id)throws Exception;
 	
 	//첨부파일 있는 게시물 조회
 	public List<String> getAttach(int product_id) throws Exception;
+	
+	//첨부파일 수정 : 기존의 첨부파일을 삭제하고 새롭게 추가한다
+	public void replaceAttach(String fullName, int product_id) throws Exception;
+	
+	//첨부파일 삭제
+	public void deleteAttach(int product_id) throws Exception;
 }

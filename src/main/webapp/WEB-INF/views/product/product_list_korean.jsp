@@ -36,9 +36,8 @@
 .show{position:relative; max-width:1200px; max-height:800px; overflow:auto;} */
 
 .nav-aaa{
-	padding:.8rem .8rem !important;
+	padding:1.5rem .15rem !important;
 }
-
 </style>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -58,11 +57,6 @@
   <!-- JSTL fmt태그 대용(Date Format) moment.js -->
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/af.js"></script> -->
   <!-- <script src="https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.js"></script> -->
-
-  <!-- 첨부파일의 조회 -->
-  <script src="<c:url value="../../resources/js/upload.js"/>"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.2/handlebars.js"></script>
-  <script src="<c:url value="/resources/js/upload.js"/>"></script>
   
 	<script>
 	/* a.active-color { color:#000; }

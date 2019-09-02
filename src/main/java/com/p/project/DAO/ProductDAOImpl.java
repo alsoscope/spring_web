@@ -39,12 +39,14 @@ public class ProductDAOImpl implements ProductDAO {
 
 	//03. 상품 수정
 	@Override
-	public void updateProduct(ProductDTO vo) {
+	public void updateProduct(ProductDTO dto) {
+		sqlSession.update(namespace + ".updateProduct", dto);
 	}
 
 	//04. 상품 삭제
 	@Override
 	public void deleteProduct(int product_id) {
+		sqlSession.delete(namespace + ".deleteProduct", product_id);
 	}
 
 	//5. 상품 추가
@@ -80,6 +82,45 @@ public class ProductDAOImpl implements ProductDAO {
 		return sqlSession.selectOne("product.countPaging", cri);
 	}
 	//-----------------paging-----------------
+
+	//첨부파일 등록
+	@Override
+	public int addAttach(String fullName, int product_id) throws Exception {
+		
+		//sqlSession.insert(namespace + ".addAttach", fullName);
+		
+		HashMap<String, Object> map=new HashMap<String, Object>();
+		map.put("fullName", fullName);
+		map.put("product_id", product_id);
+		
+		logger.info("ProductDAOImpl fullName : " + fullName);		
+		logger.info("ProductDAOImpl product_id : " + product_id);
+		return sqlSession.insert(namespace + ".addAttach", map);
+	}
+
+	//첨부파일 있는 게시물 조회
+	@Override
+	public List<String> getAttach(int product_id) throws Exception {
+		return sqlSession.selectList(namespace + ".getAttach", product_id);
+	}
+
+	//첨부파일 수정 : 기존의 첨부파일을 삭제하고 새롭게 추가한다
+	@Override
+	public void replaceAttach(String fullName, int product_id) throws Exception {
+		
+		Map<String, Object> paramMap = new HashMap<>();
+		
+		paramMap.put("product_id", product_id);
+		paramMap.put("fullName", fullName);
+		
+		sqlSession.insert(namespace + ".replaceAttach", paramMap);
+	}
+
+	//첨부파일 삭제
+	@Override
+	public void deleteAttach(int product_id) throws Exception {
+		sqlSession.delete(namespace + ".deleteAttach", product_id);
+	}
 	
 	//++++++++++++++++++스크롤링 Test++++++++++++++++++
 	@Override
@@ -97,31 +138,4 @@ public class ProductDAOImpl implements ProductDAO {
 		return sqlSession.selectList(namespace + ".infiniteScrollUp", product_id);
 	}
 	//++++++++++++++++++스크롤링 Test++++++++++++++++++
-
-	//첨부파일
-	@Override
-	public int addAttach(String fullName, int product_id) throws Exception {
-		
-		//sqlSession.insert(namespace + ".addAttach", fullName);
-		
-		HashMap<String, Object> map=new HashMap<String, Object>();
-		map.put("fullName", fullName);
-		map.put("product_id", product_id);
-		
-		logger.info("ProductDAOImpl fullName : " + fullName);		
-		logger.info("ProductDAOImpl product_id : " + product_id);
-		return sqlSession.insert(namespace + ".addAttach", map);
-	}
-	/*public void addAttach(String fullName, int product_id) throws Exception {
-		sqlSession.insert("product.addAttach", fullName);
-		logger.info("ProductDAOImpl fullName : " + fullName);
-		logger.info("ProductDAOImpl product_id : " + product_id);
-	}*/
-
-	//첨부파일 있는 게시물 조회
-	@Override
-	public List<String> getAttach(int product_id) throws Exception {
-		return sqlSession.selectList(namespace + ".getAttach", product_id);
-	}
-	
 }

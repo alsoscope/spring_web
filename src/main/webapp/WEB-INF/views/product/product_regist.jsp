@@ -38,7 +38,7 @@
 <h2 style="text-align:center;">상품 등록</h2>
 
 	<br>
-	<form class="create-form" id="create-form" method="post" action="/shop/product/insertProduct">
+	<form class="create-form" id="create-form" method="post" action="/shop/product/insertProduct" onsubmit="return validation();">
 	<!-- <form class="form1" id="form1" method="post" action="/shop/product/insertProduct"> -->
 		  <div class="form-group">
 		    <label for="exampleInputEmail1">상품명</label>
@@ -168,12 +168,42 @@ $(function () {
     });
 </script>
 
-<script type="text/javascript">
+<script>
+	/* $(document).ready(function(){ */
+		//유효성 체크
+		function validation(){
+			var product_name=$("#product_name").val();
+			var product_price=$("#product_price").val();
+			var product_desc=$("#product_desc").val(); //상품 description
+			//var product_photo=$("#product_photo").val();
+			
+			//상품등록 클릭 이벤트가 발생하면 폼 내부 값 유효성 체크한 뒤 서버로 전송
+			if(product_name==null && product_price==null && product_desc==""){
+				alert("상품 정보 미입력!");
+				product_name.focus();
+				return false;
+			}
+			/* if(product_price==""){
+				alert("상품가격 미입력!");
+				product_price.focus();
+				//return false;
+			}
+			if(product_desc==""){
+				alert("상품설명 미입력!");
+				product_desc.focus();
+				//return false;
+			}	 */
+			//상품 정보 전송
+			//document.form1.action="${path}/shop/product/insertProduct";
+			//document.form1.submit();
+		};		
+	/* }); */
+
 	//첨부파일. 최종 submit이 일어나면 서버에는 사용자가 업로드한 파일의 정보를 같이 전송하는데, 업로드 된 파일의 이름을 form태그 내부로 포함 시켜 전송한다.	
 	$("#create-form").submit(function(event){
-	/* $("#btnSubmit").click(function (event){ */
+	/* $("#create-form").click(function (event){ */
 		event.preventDefault();//먼저 기본 동작을 막는다.
-		
+
 		alert("form submit!!");
 		//console.log(fullName);
 		
@@ -200,37 +230,8 @@ $(function () {
 		that.get(0).submit();
 	});	
 </script>
-
-<script>
-	/* $(document).ready(function(){ */
-		//상품 등록 유효검사
-		$("#addBtn").click(function(){
-			var product_name=$("#product_name").val();
-			var product_price=$("#product_price").val();
-			var product_desc=$("#product_desc").val(); //상품 description
-			//var product_photo=$("#product_photo").val();
-			
-			//상품등록 클릭 이벤트가 발생하면 폼 내부 값 유효성 체크한 뒤 서버로 전송
-			if(product_name==""){
-				alert("상품명 미입력!");
-				product_name.focus();
-			}else if(product_price==""){
-				alert("상품가격 미입력!");
-				product_price.focus();
-			}else if(product_desc==""){
-				alert("상품설명 미입력!");
-				product_desc.focus();
-			}/* else if(product_photo==""){
-				alert("상품사진 미등록!");
-				product_photo.focus();
-			} */
-			
-			//상품 정보 전송
-			//document.form1.action="${path}/shop/product/insertProduct";
-			//document.form1.submit();
-		});		
-	/* }); */	
 	
+	<script>
     //첨부파일 삭제처리/ 태그.on("이벤트", "자손태그", 이벤트 핸들러)
     /* obj.on("#delBtn", "click", "small", function(event){ */
     /* $(".delbtn").click("small", function(){ */

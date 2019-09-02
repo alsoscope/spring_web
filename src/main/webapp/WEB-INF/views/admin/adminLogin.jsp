@@ -32,12 +32,13 @@
 <form class="form-inline" name="form1">
   <div class="form-group">
 &nbsp;&nbsp;<label for="exampleInputName2">관리자 아이디</label>
-    <input type="text" class="form-control" id="userId" name="userId" placeholder="ID 입력">
+    <input type="text" class="form-control" id="userId" name="userId" placeholder="ID 입력" autofocus>
   </div>
   <div class="form-group">
 &nbsp;&nbsp;<label for="exampleInputEmail2">관리자 비밀번호</label>
     <input type="password" class="form-control" id="userPw" name="userPw" placeholder="password 입력">
   </div>
+  
 &nbsp;<button type="submit" class="btn btn-default" id="btnLogin">관리자 확인
   	<c:if test="${msg=='failure' }">
 		<div style="color:red">
