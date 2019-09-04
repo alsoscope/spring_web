@@ -14,10 +14,10 @@ public interface ProductService {
 	public ProductDTO detailProduct(int product_id);
 	
 	//3. 상품 수정
-	public void updateProduct(ProductDTO vo);
+	public void updateProduct(ProductDTO vo) throws Exception;
 	
 	//4. 상품 삭제
-	public void deleteProduct(int product_id);
+	public void deleteProduct(int product_id) throws Exception;
 	
 	//5. 상품 등록
 	public void insertProduct(ProductDTO dto) throws Exception;

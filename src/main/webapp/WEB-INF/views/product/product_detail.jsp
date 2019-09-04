@@ -49,6 +49,9 @@
 	max-height:800px;
 	overflow:auto;
 }
+.nav-aaa{
+	padding:1.5rem .15rem !important;
+}
 </style>
 </head>
 <%@ include file="../forward/header.jsp" %>
@@ -105,7 +108,7 @@
             4.0 stars
             
             <!-- 상품을 장바구니에 추가시키기 위해 상품id번호, 수량을 form태그 전송 -->
-			<form name="form1" method="post" action="${path}/shop/cart/insertCart">
+			<form name="form1" role="form" method="post" action="${path}/shop/cart/insertCart">
 				<!-- 현재의 상품id를 입력받기 위해 hidden속성으로 처리 -->
 				<input type="hidden" name="product_id" value="${vo.product_id }">
 				
@@ -120,9 +123,18 @@
 					<p>로그인 뒤 대여가능 <a href="/member/loginGET">로그인</a></p>
 				</c:if>
 				<c:if test="${login.userId != null }">
-					<input type="submit" value="장바구니에 담기">
+					<button type="submit" value="장바구니에 담기"></button>
 				</c:if>
 			</form>
+			
+			<c:if test="${sessionScope.adminId!=null }">
+				<button type="button" class="btn btn-default" id="btnUpdate">수정</button>
+			</c:if>
+			
+			<c:if test="${sessionScope.adminId!=null }">
+				<button type="submit" class="btn btn-default" id="btnRemove">삭제</button>
+			</c:if>
+				
           </div>
         </div>
         <!-- /.card -->
@@ -171,7 +183,7 @@
   </div>
   <!-- /.container -->
 
-	<!-- 첨부파일에 대한 템플릿. 업로드 된 파일이 보여지도록 upload.js 와 handlebars 설정 -->
+	<!-- 첨부파일 이미지 출력 -->
 	<script>
 		 var bno="${vo.product_id}";
 		 var template=Handlebars.compile($("#templateAttach").html());
@@ -186,9 +198,7 @@
 				$(".uploadedList").append(html);
 			});
 		 });
-	</script>
-	
-	<script>
+
 	$(".uploadedList").on("click", ".img-pop a", function(event){
 		var fileLink=$(this).attr("href");
 		
@@ -209,6 +219,38 @@
 		$(".popup").hide('slow');
 	});
 	</script>
+	
+<script>
+	$(document).ready(function(){
+		$("#btnUpdate").click(function(){
+			var bno="${vo.product_id}";
+			//페이지 주소 변경(이동)
+			self.location="/shop/product/product_update/"+bno;
+		});
+	});
+	
+	
+	//삭제 화면의 처리. 게시물 삭제 시 Ajax를 이용하여 첨부파일을 삭제하고, <form> 방식을 이용해 삭제한다.
+	$("#btnRemove").on("click", function(){
+		var formObj=$("form[role='form']");
+		console.log(formObj);
+		var arr=[];//현재 첨부파일의 이름을 배열로 작성, Ajax로 첨부파일에 대한 삭제를 지시함.
+		
+		$(".uploadedList").each(function (index){
+			arr.push($("this").attr("data-src"));//push() : 배열의 맨 뒤에 값을 추가하는 내장 함수
+		});
+		
+		if(arr.length > 0){ //<form> 태그로 데이터 베이스 삭제를 처리.
+			$.post("/shop/product/deleteAllFiles", {files:arr}, function(){//$.post : HTTP POST 요청을 이용해 서버에서 데이터를 가져온다.
+				//$.ajax({type:"POST"})의 shorthand Ajax function.				
+			});
+		}
+		
+		alert("delete all files");
+		formObj.attr("action", "/shop/product/product_remove");
+		formObj.submit();
+	});
+</script>
 
 <%@ include file="../forward/footer.jsp" %>
 </body>

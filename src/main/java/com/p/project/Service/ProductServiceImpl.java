@@ -36,14 +36,39 @@ public class ProductServiceImpl implements ProductService{
 		return productDao.detailProduct(product_id);
 	}
 	
-	//3. 상품 수정
+	//3. 상품 수정 : 세 가지 작업이 이루어지기에 트랜잭션 처리한다
+	@Transactional
 	@Override
-	public void updateProduct(ProductDTO vo) {
+	public void updateProduct(ProductDTO dto) throws Exception {
+		
+		//수정
+		productDao.updateProduct(dto);
+		
+		//기존의 첨부파일 삭제
+		int product_id=dto.getProduct_id();		
+		productDao.deleteAttach(product_id);
+		
+		//새로운 첨부파일 정보 입력
+		String[] files=dto.getFiles();
+		
+		if(files == null) {
+			return;
+		}
+		
+		logger.info("새로운 파일 : " + files);
+		
+		for(String fileName : files) {
+			productDao.replaceAttach(fileName, product_id);
+			logger.info("새로 수정되는 파일 : " + fileName);
+		}
 	}
 
-	//4. 상품 삭제
+	//4. 상품 게시글 삭제 : tbl_attach가 tbl_product를 참조하기에 반드시 첨부파일과 관련된 정보부터 삭제 후, 상품 게시글을 삭제한다. 
+	@Transactional
 	@Override
-	public void deleteProduct(int product_id) {
+	public void deleteProduct(int product_id) throws Exception{
+		productDao.deleteAttach(product_id);
+		productDao.deleteProduct(product_id);
 	}
 	
 	//5. 상품 등록
