@@ -38,8 +38,8 @@
 <h2 style="text-align:center;">상품 등록</h2>
 
 	<br>
-	<form class="create-form" id="create-form" method="post" action="/shop/product/insertProduct" onsubmit="return validation();">
-	<!-- <form class="form1" id="form1" method="post" action="/shop/product/insertProduct"> -->
+	<!-- <form class="create-form" id="create-form" method="post" action="/shop/product/insertProduct" onsubmit="return validation();"> -->
+	<form class="create-form" id="create-form" method="post" action="/shop/product/insertProduct">
 		  <div class="form-group">
 		    <label for="exampleInputEmail1">상품명</label>
 		    <input type="text" name="product_name" class="form-control" id="product_name">
@@ -136,7 +136,7 @@ $(function () {
     		 alert("파일 한 개 이상 첨부 안됨");
     		 return; 
    		 }
-  
+    	 
     	 /* console.log(files);
     	 console.log("files : " + files); */
     	 console.log(file);
@@ -213,15 +213,9 @@ $(function () {
 		//현재까지 업로드 된 파일을 form태그 내부에 hidden으로 추가. 각 파일은 files[0]의 이름으로 추가됨.
 		//이 배열 표시를 이용해 컨트롤러에서 ProductDTO의 files 파라미터를 수집하게 된다.
 		//Handlebars 안에 있는 클래스는 직접 제어가 안된다. 바깥에 있는 아이디나 클래스를 가지고 제어.
-		//$(".uploadedList").each(function(index){
-		//	str += "<input type='hidden' name='files[" + index + "]' value='" + $(this).attr("href") + "' >";
-		//});
-		
 		$(".uploadedList .del-btn").each(function (index) {
 			str += "<input type='hidden' name='files[" + index + "]' value='" + $(this).attr("href") + "' >";
 		});
-		
-		console.log("fileUpload submit");
 		
 		that.append(str);
 		
@@ -290,7 +284,7 @@ function getImageLink(fileName){
 
 <script>
 //파일 멀티 업로드
-/* function F_FileMultiUpload(files, obj) {
+/*  function F_FileMultiUpload(files, obj) {
      if(confirm(files.length + "개의 파일을 업로드 하시겠습니까?") ) {
          var data = new FormData();
          for (var i = 0; i < files.length; i++) {

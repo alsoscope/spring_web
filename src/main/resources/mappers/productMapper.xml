@@ -35,9 +35,9 @@
 		VALUES ( #{product_name},#{product_price},#{product_desc} )
 			
 		<!-- selectKey를 이용하는 방법 -->
-		<selectKey resultType="int" keyProperty="product_id" order="AFTER">
+		<!-- <selectKey resultType="int" keyProperty="product_id" order="AFTER">
 			SELECT LAST_INSERT_ID()
-		</selectKey>
+		</selectKey> -->
 		
 		<!-- values ( #{product_name},#{product_price},#{product_desc},#{product_url} ) -->
 	</insert>
@@ -49,16 +49,16 @@
 	</insert> -->
 	
 	<!-- 첨부파일 -->
-	<insert id="addAttach">					
-		insert into tbl_attach (fullName, product_id)
-		values (#{fullName}, #{product_id})		
+	<insert id="addAttach" parameterType="com.p.project.DTO.ProductDTO">					
+		INSERT INTO tbl_attach (fullName, product_id)
+		VALUES (#{fullName}, #{product_id})
 		<!-- INSERT INTO tbl_attach (fullName, product_id) VALUES (#{fullName}, #{product_id, jdbcType=INTEGER}) -->
 	</insert>
 	
 	<!-- 04. 상품 수정/편집 -->
 	<update id="updateProduct">
-		update tbl_product set product_name=#{product_name}, product_price=#{product_price}, product_desc=#{product_desc}
-		where product_id=#{product_id}
+		UPDATE tbl_product SET product_name=#{product_name}, product_price=#{product_price}, product_desc=#{product_desc}
+		WHERE product_id=#{product_id}
 	</update>
 	
 	<!-- 05. 상품 레코드 삭제 처리 -->
@@ -89,12 +89,18 @@
 	
 	<!-- 특정 게시물의 첨부파일을 시간 순서대로 가져오는 SQL문 -->
 	<select id="getAttach" resultType="string">
-		select fullName from tbl_attach where product_id=#{product_id} order by regdate
+		select fullName from tbl_attach where product_id=#{product_id}
 	</select>
 	
 	<!-- 첨부파일 수정 : 기존의 첨부파일을 삭제하고 새롭게 추가한다 -->
 	<insert id="replaceAttach">
-		insert into tbl_attach(fullName, product_id) values(#{fullName}, #{product_id})
+		<!-- insert into tbl_attach(fullName, product_id) 
+		values(#{fullName}, #{product_id})
+		ON DUPLICATE KEY
+		update fullName=#{fullName}, product_id=#{product_id} -->
+		
+		INSERT IGNORE INTO tbl_attach(fullName, product_id) 
+		VALUES(#{fullName}, #{product_id})
 	</insert>
 	
 	<!-- 첨부파일 삭제 -->
