@@ -131,7 +131,7 @@ public class ProductController {
 	public String updatePost(@ModelAttribute ProductDTO dto) throws Exception{
 		productService.updateProduct(dto);
 		logger.info("------- updatePost -------");
-		return "redirect:/";
+		return "redirect:/shop/product/detail/" + dto.getProduct_id();
 	}
 	
 	@RequestMapping("product_remove")
@@ -180,30 +180,6 @@ public class ProductController {
 		return "/product/product_list_korean";
 	}*/
 	
-	/*무한 스크롤. 브라우저에서 요청으로 온 JSON데이터를 객체로 자동으로 바인딩 시켜주는 @RequestBody를 이용하여 product_id를 멤버로 갖고 있는
-	ProductDTO 객체를 통해 product_id 값을 바인딩 시키고, 자동으로 리턴값을 JSON형태로 만들어주는 @ResponseBody 이용*/
-	/*@RequestMapping(value="infiniteScrollDown", method=RequestMethod.POST)
-	public @ResponseBody List<ProductDTO> infiniteScrollDown(@RequestBody ProductDTO productDTO){
-		
-		logger.info("infiniteScrollDown called...............");
-		logger.info(productDTO.toString());
-		
-		Integer bnoStart = productDTO.getProduct_id()-1;
-		
-		return productService.infiniteScrollDown(bnoStart);
-	}
-	
-	@RequestMapping(value="infiniteScrollUp", method=RequestMethod.POST)
-	public @ResponseBody List<ProductDTO> infiniteScrollUp(@RequestBody ProductDTO productDTO){
-		
-		logger.info("infiniteScrollUp called...............");
-		logger.info(productDTO.toString());
-		
-		Integer bnoStart = productDTO.getProduct_id()+1;
-		
-		return productService.infiniteScrollUp(bnoStart);
-	}*/
-	
 	//해외 영화 카테고리
 	@RequestMapping("product_list_abroad")
 	public String product_list_aborad() {
@@ -237,14 +213,14 @@ public class ProductController {
 	//HttpStatus.CREATED : RESTFul 응답결과 상태.The resource was created successfully.
 	
 	//첨부파일 업로드 (글 수정 폼)
-	@ResponseBody
+	/*@ResponseBody
 	@RequestMapping(value="/uploadUpdate/{product_id}", method=RequestMethod.POST, produces="text/plain;charset=UTF-8")
 	public ResponseEntity<String> uploadUpdate(MultipartFile file) throws Exception{
 		
 		logger.info("uploadFile originalName : " + file.getOriginalFilename());
 		
 		return new ResponseEntity<>(FileUpload.uploadFile(uploadPath,file.getOriginalFilename(), file.getBytes()), HttpStatus.CREATED);//Http상태코드 CREATED 대신 OK라 해도 됨
-	}//uploadUpdate
+	}*///uploadUpdate
 	
 	//displayFile()은 파라미터로 브라우저에서 전송받기를 원하는 파일의 이름을 받는다
 	@ResponseBody
@@ -406,4 +382,27 @@ public class ProductController {
 		return new ResponseEntity<String>("deleted", HttpStatus.OK);
 	}
 	
+	/*무한 스크롤. 브라우저에서 요청으로 온 JSON데이터를 객체로 자동으로 바인딩 시켜주는 @RequestBody를 이용하여 product_id를 멤버로 갖고 있는
+	ProductDTO 객체를 통해 product_id 값을 바인딩 시키고, 자동으로 리턴값을 JSON형태로 만들어주는 @ResponseBody 이용*/
+	/*@RequestMapping(value="infiniteScrollDown", method=RequestMethod.POST)
+	public @ResponseBody List<ProductDTO> infiniteScrollDown(@RequestBody ProductDTO productDTO){
+		
+		logger.info("infiniteScrollDown called...............");
+		logger.info(productDTO.toString());
+		
+		Integer bnoStart = productDTO.getProduct_id()-1;
+		
+		return productService.infiniteScrollDown(bnoStart);
+	}
+	
+	@RequestMapping(value="infiniteScrollUp", method=RequestMethod.POST)
+	public @ResponseBody List<ProductDTO> infiniteScrollUp(@RequestBody ProductDTO productDTO){
+		
+		logger.info("infiniteScrollUp called...............");
+		logger.info(productDTO.toString());
+		
+		Integer bnoStart = productDTO.getProduct_id()+1;
+		
+		return productService.infiniteScrollUp(bnoStart);
+	}*/
 }//ProductController

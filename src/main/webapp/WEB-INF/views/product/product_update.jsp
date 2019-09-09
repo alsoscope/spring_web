@@ -40,7 +40,7 @@
 	<br>
 	<form class="edit-form" id="edit-form" method="post" role="form" action="/shop/product/updatePost" onsubmit="return checkValidation()">
 	<!-- <form class="form1" id="form1" method="post" action="/shop/product/insertProduct"> -->
-		  <div data-src="${dto.product_id }"></div>
+		  <%-- <div data-src="${dto.product_id }"></div> --%><input type="hidden" name="product_id" value="${dto.product_id }">
 		  <div class="form-group">
 		    <label for="exampleInputEmail1">상품명</label>
 		    <input type="text" name="product_name" class="form-control" id="product_name" value="${dto.product_name }">

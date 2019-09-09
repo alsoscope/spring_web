@@ -43,14 +43,15 @@ public class ProductServiceImpl implements ProductService{
 		
 		//수정
 		productDao.updateProduct(dto);
+		logger.info("updateProduct" + dto.toString());
 		
 		//기존의 첨부파일 삭제
 		int product_id=dto.getProduct_id();		
 		productDao.deleteAttach(product_id);
+		logger.info("deleteAttach product_id : " + product_id);
 		
 		//새로운 첨부파일 정보 입력
 		String[] files=dto.getFiles();
-		
 		if(files == null) {
 			return;
 		}
@@ -93,12 +94,19 @@ public class ProductServiceImpl implements ProductService{
 				System.out.println("files null");
 				return;
 			}			
+			
 				//파일이 not null일 때
 				logger.info("files not null : " + files);
 				
 				//향상된 for문. for each문의 형식 → for(변수타입 변수이름 : 배열 이름)
 				for(String fileName : files) {	
 					int product_id=dto.getProduct_id();
+					
+					if(files.length > 1) {
+						logger.info("files.length : " + files.length);
+						return;
+					}
+					
 					productDao.addAttach(fileName, product_id);
 					logger.info("getProduct_id : " + product_id);
 					logger.info("addAttach 완료 fileName : " + fileName);

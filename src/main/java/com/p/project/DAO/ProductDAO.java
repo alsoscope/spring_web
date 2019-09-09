@@ -40,7 +40,7 @@ public interface ProductDAO {
 	public List<ProductDTO> infiniteScrollUp(Integer product_id);
 	
 	//첨부파일 등록
-	public int addAttach(String fullName, int product_id)throws Exception;
+	public void addAttach(String fullName, int product_id)throws Exception;
 	
 	//첨부파일 있는 게시물 조회
 	public List<String> getAttach(int product_id) throws Exception;

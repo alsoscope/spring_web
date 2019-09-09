@@ -85,17 +85,15 @@ public class ProductDAOImpl implements ProductDAO {
 
 	//첨부파일 등록
 	@Override
-	public int addAttach(String fullName, int product_id) throws Exception {
-		
-		//sqlSession.insert(namespace + ".addAttach", fullName);
-		
+	public void addAttach(String fullName, int product_id) throws Exception {
+
 		HashMap<String, Object> map=new HashMap<String, Object>();
 		map.put("fullName", fullName);
 		map.put("product_id", product_id);
 		
 		logger.info("ProductDAOImpl fullName : " + fullName);		
 		logger.info("ProductDAOImpl product_id : " + product_id);
-		return sqlSession.insert(namespace + ".addAttach", map);
+		sqlSession.insert(namespace + ".addAttach", map);
 	}
 
 	//첨부파일 있는 게시물 조회
@@ -110,8 +108,8 @@ public class ProductDAOImpl implements ProductDAO {
 		
 		Map<String, Object> paramMap = new HashMap<>();
 		
-		paramMap.put("product_id", product_id);
 		paramMap.put("fullName", fullName);
+		paramMap.put("product_id", product_id);
 		
 		sqlSession.insert(namespace + ".replaceAttach", paramMap);
 	}
