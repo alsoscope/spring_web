@@ -174,7 +174,9 @@ create table tbl_product(
 	product_id int(11) not null auto_increment primary key,
 	product_name varchar(30) not null,
 	product_price int default 0 not null,
-	product_desc varchar(300) not null
+	product_desc varchar(300) not null,
+	insert_regdate datetime default CURRENT_TIMESTAMP,
+	update_regdate datetime on update CURRENT_TIMESTAMP
 );
 
 CREATE TABLE `tbl_cart` (

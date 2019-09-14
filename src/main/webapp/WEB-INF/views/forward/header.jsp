@@ -273,12 +273,16 @@ li {
             <a class="nav-link" href="/member/member_list">회원관리</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="${path }/sboard/search_list">게시판</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="${path }/about">Contact</a>
           </li>                
         </ul>
       </div>
     </div>
   </nav>
-</c:if>
+  </c:if>
+<!-- Navigation -->
 </body>
 </html>

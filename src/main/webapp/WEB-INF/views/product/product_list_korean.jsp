@@ -38,6 +38,13 @@
 .nav-aaa{
 	padding:1.5rem .15rem !important;
 }
+.footer{
+	width: 100%;
+    position:static !important; 
+    bottom:0;
+    left: 0;
+    right:0;
+}
 </style>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
