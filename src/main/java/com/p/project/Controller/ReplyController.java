@@ -6,6 +6,8 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,11 +22,14 @@ import com.p.project.DTO.PageMaker;
 import com.p.project.DTO.ReplyVO;
 import com.p.project.Service.ReplyService;
 
+
 //스프링 버전 3이므로 RestControlelr X, ResponseBody 어노테이션 사용
 @Controller
 @RequestMapping("/replies")
 public class ReplyController {
 
+	private static final Logger logger=LoggerFactory.getLogger(ReplyController.class);
+	
 	@Inject
 	private ReplyService service;
 	
@@ -38,6 +43,7 @@ public class ReplyController {
 		try {
 			service.addReply(vo);
 			entity=new ResponseEntity<String>("Reply Regist SUCCESS", HttpStatus.OK);
+			logger.info("Reply : " + vo);
 		}catch(Exception e) {
 			e.printStackTrace();
 			entity=new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);

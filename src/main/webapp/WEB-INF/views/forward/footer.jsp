@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 <style>
 .pb-5, .py-5 {
-	margin-bottom:-150rem!important;
+	margin-bottom:-50rem!important;
 	margin-top: 5rem!important;
     padding-bottom: 5rem!important;
 }
@@ -54,7 +54,8 @@ p {
 	width: 100%;
     position:absolute; 
     bottom:0;
-    left: 0
+    left: 0;
+    right:0;
 }
 </style>
 </head>

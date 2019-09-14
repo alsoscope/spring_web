@@ -7,10 +7,29 @@ public class ProductDTO {
 	private String product_name;
 	private int product_price;
 	private String product_desc; //상품설명. description
+	private String insert_regdate;
+	private String update_regdate;
+	
 	
 	//private String product_url; //상품 이미지 경로
 	//private MultipartFile product_Photo; //상품 이미지 파일
-	
+
+	public String getInsert_regdate() {
+		return insert_regdate;
+	}
+
+	public void setInsert_regdate(String insert_regdate) {
+		this.insert_regdate = insert_regdate;
+	}
+
+	public String getUpdate_regdate() {
+		return update_regdate;
+	}
+
+	public void setUpdate_regdate(String update_regdate) {
+		this.update_regdate = update_regdate;
+	}
+
 	//첨부파일
 	private String[] files;
 
@@ -57,7 +76,9 @@ public class ProductDTO {
 	@Override
 	public String toString() {
 		return "ProductDTO [product_id=" + product_id + ", product_name=" + product_name + ", product_price="
-				+ product_price + ", product_desc=" + product_desc + ", files=" + Arrays.toString(files) + "]";
+				+ product_price + ", product_desc=" + product_desc + ", insert_regdate=" + insert_regdate
+				+ ", update_regdate=" + update_regdate + ", files=" + Arrays.toString(files) + "]";
 	}
+
 	
 }

@@ -102,10 +102,10 @@ public class ProductServiceImpl implements ProductService{
 				for(String fileName : files) {	
 					int product_id=dto.getProduct_id();
 					
-					if(files.length > 1) {
+					/*if(files.length > 1) {
 						logger.info("files.length : " + files.length);
 						return;
-					}
+					}*/
 					
 					productDao.addAttach(fileName, product_id);
 					logger.info("getProduct_id : " + product_id);

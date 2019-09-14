@@ -8,7 +8,7 @@
 		<!-- SELECT * FROM tbl_product ORDER BY product_id desc -->
 		select * from tbl_product, tbl_attach
 		where tbl_product.product_id = tbl_attach.product_id
-		order by regdate desc
+		order by insert_regdate desc
 		<!-- SELECT product_id AS productId, product_name AS productName, product_price AS producrPrice, 
 		product_desc AS productDesc, product_url AS productUrl
 		FROM tbl_product ORDER BY product_name -->
@@ -101,6 +101,9 @@
 		
 		INSERT IGNORE INTO tbl_attach(fullName, product_id) 
 		VALUES(#{fullName}, #{product_id})
+		
+		<!-- INSERT INTO tbl_attach(fullName, product_id) 
+		VALUES(#{fullName}, #{product_id}) -->
 	</insert>
 	
 	<!-- 첨부파일 삭제 -->
