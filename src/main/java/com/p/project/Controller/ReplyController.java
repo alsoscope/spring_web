@@ -42,7 +42,7 @@ public class ReplyController {
 		
 		try {
 			service.addReply(vo);
-			entity=new ResponseEntity<String>("Reply Regist SUCCESS", HttpStatus.OK);
+			entity=new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
 			logger.info("Reply : " + vo);
 		}catch(Exception e) {
 			e.printStackTrace();
