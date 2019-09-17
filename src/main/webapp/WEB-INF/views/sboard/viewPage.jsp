@@ -155,25 +155,22 @@
 			</form>
 		</div>
 
-	  <!-- Scaled in -->
-	  <a id="scale-demo" href="#!" class="btn-floating btn-large scale-transition">
-	    <i class="material-icons">add</i>
-	  </a>
-
-	  <!-- Scaled out -->
-	  <a id="scale-demo" href="#!" class="btn-floating btn-large scale-transition scale-out">
-	    <i class="material-icons">add</i>
-	  </a>
-	  
 	<!-- 지속적인 목록 갱신. <li>가 반복적으로 구성, 이를 <ul>태그의 내용물로 추가하는 방식. 문자열로 이루어지기에 지저분한 코드. JS 템플릿을 적용. -->
 	<!-- 댓글 목록 The time line -->
+	
+		<a id="trigger" class="waves-effect waves-light btn-large blue-grey lighten-3">
+		<i class="material-icons left">view_list</i>댓글 목록 보기</a>
 	<ul class="timeline">
-		<li class="time-label" id="repliesDiv">
-		<a class="waves-effect waves-light btn-large blue-grey lighten-3"><i class="material-icons left">view_list</i>댓글 목록 보기</a>
-		<!-- <span class="btn btn-default" id="replyList">Replies List</span> -->		
-	<br>
-		</li>	
+		<li id="repliesDiv">
+		<!-- <li class="scale-transition" id="repliesDiv scale-demo"></li>
+		<li class="scale-in scale-transition" id="repliesDiv scale-demo"></li> -->
+		
+		<!-- <a id="trigger" class="waves-effect waves-light btn-large blue-grey lighten-3">
+		<i class="material-icons left">view_list</i>댓글 목록 보기</a> -->
+		<!-- <span class="btn btn-default" id="replyList">Replies List</span> -->
+		</li>		
 	</ul>
+	<br>
 	
 	<!-- 댓글 목록 페이징 처리 -->
 	<div class='text-center'>
@@ -296,16 +293,21 @@
 	};
 	
 	//댓글 목록의 이벤트 처리.Replies List 버튼을 클릭하면 댓글 목록을 가져온다.
-	$("#repliesDiv").on("click", function(){
+	/* $("#repliesDiv").on("click", function(){
 		//목록의 size()를 체크하는 코드는 목록을 가져오는 버튼이 보여지는 <li>만 있는 경우, 1페이지의 댓글 목록을 가져오기 위해 처리한 코드.
 		if($(".timeline li").length > 1){
 			return;
 		}
 		getPage("/replies/" + bno + "/1");
+	}); */
+	
+	$("#trigger").click(function(){
+		$(".timeline li").toggle("slow");
+			if($(".timeline li").length > 1){
+				return;
+			}
+			getPage("/replies/" + bno + "/1");	
 	});
-	
-	  
-	
 	
 	//댓글 페이징의 이벤트 처리
 	$(".pagination").on("click", "li a", function(event){
