@@ -87,7 +87,7 @@ public class MemberController {
 	public void loginPOST(Model model, HttpSession session, MemberDTO dto) throws Exception {
 		//String returnURL = "";
 		
-		logger.info("LoginPost");
+		logger.info("LoginPost : " + dto);
 		
 		/*if(session.getAttribute("login")!=null) { //기존 login이란 세션값 존재하면 기존값 제거
 			session.removeAttribute("login");
