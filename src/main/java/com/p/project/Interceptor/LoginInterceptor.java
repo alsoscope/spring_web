@@ -1,5 +1,7 @@
 package com.p.project.Interceptor;
 
+import java.io.PrintWriter;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,8 +28,11 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 	
 		System.out.println("--------------preHandle--------------");
 
+		//isDebugEnabled 메소드를 사용하면 로깅 문자열을 생성하기 전, 로깅 레벨을 점검한다. 로깅을 실행할 것인지 점검.
 		if(logger.isDebugEnabled()) {
 			logger.debug("Request URI \t:" + request.getRequestURI());
+			//debug 모드일 때는 logger의 실행 레벨 체크를 두 번 한다는 단점. isDebugEnabled에서 한 번 체크, debug메소드에서 다시 점검.
+			//debug모드에서 로깅 레벨 점검 후 debug 상태이면 로깅을 한다.
 		}
 		
 		HttpSession session=request.getSession();//세션 객체를 가져옴
@@ -61,8 +66,14 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 			logger.info("MemberVO != null");
 			response.sendRedirect("/");
 		} else {
-			response.sendRedirect("/member/loginGET");
-			logger.info("MemberVO == null");
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('등록된 회원이 아닙니다.'); location.href='/member/loginGET';</script>");
+			out.flush();
+
+			//response.sendRedirect("/member/loginGET");
+			logger.info("MemberVO == null 가입되지 않은 회원");
+			
 		}
 	}	
 }

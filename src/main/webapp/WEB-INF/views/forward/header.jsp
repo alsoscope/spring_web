@@ -217,8 +217,11 @@ li {
           </li>
           <li class="nav-item">
           	<li class="nav-aaa">
-	          	<c:if test="${login.userId!=null }">
+	          	<c:if test="${login.userId!=null}">
 	            ${login.userId }님 접속중
+	            </c:if>
+	            <c:if test="${naverName != null}">
+	            ${naverName }님 접속중
 	            </c:if>
             </li>
           </li>
