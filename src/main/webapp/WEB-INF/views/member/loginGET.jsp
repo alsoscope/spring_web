@@ -63,10 +63,13 @@
 
 					<br>
 					
-					<div id="naver_id_login" style="text-align:center"><a href="${url}">
-					<%-- <img width="223" src="${path}/images/login_naver.png"/></a></div> --%>
+					<!-- 네이버 로그인 -->
+					<div style="text-align:center">
+					<%-- <a href="${url}"> --%>
+					<a href="${url}" onClick="naverPop();" target="_blank">
 					<img width="250" src="${path}../resources/images/login_naver.png"/></a></div>
-
+					<!-- 네이버 로그인 -->
+					
 					<div class="text-center p-t-45 p-b-4">
 						<span class="txt1">
 							Forgot
@@ -148,18 +151,29 @@
 		});
 	</script>
 
-	<!-- "네이버 아이디로 로그인" 버튼 노출 영역 -->
+	<!-- 네이버 로그인 팝업창으로 띄움 -->
 	<script type="text/javascript">
+	/* function naverPop(){
+
  		var naver_id_login = new naver_id_login("CcHDOhNulVa7_LfwCQeM", "http://localhost:9000/member/loginGET");
  		var state = naver_id_login.getUniqState();
 		
  		naver_id_login.setButton("green", 3, 40);
  		naver_id_login.setDomain("http://localhost:9000/member/loginGET");
  		naver_id_login.setState(state);
+ 		naver_id_login.setPopup();
  		naver_id_login.init_naver_id_login();
 
- 		naver_id_login = window.open("http://localhost:9000/member/loginGET", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, top=500, left=500, width=400, height=400");
-
+ 		var url="${url}";
+ 		var name="popup_test";
+ 		var option="toolbar=yes, scrollbars=yes, resizable=yes, top=500, left=500, width=400, height=400";
+ 		
+ 		window.open(url, name, option);
+	} */
+	
+	function naverPop(){
+		naver_id_login.setPopup();
+	}
 	</script>
 
 </body>

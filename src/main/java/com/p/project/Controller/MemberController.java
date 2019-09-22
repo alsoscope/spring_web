@@ -11,10 +11,15 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.type.Alias;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
+import com.mysql.cj.xdevapi.JsonParser;
 import com.p.project.DTO.MemberDTO;
 import com.p.project.NaverLogin.NaverLoginBO;
 import com.p.project.Service.MemberService;
@@ -56,8 +61,12 @@ public class MemberController {
 		/* 네이버아이디로 인증 URL을 생성하기 위하여 naverLoginBO클래스의 getAuthorizationUrl메소드 호출 */
 		String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
 		
-		//https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=sE***************&
-		//redirect_uri=http%3A%2F%2F211.63.89.90%3A8090%2Flogin_project%2Fcallback&state=e68c269c-5ba9-4c31-85da-54c16c658125
+		/*example
+		https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=sE***************&
+		redirect_uri=http%3A%2F%2F211.63.89.90%3A8090%2Flogin_project%2Fcallback&state=e68c269c-5ba9-4c31-85da-54c16c658125*/
+		
+		//https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=CcHDOhNulVa7_LfwCQeM&redirect_uri=http%3A%2F%2Flocalhost%3A9000%2Fmember%2Fcallback&state=5c52aaf8-2789-4483-8219-832f107e181a
+		//redirect_uri=http://localhost:9000/member/callback?code=VxOZw70VRZk5ih2wvt&state=3ae3e30b-83b5-47a8-b6b2-85154490778d
 		System.out.println("네이버:" + naverAuthUrl);
 		
 		//네이버 
@@ -69,15 +78,41 @@ public class MemberController {
 	//네이버 로그인 성공시 callback호출 메소드
 	@RequestMapping(value = "callback", method = { RequestMethod.GET, RequestMethod.POST })
 	public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session)
-			throws IOException {
-		System.out.println("callback 실행 -------------");
+			throws IOException, ParseException {
+		System.out.println("------------- 네이버 로그인 callback 실행 -------------");
 		
 		//네이로 인증이 성공적으로 완료되면 code파라미터가 전달되며 이를 통해 access token 발급
 		OAuth2AccessToken oauthToken = naverLoginBO.getAccessToken(session, code, state);
+		
         //로그인 사용자 정보를 읽어온다.
 	    apiResult = naverLoginBO.getUserProfile(oauthToken);
 		model.addAttribute("result", apiResult);
 
+		/*apiResult json구조
+		{"resultcode":"00","message":"success",
+			"response":{"id":"77718494","email":"j_adore825@naver.com","name":"\uae40\ubbf8\uc120"}}*/
+		
+		//String형식인 apiResult를 json형태로 바꿈. Object안에 Object가 있는 경우.
+		JSONParser parser = new JSONParser();
+		Object obj = parser.parse(apiResult);
+		JSONObject jsonObj=(JSONObject)obj;
+		
+		//데이터 파싱
+		//Top 레벨 단계. response 파싱
+		JSONObject responseObj=(JSONObject)jsonObj.get("response");
+
+		//response안에 있는 객체 파싱
+		System.out.println(responseObj);
+		System.out.println("email : " + (String)responseObj.get("email"));
+		System.out.println("name : " + (String)responseObj.get("name"));
+		
+		String naverEmail=(String)responseObj.get("email");
+		String naverName=(String)responseObj.get("name");
+		
+		//파싱한 객체를 세션에 저장
+		session.setAttribute("naverEmail", naverEmail);
+		session.setAttribute("naverName", naverName);
+		
         /* 네이버 로그인 성공 페이지 View 호출 */
 		return "member/register_confirm";
 	}
@@ -87,7 +122,7 @@ public class MemberController {
 	public void loginPOST(Model model, HttpSession session, MemberDTO dto) throws Exception {
 		//String returnURL = "";
 		
-		logger.info("LoginPost : " + dto);
+		logger.info("로그인 시도한 유저 : " + dto);
 		
 		/*if(session.getAttribute("login")!=null) { //기존 login이란 세션값 존재하면 기존값 제거
 			session.removeAttribute("login");
@@ -104,7 +139,7 @@ public class MemberController {
 			session.setAttribute("userId", dto.getUserId());
 			
 			model.addAttribute("MemberVO",vo);
-			logger.info("MemberController : " + vo);	
+			logger.info("로그인 성공한 유저 : " + vo);	
 			
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -170,7 +205,7 @@ public class MemberController {
 	//public String memberInsert(String userId, String userPw, String userName){}
 	@RequestMapping(value="insert",method=RequestMethod.POST)
 	public String memberInsert(@ModelAttribute MemberVO vo, Model model) {
-		logger.info("current join member : "+vo.toString());
+		logger.info("새로운 회원가입 : "+vo.toString());
 		//테이블에 레코드 입력
 		memberService.insertMember(vo);
 		model.addAttribute("vo", vo);

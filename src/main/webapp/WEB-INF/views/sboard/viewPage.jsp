@@ -281,6 +281,14 @@
 		var replytextObj=$("#newReplyText");
 		var replyer=replyerObj.val();
 		var replytext=replytextObj.val();
+		
+		if(replyer == "" || replyer == null){
+			alert("작성자명을 입력해주세요");
+			replyForm.replyer.focus();
+		}else if(replytext == "" || replytext == null){
+			alert("내용을 입력해주세요");
+			replyForm.replytext.focus();
+		}
 
 		//jQuery를 이용해 $.ajax() 를 통해 서버를 호출. 전송하는 데이터는 JSON으로 구성된 문자열 사용. 전송받는 결과는 단순 문자열.
 		$.ajax({
