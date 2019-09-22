@@ -182,6 +182,13 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
+	@RequestMapping(value="naverLogout")
+	public String naverLogout(HttpSession session) {
+		session.invalidate();
+		logger.info("-----Naver Login Logout-----");
+		return "redirect:/";
+	}
+	
 	//01 회원목록
 	//url pattern mapping
 	@RequestMapping("member_list")
@@ -193,9 +200,9 @@ public class MemberController {
 	}
 	
 	//02_01 회원 등록 페이지로 이동
-	@RequestMapping(value="register",method=RequestMethod.GET)
+	@RequestMapping(value="membership",method=RequestMethod.GET)
 	public String memberWrite() {
-		return "member/register";
+		return "member/membership";
 	}
 	
 	//02_02 회원 등록 처리

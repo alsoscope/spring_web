@@ -10,12 +10,12 @@
 <style type="text/css">
 html, div, body, h3 {
   margin: 0;
-  padding: 0;
+  padding: 30;
   align:center;
 }
 h3 {
   display: inline-block;
-  padding: 0.6em;
+  /* padding: 0.6em; */
 }
 </style>
 <%@ include file="../forward/header.jsp" %>
@@ -27,27 +27,27 @@ $(document).ready(function() {
     var name = ${result }.response.name;
     var email = ${result }.response.email;
     $("#name").html("환영합니다. " + name + "님");
-    $("#email").html(email);
+    $("#email").html("이메일 확인 : " + email);
 });
   //location.href = "${pageContext.request.contextPath}/";
 </script>
 
-<div style="background-color: #15a181; width:180px; height: 50px; text-align: center; color: white;">
-    <h3>Naver_Login Success</h3>
+<div style="background-color: #15a181; width:350px; height: 70px; text-align: center; color: white;">
+    <h3>네이버 로그인 성공</h3>
 </div>
 
-${result }
+<%-- ${result } --%>
 
   <br>
-  <h3 id="name"></h3>
+  <h3 id="name"></h3><br>
   <h3 id="email"></h3>
 
 <c:if test="${vo != null }">
 <div style="background-color: #15a181; width:180px; height: 50px; text-align: center; color: white;">
     <h3>회원 가입 성공</h3>
 </div>
-<h3>아이디 확인 : ${vo.userId }</h3>
-<h3>이름 확인 : ${vo.userName }</h3>
+<h3>아이디 : ${vo.userId }</h3><br>
+<h3>이름 : ${vo.userName }</h3>
 </c:if>
 
   <script>
