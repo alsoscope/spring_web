@@ -83,7 +83,7 @@
 						<span class="txt1">
 							회원가입
 						</span>
-						<a href="${pageContext.request.contextPath }/member/register" class="txt2 hov1">
+						<a href="${pageContext.request.contextPath }/member/membership" class="txt2 hov1">
 							Sign up
 						</a>
 					</div>
@@ -171,9 +171,9 @@
  		window.open(url, name, option);
 	} */
 	
-	function naverPop(){
+	/* function naverPop(){
 		naver_id_login.setPopup();
-	}
+	} */
 	</script>
 
 </body>
