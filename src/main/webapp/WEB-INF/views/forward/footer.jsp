@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 <style>
 .pb-5, .py-5 {
-	margin-bottom:-50rem!important;
+	margin-bottom:-10rem!important;
 	margin-top: 5rem!important;
     padding-bottom: 5rem!important;
 }

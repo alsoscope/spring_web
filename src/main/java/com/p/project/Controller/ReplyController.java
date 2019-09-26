@@ -76,7 +76,8 @@ public class ReplyController {
 			vo.setRno(rno);
 			service.modifyReply(vo);
 			
-			entity=new ResponseEntity<String>("Reply Edit SUCCESS", HttpStatus.OK);
+			entity=new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+			logger.info("Reply Update SUCCESS : " + vo);
 		}catch(Exception e) {
 			e.printStackTrace();
 			entity=new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -92,7 +93,8 @@ public class ReplyController {
 		
 		try {
 			service.removeReply(rno);
-			entity=new ResponseEntity<String>("Reply Delete SUCCESS", HttpStatus.OK);
+			entity=new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+			logger.info("Reply Delete SUCCESS : " + rno);
 		}catch(Exception e) {
 			e.printStackTrace();
 			entity=new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST );

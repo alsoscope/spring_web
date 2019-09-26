@@ -52,6 +52,13 @@
 .nav-aaa{
 	padding:1.5rem .15rem !important;
 }
+.footer{
+	width: 100%;
+    position:static !important; 
+    bottom:0;
+    left: 0;
+    right:0;
+}
 </style>
 </head>
 <%@ include file="../forward/header.jsp" %>

@@ -25,6 +25,15 @@
 .pagination li.active {
     background-color: #b0bec5 !important;
 }
+.navbar{
+	padding: 0rem !important;
+	border-radius: 4px !important;
+	height: 58px !important;
+	line-height: 50px !important;
+}
+.navbar-brand{
+	font-size: 21px !important;
+}
 </style>
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -364,6 +373,56 @@
 	      complete: function() { alert('Closed'); } // Callback for Modal close
 	    }
 	);
+	
+	//댓글 수정. HTTP의 PUT방식을 이용해 처리한다.
+	$("#replyModBtn").on("click", function(){
+		var rno = $(".modal-title").html();
+		var replytext=$("#replytext").val();
+		
+		$.ajax({
+			type:'put',
+			url:'/replies/' + rno,
+			headers:{
+				"Content-Type" : "application/json",
+				"X-HTTP-Method-Override" : "PUT"
+			},
+			data:JSON.stringify({replytext : replytext}),
+			dataType:'text',
+			success:function(result){
+				console.log("Reply Update result : " + result);
+				if(result == 'SUCCESS'){
+					alert("수정 되었습니다.");
+					getPage("/replies/" + bno + "/" + replyPage);
+				}
+			}
+		});
+	});
+	
+	$("#replyDelBtn").on("click", function(){
+		var rno = $(".modal-title").html();
+		var replytext = $("#replytext").val();
+		
+		$.ajax({
+			type:'delete',
+			url:'/replies/' + rno,
+			headers:{
+				"Content-Type" : "application/json",
+				"X-HTTP-Method-Override" : "DELETE"
+			},
+			dataType:'text',
+			success:function(result){
+				console.log("Reply Delete Result : " + result);
+				if(result == 'SUCCESS'){
+					alert("삭제 되었습니다");
+					getPage("/replies/"+bno+"/"+replyPage);
+					
+					
+					$(".modal").hide();
+					
+				}
+			}
+		});
+	});
 	</script>
 	
 	<script>

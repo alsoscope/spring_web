@@ -7,6 +7,7 @@
 <title>회원가입</title>
 <style type="text/css">
 	.form{
+		padding-top:80px;
 		margin: auto;
 		width:300px !important
 	}
@@ -18,15 +19,14 @@
 <%@ include file="../forward/header.jsp" %>
 </head>
 <body>
-	<h2 align="center">회원등록</h2>
-	<br>
 	<form class="form" name="form1" method="post" action="${path }/member/insert">
+	<h2 align="center">회원등록</h2><br>
 		  <div class="form-group">
 		    <label for="exampleInputEmail1">아이디 입력</label>
 		    <input name="userId" class="form-control" id="userId" placeholder="아이디를 입력하세요">
 		  </div>
 		  <div class="form-group">
-		    <label for="exampleInputPassword1">암호</label>
+		    <label for="exampleInputPassword1">암호 입력</label>
 		    <input type="password" name="userPw" class="form-control" id="userPw" placeholder="암호">
 		  </div>
 		  <div class="form-group">
@@ -43,8 +43,9 @@
 		      <input type="checkbox"> 입력을 기억합니다
 		    </label>
 		  </div> -->
+		  <br>
 		  <div align="center">
-			  <button type="button" class="btn btn-default">제출</button>
+			  <button type="button" class="btn btn-default" id="regist">제출</button>
 			  <button type="reset" class="btn btn-default">취소</button>
 		  </div>
 	</form>
@@ -52,8 +53,24 @@
 	<!-- form 제출전 유효성 검사 -->
 	<script>
 		$(document).ready(function(){
-			$("#form1").click(function(){
-				var userId=$("#user")
+			$("#regist").click(function(){
+				if($("#userId").val()==""){
+					alert("아이디를 입력해주세요");
+					$("#userId").focus();
+					return false;
+				}
+				if($("#userPw").val()==""){
+					alert("비밀번호를 입력해주세요");
+					$("#userPw").focus();
+					return false;
+				}
+				
+				if($("#userName").val()==""){
+					alert("닉네임을 입력해주세요");
+					$("#userName").focus();
+					return false;
+				}
+				document.form1.submit();
 			});
 		});
 	
