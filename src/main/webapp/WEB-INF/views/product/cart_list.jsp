@@ -7,6 +7,16 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>장바구니 목록</title>
+<style>
+	#form1{
+		margin: auto;
+	    width: 60%;
+	    border: 3px solid #b0bec5;
+	    padding: 10px;
+		/* padding-top:20px;
+		align:center; */
+	}
+</style>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -14,6 +24,7 @@
 <%@ include file="../forward/header.jsp" %>
 <body>
 <!-- 장바구니 화면/장바구니 목록 -->
+	<form name="form1" id="form1" method="post" action="${path }/shop/cart/update">
 	<h2>장바구니</h2>
 	
 	<%-- <c:choose>
@@ -27,7 +38,6 @@
 	<%-- <c:otherwise> --%>
 	<c:if test="${map.count != 0}">	
 		<!-- 장바구니에 담긴 상품수량 업데이트 처리 -->
-		<form name="form1" id="form1" method="post" action="${path }/shop/cart/update">
 			<table  border="1">
 				<tr>
 					<th>상품명</th>
@@ -71,13 +81,14 @@
 			</table>
 			<input type="hidden" name="count" value="${map.count }">
 			<button type="submit" id="btnUpdate">수정</button>		
-		</form>
 	</c:if>
 	<%-- </c:otherwise>
 	</c:choose> --%>
 	
+	<br>
 	<input type="button" class="btn btn-default" value="뒤로가기" onClick="goBack();"/>
 	<!-- <button type="button" class="btn btn-default" id="btnList">뒤로</button> -->
+	</form>
 
 <script type="text/javascript">
 	function goBack(){

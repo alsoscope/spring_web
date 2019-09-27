@@ -10,7 +10,7 @@
 <body>
 <!-- Navigation -->
   <c:if test="${sessionScope.adminId == null }">
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top z-depth-0">
     <div class="container">
       <a class="navbar-brand" href="/">CINEPHILE</a>
       <button class="navbar-toggler radius" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,28 +18,38 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto navbar-expand-lg">
-          <li class="nav-item active">
+          <li class="nav-item">
             <a class="nav-link" href="/" style="color:white;">Home
               <!-- <span class="sr-only"></span> -->
             </a>
           </li>
-          <li class="nav-item">
-          	<c:if test="${login.userId==null }">
+          
+          <li class="nav-item">          
+          	<c:if test="${login.userId == null && naverName eq null }">
             <li class="nav-aaa">GUEST 접속중</li>
             </c:if>
-          </li>
-          <li class="nav-item">
-          	<c:if test="${login.userId==null }">
+         </li>
+          
+          <li class="nav-item">        
+          	<c:if test="${login.userId == null && naverName eq null}">
             <a class="nav-link" href="${path }/member/loginGET">로그인</a>
             </c:if>
           </li>
+          
           <li class="nav-item">
-          	<li class="nav-aaa">
-	          	<c:if test="${login.userId!=null }">
-	            ${login.userId }님 접속중
-	            </c:if>
-            </li>
+          	<li class="nav-aaa">         
+          	<c:choose>
+	          	<c:when test="${login.userId!=null}">
+	            	<strong>${login.userId }</strong>님 접속중
+	            </c:when>
+	            <c:when test="${naverName != null}">
+	           		<strong>${naverName }</strong>님 접속중
+	            </c:when>
+        	</c:choose>
+          	</li>
           </li>
+          
+          
           <li class="nav-item">
           	<c:if test="${login.userId!=null }">
             <a class="nav-link" href="${path }/member/logout">로그아웃</a>
