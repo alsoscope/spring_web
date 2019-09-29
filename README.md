@@ -17,7 +17,7 @@ Ref : 코드로 배우는 스프링 웹 프로젝트(구멍가게 코딩단 지�
 - Language : Java Version 8, Java Script, JSTL, EL
 - DATABASE : MySQL 5.7
 - WAS : Tomcat 8.0
-- FRONT-END : BootStrap, HTML, CSS
+- FRONT-END : BootStrap, HTML, CSS, Materialize
 - Library Management : MAVEN
 - Open Source Library : JQuery, Ajax, Handlebars.js
 - Mybatis
