@@ -13,7 +13,7 @@
 		width:600px !important;
 	}
 	body{
-		margin-bottom:-130px !important;
+		margin-bottom:-100px !important;
 	}
 </style>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">

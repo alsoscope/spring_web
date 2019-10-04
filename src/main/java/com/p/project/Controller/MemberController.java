@@ -189,8 +189,7 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
-	//01 회원목록
-	//url pattern mapping
+	//01 회원목록 url pattern mapping
 	@RequestMapping("member_list")
 	public String memberList(Model model) {
 		//controller->service->dao 요청
@@ -234,13 +233,13 @@ public class MemberController {
 	}
 	
 	//04 회원 정보 수정 처리
-	@RequestMapping(value="update", method=RequestMethod.POST)
+	@RequestMapping(value="member_update", method=RequestMethod.POST)
 	public String memberUpdate(@ModelAttribute MemberVO vo, Model model) {
 		//비밀번호 체크
 		boolean result=memberService.checkPw(vo.getUserId(), vo.getUserPw());
 		if(result) {//비밀번호가 일치하면 수정 처리 후, 전체 회원 목록으로 리다이렉트
 			memberService.updateMember(vo);
-			return "redirect:/member/list.do";			
+			return "redirect:/member/list";			
 		}else {//비밀번호가 일치하지 않는다면, div에 불일치 문구 출력, view,jsp로 포워드
 			//다시 동일한 화면을 출력하기 위해서 가입일자와 수정일자 그리고 불일치 문구를 model에 저장, 상세화면으로 포워드
 			//가입일자, 수정일자 저장
@@ -256,13 +255,13 @@ public class MemberController {
 	//05 회원정보 삭제 처리
 	//@RequestMapping:url mapping
 	//@RequestParam:get or post 방식으로 전달된 변수값
-	@RequestMapping("delete")
+	@RequestMapping("member_delete")
 	public String memberDelete(@RequestParam String userId, @RequestParam String userPw, Model model) {
 		//비밀번호 체크
 		boolean result=memberService.checkPw(userId, userPw);
 		if(result) { //비밀번호가 맞다면 삭제 처리 후, 전체 회원 목록으로 리다이렉트
 			memberService.deleteMember(userId);
-			return "redirect:/member/list.do";
+			return "redirect:/member/list";
 		}else {//비밀번호가 일치하지 않는다면 div에 불일치 문구출력, view.jsp로 포워드
 			model.addAttribute("message", "비밀번호가 맞지 않습니다");
 			model.addAttribute("dto", memberService.viewMember(userId));

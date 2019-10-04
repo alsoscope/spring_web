@@ -9,10 +9,10 @@
 .pb-5, .py-5 {
 	margin-bottom:-10rem!important;
 	margin-top: 5rem!important;
-    padding-bottom: 5rem!important;
+    padding-bottom: 3.1rem!important;
 }
 .pt-5, .py-5 {
-    padding-top: 4.5rem!important;
+    padding-top: 3.1rem!important;
 }
 .bg-dark {
     background-color: #343a40!important;
