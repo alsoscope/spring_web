@@ -111,6 +111,7 @@
             <h3 class="card-title">${vo.product_name }</h3>
             <h4>가격 : <fmt:formatNumber value="${vo.product_price }" pattern="###,###,###" /></h4>
             <p class="card-text">${vo.product_desc }</p>
+            
             <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span>
             4.0 stars
             
@@ -124,16 +125,17 @@
 					<c:forEach begin="1" end="10" var="i">
 						<option value="${i}">${i}</option>
 					</c:forEach>
-				</select>&nbsp;일 동안 대여&nbsp;&nbsp;
+				</select>&nbsp;일 동안 대여&nbsp;&nbsp;<br>
 				
-				<c:if test="${login.userId == null }">
+				<c:if test="${login.userId == null && naverName eq null && sessionScope.adminId == null}">
 					<p>로그인 뒤 대여가능 <a href="/member/loginGET">로그인</a></p>
 				</c:if>
-				<c:if test="${login.userId != null }">
-					<button type="submit" value="장바구니에 담기"></button>
+				<c:if test="${login.userId != null && naverName ne null && sessionScope.adminId == null }">
+					<button type="submit" class="btn btn-default" value="장바구니에 담기">장바구니에 담기</button>
 				</c:if>
 			</form>
 			
+			<br>
 			<c:if test="${sessionScope.adminId!=null }">
 				<button type="button" class="btn btn-default" id="btnUpdate">수정</button>
 			</c:if>

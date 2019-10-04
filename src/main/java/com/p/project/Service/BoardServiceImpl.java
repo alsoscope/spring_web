@@ -29,7 +29,6 @@ public class BoardServiceImpl implements BoardService {
 	//01 게시글 쓰기
 	@Override
 	public void create(BoardVO vo) throws Exception {
-		// TODO Auto-generated method stub
 		String title=vo.getTitle();
 		String content=vo.getContent();
 		String writer=vo.getWriter();
@@ -56,35 +55,30 @@ public class BoardServiceImpl implements BoardService {
 	//02 게시글 상세보기
 	@Override
 	public BoardVO read(int bno) throws Exception {
-		// TODO Auto-generated method stub
 		return boardDao.read(bno);
 	}
 
 	//03 게시글 수정
 	@Override
 	public void update(BoardVO vo) throws Exception {
-		// TODO Auto-generated method stub
 		boardDao.update(vo);
 	}
 
 	//04 게시글 삭제
 	@Override
 	public void delete(int bno) throws Exception {
-		// TODO Auto-generated method stub
 		boardDao.delete(bno);
 	}
 
 	//05 게시글 전체 목록 boardDAO.listAll 메소드 호출
 	@Override
 	public List<BoardVO> listAll(String searchOption, String keyword) throws Exception {
-		// TODO Auto-generated method stub
 		return boardDao.listAll(searchOption, keyword);
 	}
 
 	//06 게시글 조회수 증가
 	@Override
 	public void increaseViewcnt(int bno, HttpSession session) throws Exception {
-		// TODO Auto-generated method stub
 		long update_time=0;
 		//세션에 저장된 조회시간 검색
 		//최초로 조회할 경우 세션에 저장된 값이 없기 때문에 if문은 실행x
@@ -103,10 +97,8 @@ public class BoardServiceImpl implements BoardService {
 		}
 	}
 
-	//07. 게시글 레코드 갯수 boardDao.countArticle 메서드
 	@Override
 	public int countArticle(String searchOption, String keyword) throws Exception {
-		// TODO Auto-generated method stub
 		return boardDao.countArticle(searchOption, keyword);
 	}
 

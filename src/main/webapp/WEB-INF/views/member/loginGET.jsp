@@ -69,23 +69,30 @@
 					<a href="${url}" onClick="naverPop();" target="_blank">
 					<img width="250" src="${path}../resources/images/login_naver.png"/></a></div>
 					<!-- 네이버 로그인 -->
-					
-					<div class="text-center p-t-45 p-b-4">
+					<br>
+					<!-- <div class="text-center p-t-45 p-b-4">
 						<span class="txt1">
 							Forgot
 						</span>
 						<a href="#" class="txt2 hov1">
 							Username / Password?
 						</a>
-					</div>
+					</div> -->
 
 					<div class="text-center">
 						<span class="txt1">
-							회원가입
+							아직 회원이 아니십니까?
 						</span>
 						<a href="${pageContext.request.contextPath }/member/membership" class="txt2 hov1">
-							Sign up
+							회원가입 하기
 						</a>
+					</div>					
+					
+					<div class="text-center">
+						<span class="txt1">
+							메인으로 돌아가기
+						</span>
+						<a href="/" class="txt2 hov1">메인</a>
 					</div>
 					
 					<div class="text-center">
@@ -93,15 +100,8 @@
 							관리자로 접속하기
 						</span>
 						<a href="${pageContext.request.contextPath }/admin/adminlogin" class="txt2 hov1">
-							Sign up
+							Admin Login
 						</a>
-					</div>
-					
-					<div class="text-center">
-						<span class="txt1">
-							메인으로 돌아가기
-						</span>
-						<a href="/" class="txt2 hov1">메인으로</a>
 					</div>
 				</form>
 			</div>

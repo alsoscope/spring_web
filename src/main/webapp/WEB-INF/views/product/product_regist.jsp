@@ -7,20 +7,24 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>상품등록</title>
 <style type="text/css">
-	.create-form{
-		margin: auto;
-		width:300px !important
-	}
-    #dropzone {
-        border:2px dotted;
-        /* width:90%;
-        height:50px;
-        color:#92AAB0;
-        text-align:center;
-        font-size:24px;
-        padding-top:12px;
-        margin-top:10px; */
-    }
+.create-form{
+	margin: auto;
+	width:300px !important
+}
+#dropzone {
+    border:2px dotted;
+    text-align:center;
+    font-size:24px;
+/*     padding-top:12px;
+    width:90%;
+    height:50px;
+    color:#92AAB0;
+    margin-top:10px; */
+}
+.footer{
+	position:relative !important;
+	top:120px;   
+}
 </style>
 <!-- <script src="//code.jquery.com/jquery-3.2.1.min.js"></script> -->
 <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
@@ -54,8 +58,8 @@
 		  </div>		  
 		  
 		  <div class="form-group">
-		    <label for="exampleInputEmail1">상품 이미지</label>		    
-		    <div class="dropzone" id="dropzone"></div>
+		    <label for="exampleInputEmail1">상품 이미지</label>
+		    <div class="dropzone" id="dropzone">Drag and Drop</div>
 		  </div>
 		  <!-- <div class="form-group">
 		    <label for="exampleInputEmail1">상품 이미지</label>
@@ -67,10 +71,11 @@
 			  <!-- <button type="reset" class="btn btn-default" id="goBack">목록</button> -->
 		  	  <!-- <input type="button" class="btn btn-default" value="목록" onClick="goBack();"/> -->
 			  <!-- <input type="submit" class="btn btn-default" value="상품 등록"> -->
-			  <input type="submit" class="create btn btn-success btn-wide pull-right" value="상품 등록">
-		  	  <input type="button" class="btn btn-default" value="목록으로 돌아가기" id="btnList"/>
+			  <input type="submit" class="create btn btn-success" value="상품 등록">
+		  	  <input type="button" class="btn btn-default" value="뒤로가기" id="goBack();"/>
 		  </div>
 	
+		<br>
 		<ul class="uploadedList mailbox-attachments clearfix">
 		</ul>
 		
@@ -178,7 +183,7 @@ $(function () {
 			//var product_photo=$("#product_photo").val();
 			
 			//상품등록 클릭 이벤트가 발생하면 폼 내부 값 유효성 체크한 뒤 서버로 전송
-			if(product_name==null && product_price==null && product_desc==""){
+			if(product_name==null){
 				alert("상품 정보 미입력!");
 				product_name.focus();
 				return false;
@@ -250,9 +255,9 @@ $(function () {
     });
 	
   	//상품 목록 이동
-	$("#btnList").click(function(){
+	/* $("#btnList").click(function(){
 		location.href="${path}/";
-	});
+	}); */
 	
   	function goBack(){
 		window.history.back(); //window.history.go(-1);

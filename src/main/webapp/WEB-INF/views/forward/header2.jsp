@@ -47,8 +47,7 @@
 	            </c:when>
         	</c:choose>
           	</li>
-          </li>
-          
+          </li>        
           
           <li class="nav-item">
           	<c:if test="${login.userId!=null }">
@@ -82,7 +81,6 @@
         <ul class="navbar-nav ml-auto navbar-expand-lg">
           <li class="nav-item active">
             <a class="nav-link" href="/" style="color:white;">Home
-              <span class="sr-only">(current)</span>
             </a>
           </li>
           <li class="nav-item">

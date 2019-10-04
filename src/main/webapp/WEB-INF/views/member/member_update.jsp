@@ -24,7 +24,7 @@
 		$("#btnUpdate").click(function(){
 			//확인 대화 상자
 			if(confirm("회원 정보를 수정 하시겠습니까?")){				
-			document.form1.action="${path}/member/member_update";
+			document.form1.action="${path}/member/update";
 			document.form1.submit();
 			}
 		});
@@ -32,7 +32,7 @@
 	$(document).ready(function(){
 		$("#btnDelete").click(function(){
 			if(confirm("해당 회원을 삭제하시겠습니까?")){
-				document.form1.action="${path}/member/member_delete";
+				document.form1.action="${path}/member/delete";
 				document.form1.submit();
 			}
 		});

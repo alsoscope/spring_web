@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>게시글 작성</title>
+<title>게시글 보기</title>
 <style>
 .viewPage{
 	align:center;
@@ -21,6 +21,10 @@
     bottom:0;
     left: 0;
     right:0;
+}
+.pt-5, .py-5 {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
 }
 .pagination li.active {
     background-color: #b0bec5 !important;
@@ -72,7 +76,7 @@
 	</form>
 	
 	<div class=viewPage>
-	<h2 style="text-align:center;">게시글 보기</h2><br>
+	<h4 style="text-align:center;">게시글 보기</h4><br>
 		<div class="form-group" style="text-align:right;"><!-- 원하는 날짜형식으로 출력하기 위해 fmt 태그 사용 -->
 			<%-- <fmt:formatDate value="${dto.regdate }" pattern="yyyy-MM-dd a HH:mm:ss"/> --%>
 			<!-- 날짜형식 yyyy 4자리연도 MM월 dd일 a오전/오후 HH24시간제 hh12시간제, mm분 ss초 -->
@@ -130,6 +134,7 @@
 			</div>		
 		</div> -->
 		
+	 <br>
 	 <!-- 댓글 등록 -->	
 	 <div class="row">
 			<form class="col s12" id="replyForm">
@@ -154,7 +159,7 @@
 
 				<div style="float: right;">
 					<a href="javascript:void(0);" class="btn-floating btn-large waves-effect waves-light blue-grey material-icons"
-						onClick="replyAddBtn(this);"></a>
+						onClick="replyAddBtn(this);">+</a>
 					
 					<!-- <i class="material-icons">+</i></a> -->
 					
@@ -191,8 +196,10 @@
 		<br>
 		<div>
 			<dt>{{rno}} {{prettifyDate regdate}}</dt>
-			<i class="material-icons prefix">account_circle&nbsp;&nbsp;</i>{{replyer}}		
-			<div><i class="material-icons prefix">mode_comment&nbsp;&nbsp;</i>{{replytext}}</div>
+			<i class="material-icons prefix">account_circle&nbsp;&nbsp;</i>{{replyer}}
+			<br>
+			<i class="material-icons prefix">mode_comment&nbsp;</i>
+			<span class="timeline-body">{{replytext}}</span>
 			<div>
 				<button data-target="modal1" class="waves-effect waves-light btn-small blue-grey btn modal-trigger">
 				<i class="material-icons left">edit</i>수정</button>
@@ -206,14 +213,14 @@
 	
 	<!-- Modal Structure-->
 	<div id="modal1" class="modal">
-		<!-- Modal content -->
 		<div class="modal-content">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<!-- <button type="button" class="close" data-dismiss="modal">&times;</button>-->
+				<!-- HTML Entities : &times; means 'x' -->
 				<h4 class="modal-title"></h4>	
 			</div>
 			<div class="modal-body" data-rno>
-				<p><input type="text" id="replytext"></p>
+				<p><i class="material-icons prefix">mode_comment</i><input type="text" id="replytext"></p>
 			</div>
 			<div class="modal-footer">
 				<button type="button" id="replyModBtn">MODIFY</button>
@@ -352,7 +359,7 @@
 		getPage("/replies/"+bno+"/"+replyPage);
 	});
 	
-	//댓글의 버튼 이벤트 처리
+	//댓글의 버튼 이벤트 처리. 수정/삭제를 위한 Modal.
 	$(".timeline").on("click", ".replyLi", function(event){
 		var reply=$(this);
 		$("#replytext").val(reply.find(".timeline-body").text());
@@ -393,6 +400,8 @@
 				if(result == 'SUCCESS'){
 					alert("수정 되었습니다.");
 					getPage("/replies/" + bno + "/" + replyPage);
+					
+					$(".modal").close();
 				}
 			}
 		});
@@ -448,34 +457,34 @@
 		var formObj=$("form[role='form']");
 		console.log(formObj);
 		
+		$("#btn_back").on("click", function(){
+			formObj.attr("method","get");
+			formObj.attr("action","/sboard/search_list");
+			formObj.submit();
+		});
+		
 		/* $("#btnDelete").click(function(){
 			if(confirm("삭제하시겠습니가?")){
 				document.form1.action="${path}/board/delete.do";
 				document.form1.submit();
 			}
-		}); */
+		});
 		$("#btnDelete").on("click",function(){
 			//formObj.attr("method","get");
 			formObj.attr("action","/sboard/delete");
 			formObj.submit();
 		});
-  		/* $("#btn_update").click(function(){
+  		 $("#btn_update").click(function(){
 			if(confirm("수정하시겠습니까??")){
 				document.form1.action="/board/updateGet.do";
 				document.form1.submit();
 			}
-		}); */
+		});
 		$("#btn_update").on("click", function(){
 			formObj.attr("action", "/sboard/updateGet");//.attr(attributeName, value) 2개의 인자는 속성값을 요소에 부여하는 것
 			formObj.attr("method","get");
 			formObj.submit();
-		});
-		
-		$("#btn_back").on("click", function(){
-			formObj.attr("method","get");
-			formObj.attr("action","/sboard/search_list");
-			formObj.submit();
-		});	
+		});*/	
 	});
 		
 	  /* 
@@ -501,6 +510,6 @@ document.getElementById('content').value
 	}
 </script> -->
 
-<%@ include file="../forward/footer.jsp" %>
+<%@ include file="../forward/footer2.jsp" %>
 </body>
 </html>

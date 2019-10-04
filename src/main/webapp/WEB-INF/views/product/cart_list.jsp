@@ -8,13 +8,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>장바구니 목록</title>
 <style>
-	#form1{
+	form{
 		margin: auto;
-	    width: 60%;
+	    width: 40%;
 	    border: 3px solid #b0bec5;
 	    padding: 10px;
 		/* padding-top:20px;
 		align:center; */
+	}
+	h2{
+		text-align:center;
 	}
 </style>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -25,12 +28,15 @@
 <body>
 <!-- 장바구니 화면/장바구니 목록 -->
 	<form name="form1" id="form1" method="post" action="${path }/shop/cart/update">
-	<h2>장바구니</h2>
+	<h2>장바구니</h2><br>
 	
 	<%-- <c:choose>
 	<c:when test="${empty map.count }">
 		<h4>장바구니가 비어있습니다.</h4>
 	</c:when> --%>
+	
+	<input type="hidden" name="count" value="${map.count }">
+	
 	<c:if test="${map.count == 0 }">
 		<h4>장바구니가 비어있습니다.</h4>
 	</c:if>
@@ -38,12 +44,12 @@
 	<%-- <c:otherwise> --%>
 	<c:if test="${map.count != 0}">	
 		<!-- 장바구니에 담긴 상품수량 업데이트 처리 -->
-			<table  border="1">
+			<table  border="1" class="table table-bordered">
 				<tr>
 					<th>상품명</th>
-					<th>단가</th>
-					<th>수량</th>
-					<th>금액</th>
+					<th>일일 가격</th>
+					<th>대여일</th>
+					<th>총 금액</th>
 					<th>취소</th>
 				</tr>
 				
@@ -51,19 +57,19 @@
 				<c:forEach var="row" items="${map.list }" varStatus="i">
 				<tr>
 					<td>${row.product_name }</td>
-					<td style="width:80px" align="right">
-						<fmt:formatNumber pattern="###,###,###" value="${row.product_price }"/>
+					<td>
+						<fmt:formatNumber pattern="###,###,###" value="${row.product_price }"/>원
 					</td>
 					<td>
 						<!-- 상품 수량 변경, 최소값 1로 설정. 상품수량 변경을 위해 상품id번호를 hidden 속성으로 입력 -->
 						<!-- name속성을 배열첨자[]로 하지 않는 이유는, 동일한 name속성이 반복적으로 입력되면 서버에서 배열로 쌓아서 작업을 처리해주기 때문.
 							즉, 화면으로부터 동일한 name속성의 값들이 CartController의 updateCart() 장바구니 수정 메서드의
 							매개변수 int[] amount, int[] product_id에 배열로 저장되어 처리된다 -->
-						<input type="number" style="width:40px" name="amount" value="${row.amount }" min="1">
+						<input type="number" style="width:60px" name="amount" value="${row.amount }" min="1" max="10">일 (최장 10일)
 						<input type="hidden" name="product_id" value="${row.product_id }">
 					</td>
-					<td style="width:100px" align="right">
-						<fmt:formatNumber pattern="###,###,###" value="${row.money }"/>
+					<td style="width:100px">
+						<fmt:formatNumber pattern="###,###,###" value="${row.money }"/>원
 					</td>
 					<td>
 						<!-- 장바구니에 담긴 상품 삭제 처리 -->
@@ -73,20 +79,21 @@
 				</c:forEach>
 				<tr>
 					<td colspan="5" align="right">
-						대여 금액 합계 : <fmt:formatNumber pattern="###,###,###" value="${map.sumMoney }"/><br>
-						수수료 : ${map.fee }<br>
-						전체 주문 금액 : <fmt:formatNumber pattern="###,###,###" value="${row.allSum }"/>
+						대여 금액 합계 : <fmt:formatNumber pattern="###,###,###" value="${map.sumMoney }"/> 원<br>
+						수수료 : ${map.fee } 원<br>
+						전체 주문 금액 : <fmt:formatNumber pattern="###,###,###" value="${map.allSum }"/> 원
 					</td>
 				</tr>
 			</table>
-			<input type="hidden" name="count" value="${map.count }">
-			<button type="submit" id="btnUpdate">수정</button>		
+			
+			<div style="text-align:center;">
+				<button type="submit" class="btn btn-default" id="btnUpdate">수정</button>		
+				<input type="button" class="btn btn-default" value="뒤로가기" onClick="goBack();"/>
+			</div>
 	</c:if>
 	<%-- </c:otherwise>
 	</c:choose> --%>
 	
-	<br>
-	<input type="button" class="btn btn-default" value="뒤로가기" onClick="goBack();"/>
 	<!-- <button type="button" class="btn btn-default" id="btnList">뒤로</button> -->
 	</form>
 

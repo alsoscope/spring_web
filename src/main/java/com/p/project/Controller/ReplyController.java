@@ -54,7 +54,7 @@ public class ReplyController {
 	//2. 전체 댓글 목록 처리
 	@ResponseBody
 	@RequestMapping(value="/all/{bno}", method=RequestMethod.GET)
-	public ResponseEntity<List<ReplyVO>> list(@PathVariable("bno") int bno){
+	public ResponseEntity<List<ReplyVO>> list(@PathVariable("bno") int bno, ReplyVO vo){
 		ResponseEntity<List<ReplyVO>> entity=null;	
 		try {
 			entity=new ResponseEntity<>(service.listReply(bno), HttpStatus.OK);

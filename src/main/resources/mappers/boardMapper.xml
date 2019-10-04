@@ -136,6 +136,8 @@
 		<include refid="search"></include>
 	</select>
 	
+	<!-- 검색 후 결과물 count -->
+	
 	<!-- 01_02 게시글 레코드 개수 -->
 	<!-- <select id="countArticle" resultType="int">
 		SELECT COUNT(*) FROM tbl_board

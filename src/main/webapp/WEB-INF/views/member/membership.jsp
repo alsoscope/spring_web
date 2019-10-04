@@ -45,8 +45,8 @@
 		  </div> -->
 		  <br>
 		  <div align="center">
-			  <button type="button" class="btn btn-default" id="regist">제출</button>
-			  <button type="reset" class="btn btn-default">취소</button>
+			  <button type="button" class="btn btn-default" id="regist">회원가입</button>
+			  <button type="reset" class="btn btn-default">회원가입 취소</button>
 		  </div>
 	</form>
 	
