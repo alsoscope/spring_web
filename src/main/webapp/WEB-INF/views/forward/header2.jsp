@@ -60,6 +60,13 @@
           <li class="nav-item">
             <a class="nav-link" href="/shop/cart/listCart">장바구니</a>
           </li>
+          
+          <li class="nav-item">
+	          <c:if test="${ login.userId!=null || naverName ne null}">
+		            <a class="nav-link" href="/member/member_view">내 정보</a>
+	          </c:if>
+          </li>
+          
           <li class="nav-item">
             <a class="nav-link" href="${path }/about">Contact</a>
           </li>

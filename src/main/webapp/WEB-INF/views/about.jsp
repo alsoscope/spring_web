@@ -14,7 +14,7 @@
 <%@ include file="./forward/header.jsp" %>
 
 <div style="text-align:center;">
-	CINEPHILE 은 영화 스트리밍 ~
+	CINEPHILE 은 영화 스트리밍 서비스를 제공하는 웹사이트입니다.
 </div>
 
 <%@ include file="./forward/footer.jsp" %>

@@ -60,9 +60,9 @@
 		<tbody>
 		<c:forEach var="row" items="${list }">
 			<tr>
-				<td>${row.userId }</td>
+				<td><a href="${path }/member/adminView?userId=${row.userId}">${row.userId }</a></td>
 				<!-- 회원정보 상세 조회를 위해 a태그 추가 -->
-				<td><a href="${path }/member/view?userId=${row.userId}">${row.userName }</a></td>
+				<td><a href="${path }/member/adminView?userId=${row.userId}">${row.userName }</a></td>
 				<td>${row.userRegdate }</td>
 				<td>${row.userUpdatedate }</td>
 			</tr>

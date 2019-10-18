@@ -8,15 +8,13 @@
 <title>관리자 로그인</title>
 <style type="text/css">
 	form{
+		align:center;
 		display: block;
-		margin-left: auto;
-		margin-right: auto;
-  		}
-  	div{
-  		width: auto;
+		padding: 10px;
+		width: 40%;
   		margin:0 auto !important;
 		align:center !important;
-  	}
+
 </style>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -26,10 +24,8 @@
 <%@ include file="../forward/header.jsp" %>
 <br><br>
 
-<div style="align:center;">
-<h3 class="bg-info" style="width:200px;">관리자 로그인</h3>
-<br>
 <form class="form-inline" name="form1">
+<h3 class="bg-info" style="width:200px;">관리자 로그인</h3><br>
   <div class="form-group">
 &nbsp;&nbsp;<label for="exampleInputName2">관리자 아이디</label>
     <input type="text" class="form-control" id="userId" name="userId" placeholder="ID 입력" autofocus>
@@ -52,7 +48,6 @@
 	</c:if>
   </button>
 </form>
-</div>
 
 <script>
 	$(document).ready(function(){

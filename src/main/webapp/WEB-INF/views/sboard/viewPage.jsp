@@ -109,8 +109,8 @@
 			
 			<c:if test="${ login.userId eq dto.writer}">
 				<button class="btn btn-default" type="button" id="btn_update">수정</button>
-				<button class="btn btn-default" type="button" id="btnDelete">삭제</button>
-			</c:if><br>
+				<button class="btn btn-default" type="button" id="btn_delete">삭제</button>
+			</c:if>
 			<!-- <a href="javascript:history.back"><input type="button" value="뒤로가기"/></a> -->
 			<!-- <input type="button" value="뒤로가기" onClick="goBack();"/> -->
 			<button class="btn btn-default blue-grey lighten-3" type="submit" id="btn_back">뒤로가기</button><!-- viewcount 수정되어 나옴 -->
@@ -174,9 +174,10 @@
 	<a id="trigger" class="waves-effect waves-light btn-large blue-grey lighten-3">
 	<i class="material-icons left">view_list</i>댓글 목록 보기</a>
 	<ul class="timeline">
+
 		<li id="repliesDiv">
 		<!-- <span class="btn btn-default" id="replyList">Replies List</span> -->
-		</li>		
+		</li>
 	</ul>
 	<br>
 	
@@ -211,7 +212,7 @@
 <!-- 				<a class="waves-effect waves-light btn-small blue-grey modal-trigger" id="modifyModal">
 				<i class="material-icons left">edit</i>수정</a> -->
 	
-	<!-- Modal Structure-->
+	<!-- 수정, 삭제 Modal Structure-->
 	<div id="modal1" class="modal">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -407,6 +408,7 @@
 		});
 	});
 	
+	//댓글 삭제
 	$("#replyDelBtn").on("click", function(){
 		var rno = $(".modal-title").html();
 		var replytext = $("#replytext").val();
@@ -463,23 +465,23 @@
 			formObj.submit();
 		});
 		
-		/* $("#btnDelete").click(function(){
-			if(confirm("삭제하시겠습니가?")){
-				document.form1.action="${path}/board/delete.do";
-				document.form1.submit();
-			}
-		});
-		$("#btnDelete").on("click",function(){
-			//formObj.attr("method","get");
-			formObj.attr("action","/sboard/delete");
-			formObj.submit();
-		});
-  		 $("#btn_update").click(function(){
+		$("#btn_update").click(function(){
+ 			var bno="${dto.bno}";
 			if(confirm("수정하시겠습니까??")){
-				document.form1.action="/board/updateGet.do";
-				document.form1.submit();
+				formObj.attr("method","get");
+				formObj.attr("action", "/sboard/updateGet/");
+				formObj.submit();
 			}
 		});
+		
+		$("#btn_delete").on("click",function(){
+			if(confirm("삭제하시겠습니가?")){
+				formObj.attr("action", "${path}/sboard/delete");
+				formObj.submit();
+			}
+		});
+  		 
+		/*	
 		$("#btn_update").on("click", function(){
 			formObj.attr("action", "/sboard/updateGet");//.attr(attributeName, value) 2개의 인자는 속성값을 요소에 부여하는 것
 			formObj.attr("method","get");

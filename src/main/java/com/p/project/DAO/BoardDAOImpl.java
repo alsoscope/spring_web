@@ -69,7 +69,7 @@ public class BoardDAOImpl implements BoardDAO {
 		SqlSession.update("board.increaseViewcnt",bno);
 	}
 
-	//07 게시글 레코드 개수
+	//총 게시물 개수 확인
 	@Override
 	public int countArticle(String searchOption, String keyword) throws Exception {
 		//검색옵션, 키워드 맵에 저장
@@ -79,7 +79,30 @@ public class BoardDAOImpl implements BoardDAO {
 		return SqlSession.selectOne("board.countArticle", map);
 	}
 
-/*	//페이징 처리
+	//검색처리, 페이징 처리 (동적 SQL문, SearchCriteria 적용)
+	@Override
+	public List<BoardVO> listSearch(SearchCriteria cri) throws Exception {
+		return SqlSession.selectList("board.listSearch", cri);
+	}
+	
+	@Override
+	public int listSearchCount(SearchCriteria cri) throws Exception {
+		return SqlSession.selectOne("board.listSearchCount", cri);
+	}
+
+	//페이징 처리 객체 Criteria 포함된 list 출력
+	/*@Override
+	public List<BoardVO> listCriteria(Criteria cri) throws Exception {
+		return SqlSession.selectList(namespace+".listCriteria", cri);
+	}*/
+
+	//totalCount 포함하여 실제 게시물로 페이징 처리
+	/*@Override
+	public int countPaging(Criteria cri) throws Exception {
+		return SqlSession.selectOne(namespace+".countPaging",cri);
+	}*/
+	
+	/*	//페이징 처리
 	@Override
 	public List<BoardVO> listPage(int page) throws Exception {
 		if(page <= 0) {
@@ -88,27 +111,5 @@ public class BoardDAOImpl implements BoardDAO {
 		page = (page-1) * 10;
 		return SqlSession.selectList(namespace + ".listPage" , page);
 	}*/
-
-	//페이징 처리 객체 Criteria 포함된 list 출력
-	@Override
-	public List<BoardVO> listCriteria(Criteria cri) throws Exception {
-		return SqlSession.selectList(namespace+".listCriteria", cri);
-	}
-
-	//totalCount 포함하여 실제 게시물로 페이징 처리
-	@Override
-	public int countPaging(Criteria cri) throws Exception {
-		return SqlSession.selectOne(namespace+".countPaging",cri);
-	}
-
-	//검색처리-동적SQL, 페이징 처리
-	@Override
-	public List<BoardVO> listSearch(SearchCriteria cri) throws Exception {
-		return SqlSession.selectList("board.listSearch", cri);
-	}
-
-	@Override
-	public int listSearchCount(SearchCriteria cri) throws Exception {
-		return SqlSession.selectOne("board.listSearchCount", cri);
-	}
+	
 }

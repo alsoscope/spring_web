@@ -97,31 +97,34 @@ public class BoardServiceImpl implements BoardService {
 		}
 	}
 
+	//총 게시물 개수 확인
 	@Override
 	public int countArticle(String searchOption, String keyword) throws Exception {
 		return boardDao.countArticle(searchOption, keyword);
 	}
 
-	//페이징 처리
+	//검색처리, 페이징 처리 (동적 SQL문, SearchCriteria 적용)
 	@Override
-	public List<BoardVO> listCriteria(Criteria cri) throws Exception {
-		return boardDao.listCriteria(cri);
-	}
-
-	@Override
-	public int listCountCriteria(Criteria cri) throws Exception {
-		return boardDao.countPaging(cri);
-	}
-
-	//동적SQL로 검색 처리
-	@Override
-	public List<BoardVO> listSearchCriteria(SearchCriteria cri) throws Exception {
+	public List<BoardVO> listSearch(SearchCriteria cri) throws Exception {
 		return boardDao.listSearch(cri);
 	}
-
+	
+	//검색처리, 페이징 처리 (동적 SQL문, SearchCriteria 적용)
 	@Override
 	public int listSearchCount(SearchCriteria cri) throws Exception {
 		return boardDao.listSearchCount(cri);
 	}
+
+	//페이징 처리
+	/*@Override
+	public List<BoardVO> listCriteria(Criteria cri) throws Exception {
+		return boardDao.listCriteria(cri);
+	}*/
+
+	/*@Override
+	public int listCountCriteria(Criteria cri) throws Exception {
+		return boardDao.countPaging(cri);
+	}*/
+
 
 }

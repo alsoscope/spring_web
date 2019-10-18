@@ -6,13 +6,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>UPDATE</title>
+<title>게시글 수정</title>
 <style>
 form {
 	align:center;
 	width:500px;
 	margin: auto;
-	padding-top:100px;
+	padding-top:80px;
 }
 </style>
 <!-- 합쳐지고 최소화된 최신 CSS -->
@@ -54,22 +54,22 @@ $(document).ready(function(){
 </head>
 <body>
 <%@ include file="../forward/header.jsp" %>
-
-	<h2>게시글 수정</h2>
-		<form name="form1" method="post" role="form" action="updatePost">
-		
-			<input type="hidden" name="page" value="${cri.page}">
-			<input type="hidden" name="perPageNum" value="${cri.perPageNum}">
-			
-			<input type="hidden" name="searchType" value="${cri.searchType }">
-			<input type="hidden" name="keyword" value="${cri.keyword }"> 
-			
-			<div class="form-group"><!-- 원하는 날짜형식으로 출력하기 위해 fmt 태그 사용 -->
-				작성일자:<fmt:formatDate value="${dto.regdate }" pattern="yyyy-MM-dd a HH:mm:ss"/>
-				<!-- 날짜형식 yyyy 4자리연도 MM월 dd일 a오전/오후 HH24시간제 hh12시간제, mm분 ss초 -->
+	<br>
+	<h2 style="text-align:center;">게시글 수정</h2>
+		<form name="updateForm" method="post" role="form" action="/sboard/updatePost">
+			<div class="form-group" style="text-align:right;">
+				<dl>
+					<dt>작성일자</dt>
+					<dd><fmt:formatDate value="${dto.regdate }" pattern="yyyy-MM-dd a HH:mm:ss"/></dd>
+					<!-- fmt 태그날짜형식 yyyy 4자리연도 MM월 dd일 a오전/오후 HH24시간제 hh12시간제, mm분 ss초 -->
+				</dl>
+					<span style="font-weight: bold;">조회수</span>
+					<span>${dto.viewcnt }</span>
 			</div>
+			
 			<div class="form-group">
-				조회수:${dto.viewcnt }
+				이름
+				<input class="form-control" name="writer" id="writer" value="${dto.writer }" readonly="readonly">
 			</div>
 			<div class="form-group">
 				제목
@@ -79,22 +79,21 @@ $(document).ready(function(){
 				내용
 				<textarea class="form-control" name="content" id="content" rows="4" cols="50">${dto.content }</textarea>
 			</div>
-			<div class="form-group">
-				이름
-				<input class="form-control" name="writer" id="writer" value="${dto.writer }">
-			</div>
 			<div style="text-align:center;" class="form-group">
 				<!-- 게시물 번호를 hidden으로 처리 -->
 				<input type="hidden" name="bno" value="${dto.bno }">
-				<!-- <button type="submit" id="updatePost">수정</button> -->
 				<button class="btn btn-default" type="submit" id="updatePost">수정</button>
-				<!-- <a href="javascript:history.back"><input type="button" value="뒤로가기"/></a> -->
 				<input class="btn btn-default" type="button" value="뒤로가기" onClick="goBack();"/>
+				<!-- <button type="submit" id="updatePost">수정</button> -->
+				<!-- <a href="javascript:history.back"><input type="button" value="뒤로가기"/></a> -->
 				<!-- <button class="btn btn-default" type="submit" id="btn_back">뒤로가기2</button> -->
 			</div>
 		</form>
 		
-<%@ include file="../forward/footer.jsp" %>
+			<input type="hidden" name="page" value="${cri.page}">
+			<input type="hidden" name="perPageNum" value="${cri.perPageNum}">		
+			<input type="hidden" name="searchType" value="${cri.searchType }">
+			<input type="hidden" name="keyword" value="${cri.keyword }"> 
 
 	<script type="text/javascript">
 		function goBack(){
@@ -114,5 +113,7 @@ $(document).ready(function(){
 			
 		});
 	</script>
+	
+	<%@ include file="../forward/footer.jsp" %>
 </body>
 </html>

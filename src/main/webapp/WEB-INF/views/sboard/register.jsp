@@ -28,7 +28,7 @@ form {
 <body>
 <%@ include file="../forward/header.jsp" %>
 <form name="form1" method="post" action="${path }/sboard/registerPOST">
-	<h2>게시글 작성</h2>
+	<h2 style="text-align:center;">게시글 작성</h2>
 	<br>
 	
 	<!-- 로그인한 사용자면 가입시 저장한 닉네임(userName)으로 치환한다 -->
