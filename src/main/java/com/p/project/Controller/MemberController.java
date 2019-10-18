@@ -189,22 +189,13 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
-	//01 회원목록 url pattern mapping
-	@RequestMapping("member_list")
-	public String memberList(Model model) {
-		//controller->service->dao 요청
-		List<MemberVO> list=memberService.memberList();
-		model.addAttribute("list",list);
-		return "member/member_list";
-	}
-	
-	//02_01 회원 등록 페이지로 이동
+	//회원가입 페이지
 	@RequestMapping(value="membership",method=RequestMethod.GET)
 	public String memberWrite() {
 		return "member/membership";
 	}
 	
-	//02_02 회원 등록 처리
+	//회원가입 처리POST
 	//@ModelAttribute에 폼에서 입력한 데이터가 저장된다
 	//*폼에서 입력한 데이터를 받아오는 법 3가지
 	//public String memberInsert(HttpServlet request){}
@@ -222,19 +213,29 @@ public class MemberController {
 		return "member/register_confirm";
 	}
 	
-	//03 회원 상세정보 조회
-	@RequestMapping("view")
-	public String memberView(String userId, Model model) {
+	//관리자---------------------------------------------------------------------
+	//관리자 - 회원목록 URL Pattern Mapping
+	@RequestMapping("member_list")
+	public String memberList(Model model) {
+		//controller->service->dao 요청
+		List<MemberVO> list=memberService.memberList();
+		model.addAttribute("list",list);
+		return "member/member_list";
+	}
+	
+	//관리자 - 회원 정보 조회
+	@RequestMapping("adminView")
+	public String adminView(String userId, Model model) {
 		//회원 정보를 model에 저장
 		model.addAttribute("dto", memberService.viewMember(userId));
 		//System.out.println("클릭한 아이디 확인:"+userId);
 		logger.info("클릭한 아이디 : "+userId);
-		return "member/member_view";
-	}
+		return "member/adminView";
+	}//memberView
 	
-	//04 회원 정보 수정 처리
-	@RequestMapping(value="member_update", method=RequestMethod.POST)
-	public String memberUpdate(@ModelAttribute MemberVO vo, Model model) {
+	//관리자 - 회원 정보 수정
+	@RequestMapping(value="adminUpdate", method=RequestMethod.POST)
+	public String adminUpdate(@ModelAttribute MemberVO vo, Model model) {
 		//비밀번호 체크
 		boolean result=memberService.checkPw(vo.getUserId(), vo.getUserPw());
 		if(result) {//비밀번호가 일치하면 수정 처리 후, 전체 회원 목록으로 리다이렉트
@@ -248,15 +249,15 @@ public class MemberController {
 			vo.setUserUpdatedate(vo2.getUserUpdatedate());
 			model.addAttribute("dto", vo);
 			model.addAttribute("message", "비밀번호가 맞지 않습니다");
-			return "member/member_view";
+			return "member/adminView";
 		}
-	}
+	}//memberUpdate
 	
-	//05 회원정보 삭제 처리
+	//관리자 - 회원 삭제
 	//@RequestMapping:url mapping
 	//@RequestParam:get or post 방식으로 전달된 변수값
-	@RequestMapping("member_delete")
-	public String memberDelete(@RequestParam String userId, @RequestParam String userPw, Model model) {
+	@RequestMapping("adminDelete")
+	public String adminDelete(@RequestParam String userId, @RequestParam String userPw, Model model) {
 		//비밀번호 체크
 		boolean result=memberService.checkPw(userId, userPw);
 		if(result) { //비밀번호가 맞다면 삭제 처리 후, 전체 회원 목록으로 리다이렉트
@@ -265,7 +266,60 @@ public class MemberController {
 		}else {//비밀번호가 일치하지 않는다면 div에 불일치 문구출력, view.jsp로 포워드
 			model.addAttribute("message", "비밀번호가 맞지 않습니다");
 			model.addAttribute("dto", memberService.viewMember(userId));
+			return "redirect:/member/member_list";
+		}
+	}//memberDelete
+	//관리자---------------------------------------------------------------------
+	
+	//회원----------------------------------------------------------------------
+	//회원 - 회원정보 조회, 수정
+	@RequestMapping("member_view")
+	public String memberView(Model model, HttpSession session) {
+		//현재 로그인 중인 아이디의 세션을 가져와서 회원정보 조회를 처리한다.
+		String userId=(String)session.getAttribute("userId");
+		//회원 정보를 model에 저장
+		model.addAttribute("dto", memberService.viewMember(userId));
+		logger.info("출력 아이디 : "+userId);
+		return "member/member_view";
+	}//memberView
+	
+	//회원 - 회원정보 수정 처리
+	@RequestMapping(value="member_update", method=RequestMethod.POST)
+	public String memberUpdate(@ModelAttribute MemberVO vo, Model model) {
+		//비밀번호 체크
+		boolean result=memberService.checkPw(vo.getUserId(), vo.getUserPw());
+		
+		if(result) {//비밀번호가 일치하면 수정 처리 후, 전체 회원 목록으로 리다이렉트
+			memberService.updateMember(vo);
+			logger.info("수정 성공 : " + vo);
+			return "redirect:/";			
+		}else {//비밀번호가 일치하지 않는다면, div에 불일치 문구 출력, view,jsp로 포워드
+			//다시 동일한 화면을 출력하기 위해서 가입일자와 수정일자 그리고 불일치 문구를 model에 저장, 상세화면으로 포워드
+			MemberVO vo2=memberService.viewMember(vo.getUserId());
+			vo.setUserRegdate(vo2.getUserRegdate());
+			vo.setUserUpdatedate(vo2.getUserUpdatedate());
+			model.addAttribute("dto", vo);
+			model.addAttribute("message", "비밀번호가 맞지 않습니다");
 			return "member/member_view";
 		}
-	}
+	}//memberUpdate
+	
+	//회원 - 회원탈퇴
+	@RequestMapping("member_delete")
+	public String memberDelete(@RequestParam String userId, String userPw, Model model, HttpSession session) {
+		//비밀번호 체크
+		boolean result=memberService.checkPw(userId, userPw);
+		if(result) { //비밀번호가 맞다면 삭제 처리 후, 전체 회원 목록으로 리다이렉트
+			memberService.deleteMember(userId);
+			logger.info("삭제 계정 : " + userId);
+			session.invalidate();
+			return "redirect:/";
+		}else {//비밀번호가 일치하지 않는다면 div에 불일치 문구출력, view.jsp로 포워드
+			model.addAttribute("message", "비밀번호가 맞지 않습니다");
+			model.addAttribute("dto", memberService.viewMember(userId));
+			return "member/member_view";
+		}
+	}//memberDelete
+	//회원----------------------------------------------------------------------
+	
 }//MemberController

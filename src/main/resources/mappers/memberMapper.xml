@@ -16,7 +16,7 @@
 		user_name AS userName,
 		user_regdate AS userRegdate FROM tbl_member2
 		ORDER BY userName -->
-		SELECT * FROM tbl_member2
+		SELECT * FROM tbl_member2 order by userRegdate desc
 	</select>
 	
 	<!-- 회원 등록 -->
@@ -25,20 +25,20 @@
 		VALUES (#{userId},#{userPw},#{userName})
 	</insert>
 	
-	<!-- 03 회원정보 상세 조회 -->
+	<!-- 회원정보 조회 -->
 	<select id="viewMember" resultType="com.p.project.VO.MemberVO">
-		SELECT userId, userName, userRegdate, userUpdatedate FROM tbl_member2
+		SELECT * FROM tbl_member2
 		WHERE userId=#{userId}
 	</select>
 	
-	<!-- 회원정보 수정처리 -->
+	<!-- 회원 : 정보 수정 -->
 	<update id="updateMember">
 		UPDATE tbl_member2
 		SET userPw=#{userPw}, userName=#{userName}
 		WHERE userId=#{userId}
 	</update>
 	
-	<!-- 회원정보 삭제 처리 -->
+	<!-- /회원 : 회원 삭제 -->
 	<delete id="deleteMember">
 		DELETE FROM tbl_member2 WHERE userId=#{userId}
 	</delete>
@@ -55,4 +55,15 @@
 		WHERE userId=#{userId} AND userPw=#{userPw}
 	</select> -->
 	
+	<!-- 관리자 : 회원 정보 수정 -->
+	<update id="adminUpdate">
+		update tbl_member2 set userPw=#{}, userName=#{}
+		where userId=#{}
+	</update>
+	
+	<!-- 관리자 : 회원 탈퇴 -->
+	<delete id="adminDelete">
+		delete from tbl_member2
+		where userId=#{userId}
+	</delete>
 </mapper>

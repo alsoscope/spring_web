@@ -224,7 +224,7 @@ li {
 	          	<c:when test="${login.userId!=null}">
 	            	<strong>${login.userId }</strong>님 접속중
 	            </c:when>
-	            <c:when test="${naverName != null}">
+	            <c:when test="${naverName != null }">
 	           		<strong>${naverName }</strong>님 접속중
 	            </c:when>
         	</c:choose>
@@ -233,19 +233,26 @@ li {
           
           <li class="nav-item">
           	<c:if test="${login.userId!=null }">
-            <a class="nav-link" href="${path }/member/logout">로그아웃</a>
+            	<a class="nav-link" href="${path }/member/logout">로그아웃</a>
             </c:if>
             <c:if test="${naverName!=null }">
-            <a class="nav-link" href="${path }/member/naverLogout">로그아웃</a>
+            	<a class="nav-link" href="${path }/member/naverLogout">로그아웃</a>
             </c:if>
           </li>
-          
+                  
           <li class="nav-item">
             <a class="nav-link" href="${path }/sboard/search_list">게시판</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/shop/cart/listCart">장바구니</a>
           </li>
+          
+          <li class="nav-item">
+	          <c:if test="${ login.userId!=null || naverName ne null}">
+		            <a class="nav-link" href="/member/member_view">내 정보</a>
+	          </c:if>
+          </li>
+          
           <li class="nav-item">
             <a class="nav-link" href="${path }/about">Contact</a>
           </li>

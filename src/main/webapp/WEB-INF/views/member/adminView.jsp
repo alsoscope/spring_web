@@ -6,7 +6,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>회원정보</title>
+<title>회원정보 상세보기</title>
+<%-- <%@ include file="../include/member_header.jsp" %> --%>
 <style>
 	form{
 		margin:auto;
@@ -17,34 +18,24 @@
 		text-align:center;
 	}
 </style>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
-//수정. 삭제 버튼 클릭 이벤트 jQuery코드 작성. 비밀번호 일치할 때 요청 처리 불일치하면 div에 불일치 문구 출력
-	/* $(document).ready(function(){
+//수정. 삭제 버튼 클릭 이벤트 jQuery코드 작성. 비밀번호 일치할 때 요청 처리 불일치하면 div에 불일치 문ㄴ구 출력
+	$(document).ready(function(){
 		$("#btnUpdate").click(function(){
+			//확인 대화 상자
 			if(confirm("회원 정보를 수정 하시겠습니까?")){				
 			document.form1.action="${path}/member/member_update";
 			document.form1.submit();
 			}
 		});
-	}); */
-
-	function btnUpdate(){
-		if(confirm("수정 하시겠습니까?") == true){
-			document.form1.action="${path}/member/member_update";
-			document.form1.submit();
-		}else{
-			return;
-		}
-	}
-	
-	$(function(){
+	});
+	$(document).ready(function(){
 		$("#btnDelete").click(function(){
-			if(confirm("회원 탈퇴하시겠습니까?")){
+			if(confirm("해당 회원을 삭제하시겠습니까?")){
 				document.form1.action="${path}/member/member_delete";
 				document.form1.submit();
 			}
-		})
+		});
 	});
 </script>
 </head>
@@ -63,10 +54,6 @@
 			<td>비밀번호</td>
 			<td><input type="password" name="userPw" value="${dto.userPw }"></td>
 		</tr>
-		<%-- <tr>
-			<td>비밀번호 확인</td>
-			<td><input type="password" name="userPw" value="${dto.userPw }"></td>
-		</tr> --%>
 		<tr>
 			<td>이름</td>
 			<td><input name="userName" value="${dto.userName }"></td>
@@ -77,12 +64,12 @@
 		</tr>
 		<tr>
 			<td>회원수정일자</td>
-			<td><fmt:formatDate value="${dto.userUpdatedate }" pattern="yyyy-MM-dd kk:mm:ss"/></td>
+			<td><fmt:formatDate value="${dto.userUpdatedate }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 		</tr>
 		<tr>
 			<td colspan="2" align="center">
-				<input type="button" value="수정" class="btn btn-default" onClick="Javascript:btnUpdate();">
-				<input type="button" value="회원탈퇴" id="btnDelete" class="btn btn-default">
+				<input type="button" value="수정" id="btnUpdate" class="btn btn-default">
+				<input type="button" value="삭제" id="btnDelete" class="btn btn-default">
 				<div style="color:red">${message }</div>
 			</td>
 		</tr>
