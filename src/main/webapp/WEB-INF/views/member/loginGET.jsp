@@ -65,8 +65,8 @@
 					
 					<!-- 네이버 로그인 -->
 					<div style="text-align:center">
-					<%-- <a href="${url}"> --%>
-					<a href="${url}" onClick="naverPop();" target="_blank">
+					<a href="${url}">
+					<%-- <a href="${url}" onClick="naverPop();" target="_blank"> --%>
 					<img width="250" src="${path}../resources/images/login_naver.png"/></a></div>
 					<!-- 네이버 로그인 -->
 					<br>
@@ -100,7 +100,7 @@
 							관리자로 접속하기
 						</span>
 						<a href="${pageContext.request.contextPath }/admin/adminlogin" class="txt2 hov1">
-							Admin Login
+							관리자
 						</a>
 					</div>
 				</form>
@@ -137,18 +137,18 @@
 
 	<!-- uid, pw null 체크 -->
 	<script>
-		$("#submit-btn").click(function() {
+		/* $("#submit-btn").click(function() {
 			var uid = $("#userId").val();
 			var pw = $("#userPw").val();
 			
-			if (userId == null || userId == "") {
+			if (uid == null || uid == "") {
 				alert("아이디를 입력해주세요.");
 				return false;
-			} else if (userPw == null || userPw == "") {
+			} else if (pw == null || pw == "") {
 				alert("비밀번호를 입력해주세요.");
 				return false;
 			}
-		});
+		}); */
 	</script>
 
 	<!-- 네이버 로그인 팝업창으로 띄움 -->

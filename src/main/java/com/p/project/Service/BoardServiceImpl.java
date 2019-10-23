@@ -71,10 +71,10 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	//05 게시글 전체 목록 boardDAO.listAll 메소드 호출
-	@Override
+	/*@Override
 	public List<BoardVO> listAll(String searchOption, String keyword) throws Exception {
 		return boardDao.listAll(searchOption, keyword);
-	}
+	}*/
 
 	//06 게시글 조회수 증가
 	@Override
@@ -99,8 +99,8 @@ public class BoardServiceImpl implements BoardService {
 
 	//총 게시물 개수 확인
 	@Override
-	public int countArticle(String searchOption, String keyword) throws Exception {
-		return boardDao.countArticle(searchOption, keyword);
+	public int countArticle(String searchType, String keyword) throws Exception {
+		return boardDao.countArticle(searchType, keyword);
 	}
 
 	//검색처리, 페이징 처리 (동적 SQL문, SearchCriteria 적용)
@@ -113,6 +113,13 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int listSearchCount(SearchCriteria cri) throws Exception {
 		return boardDao.listSearchCount(cri);
+	}
+
+	//검색 결과 개수 출력
+	@Override
+	public int resultCount(String searchOption, String keyword) throws Exception {
+		// TODO Auto-generated method stub
+		return boardDao.resultCount(searchOption, keyword);
 	}
 
 	//페이징 처리

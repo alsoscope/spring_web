@@ -22,11 +22,11 @@ public interface BoardService {
 	public void delete(int bno) throws Exception;
 	
 	//게시글 전체 목록 --> 검색 옵션, 키워드 매개변수 추가
-	public List<BoardVO> listAll(String searchOption, String keyword) throws Exception;
+	/*public List<BoardVO> listAll(String searchOption, String keyword) throws Exception;*/
 	//게시글 조회수 증가
 	public void increaseViewcnt(int bno, HttpSession session)throws Exception;
 	//총 게시물 개수 확인
-	public int countArticle(String searchOption, String keyword) throws Exception;
+	public int countArticle(String searchType, String keyword) throws Exception;
 	
 	//페이징 처리 메소드 추가
 	/*public List<BoardVO> listCriteria(Criteria cri) throws Exception;
@@ -36,4 +36,7 @@ public interface BoardService {
 	//동적SQL로 검색 처리
 	public List<BoardVO> listSearch(SearchCriteria cri)throws Exception;
 	public int listSearchCount(SearchCriteria cri)throws Exception;
+	
+	//검색 결과 개수 출력
+	public int resultCount(String searchOption, String keyword) throws Exception;
 }

@@ -224,50 +224,28 @@ public class MemberController {
 	}
 	
 	//관리자 - 회원 정보 조회
-	@RequestMapping("adminView")
+	@RequestMapping("admin_view")
 	public String adminView(String userId, Model model) {
 		//회원 정보를 model에 저장
 		model.addAttribute("dto", memberService.viewMember(userId));
-		//System.out.println("클릭한 아이디 확인:"+userId);
 		logger.info("클릭한 아이디 : "+userId);
-		return "member/adminView";
+		return "member/admin_view";
 	}//memberView
 	
 	//관리자 - 회원 정보 수정
-	@RequestMapping(value="adminUpdate", method=RequestMethod.POST)
-	public String adminUpdate(@ModelAttribute MemberVO vo, Model model) {
-		//비밀번호 체크
-		boolean result=memberService.checkPw(vo.getUserId(), vo.getUserPw());
-		if(result) {//비밀번호가 일치하면 수정 처리 후, 전체 회원 목록으로 리다이렉트
+	@RequestMapping(value="admin_update", method=RequestMethod.POST)
+	public String adminUpdate(@ModelAttribute MemberVO vo) {
 			memberService.updateMember(vo);
-			return "redirect:/member/list";			
-		}else {//비밀번호가 일치하지 않는다면, div에 불일치 문구 출력, view,jsp로 포워드
-			//다시 동일한 화면을 출력하기 위해서 가입일자와 수정일자 그리고 불일치 문구를 model에 저장, 상세화면으로 포워드
-			//가입일자, 수정일자 저장
-			MemberVO vo2=memberService.viewMember(vo.getUserId());
-			vo.setUserRegdate(vo2.getUserRegdate());
-			vo.setUserUpdatedate(vo2.getUserUpdatedate());
-			model.addAttribute("dto", vo);
-			model.addAttribute("message", "비밀번호가 맞지 않습니다");
-			return "member/adminView";
-		}
+			return "redirect:/member/member_list";			
 	}//memberUpdate
 	
 	//관리자 - 회원 삭제
 	//@RequestMapping:url mapping
 	//@RequestParam:get or post 방식으로 전달된 변수값
-	@RequestMapping("adminDelete")
-	public String adminDelete(@RequestParam String userId, @RequestParam String userPw, Model model) {
-		//비밀번호 체크
-		boolean result=memberService.checkPw(userId, userPw);
-		if(result) { //비밀번호가 맞다면 삭제 처리 후, 전체 회원 목록으로 리다이렉트
+	@RequestMapping("admin_delete")
+	public String adminDelete(@RequestParam String userId) {
 			memberService.deleteMember(userId);
-			return "redirect:/member/list";
-		}else {//비밀번호가 일치하지 않는다면 div에 불일치 문구출력, view.jsp로 포워드
-			model.addAttribute("message", "비밀번호가 맞지 않습니다");
-			model.addAttribute("dto", memberService.viewMember(userId));
 			return "redirect:/member/member_list";
-		}
 	}//memberDelete
 	//관리자---------------------------------------------------------------------
 	

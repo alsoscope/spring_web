@@ -36,7 +36,7 @@ private BoardService service;
 
 	//검색처리와 동적SQL
 	@RequestMapping(value="search_list")
-	public void listPage(@ModelAttribute("cri")SearchCriteria cri, Model model,String searchOption, String keyword)throws Exception{
+	public void listPage(@ModelAttribute("cri")SearchCriteria cri, Model model,String searchType, String keyword)throws Exception{
 		logger.info("SearchCriteria" + cri.toString());
 		
 		//model.addAttribute("list", service.listCriteria(cri));
@@ -49,26 +49,28 @@ private BoardService service;
 		pageMaker.setTotalCount(service.listSearchCount(cri));
 		model.addAttribute("pageMaker", pageMaker);
 	
-		int count=service.countArticle(searchOption, keyword);
+		int count=service.countArticle(searchType, keyword);
 		//model.addAttribute("count", count);
+		
+		//int resultCount=service.resultCount(searchType, keyword);
 		
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("count", count);
-		map.put("searchOption", searchOption);
+		map.put("searchType", searchType);
 		map.put("keyword", keyword);
+		/*map.put("resultCount", resultCount);*/
 		model.addAttribute("map", map);
 	}
 
 	//게시글 보기
 	@RequestMapping(value="viewPage", method=RequestMethod.GET)
-	public void read(@RequestParam("bno")int bno, Model model, @ModelAttribute("cri")SearchCriteria cri,HttpSession session) throws Exception{
-		
+	public void read(@RequestParam("bno")int bno, Model model, @ModelAttribute("cri")SearchCriteria cri,HttpSession session) throws Exception{	
 		//조회수 증가
 		service.increaseViewcnt(bno, session);
-		
 		model.addAttribute("dto",service.read(bno));
 	}
 	
+	//게시글 수정, 삭제 동작시 '뒤로 가기' 했을 시 검색어와 페이지를 유지한다. SearchCriteria cri 파라미터를 이용.
 	//게시글 수정 GET방식
 	@RequestMapping(value="/updateGet/", method=RequestMethod.GET)
 	public String updateGet(int bno, @ModelAttribute("cri")SearchCriteria cri, Model model)throws Exception{
