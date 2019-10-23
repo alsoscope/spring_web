@@ -18,11 +18,11 @@ public interface BoardDAO {
 	public void delete(int bno)throws Exception;
 	
 	//게시글 전체 목록 --> 검색옵션, 키워드 매개변수 추가
-	public List<BoardVO> listAll(String searchOptin, String keyword)throws Exception;
+	/*public List<BoardVO> listAll(String searchOptin, String keyword)throws Exception;*/
 	//게시글 조회수 증가
 	public void increaseViewcnt(int bno)throws Exception;
 	//총 게시물 개수 확인
-	public int countArticle(String searchOption, String keyword) throws Exception;
+	public int countArticle(String searchType, String keyword) throws Exception;
 	
 	//criteria 객체를 파라미터로 전달 받아, BoardDAO에 리스트를 출력 getPageStart(), getPerPageNum() 메소드 호출
 	/*public List<BoardVO> listCriteria(Criteria cri)throws Exception;*/
@@ -33,5 +33,8 @@ public interface BoardDAO {
 	public List<BoardVO> listSearch(SearchCriteria cri)throws Exception;
 	public int listSearchCount(SearchCriteria cri)throws Exception;
 
+	//검색 결과 개수 출력
+	public int resultCount(String searchOption, String keyword) throws Exception;
+	
 	/*//페이징 처리 public List<BoardVO> listPage(int page)throws Exception;*/
 }

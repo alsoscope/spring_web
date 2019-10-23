@@ -52,7 +52,7 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	//05 게시글 전체목록
-	@Override
+	/*@Override
 	public List<BoardVO> listAll(String searchOption, String keyword) throws Exception {
 		//검색 옵션, 키워드 맵에 저장
 		HashMap<String, String> map=new HashMap<String, String>();
@@ -60,7 +60,7 @@ public class BoardDAOImpl implements BoardDAO {
 		map.put("keyword", keyword);
 		return SqlSession.selectList("board.listAll", map);
 		//return SqlSession.selectList(namespace+".listAll", map);
-	}
+	}*/
 
 	//06 게시글 조회수 증가
 	@Override
@@ -71,10 +71,10 @@ public class BoardDAOImpl implements BoardDAO {
 
 	//총 게시물 개수 확인
 	@Override
-	public int countArticle(String searchOption, String keyword) throws Exception {
+	public int countArticle(String searchType, String keyword) throws Exception {
 		//검색옵션, 키워드 맵에 저장
 		Map<String, String> map=new HashMap<String, String>();
-		map.put("searchOption", searchOption);
+		map.put("searchType", searchType);
 		map.put("keyword", keyword);
 		return SqlSession.selectOne("board.countArticle", map);
 	}
@@ -88,6 +88,15 @@ public class BoardDAOImpl implements BoardDAO {
 	@Override
 	public int listSearchCount(SearchCriteria cri) throws Exception {
 		return SqlSession.selectOne("board.listSearchCount", cri);
+	}
+
+	//검색 결과 개수 출력
+	@Override
+	public int resultCount(String searchOption, String keyword) throws Exception {
+		Map<String, String> map=new HashMap<String, String>();
+		map.put("searchOption", searchOption);
+		map.put("keyword", keyword);
+		return SqlSession.selectOne(namespace + ".resultCount");
 	}
 
 	//페이징 처리 객체 Criteria 포함된 list 출력

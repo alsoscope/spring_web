@@ -3,27 +3,16 @@
 
 <mapper namespace="board">
 
-	<!-- 게시글 목록 조회 ,검색 조회 -->
-	<select id="listAll" resultType="com.p.project.DTO.BoardVO">
-		select * from tbl_board
-		SELECT bno, title, content, writer, regdate, viewcnt FROM tbl_board
-		
-		<!-- WHERE 절을 include 태그로 삽입 -->
-		<include refid="search"></include>
-		
-		ORDER BY bno desc, regdate desc
-	</select>
-
-	<!-- 총 게시물 개수 확인 -->
+	<!-- 총 게시물, 검색 게시물 개수 확인 -->
 	<select id="countArticle" resultType="int">	
 		<![CDATA[
 			select count(*) from tbl_board
 		]]>
-		<include refid="search"></include>
+		<include refid="count"></include>
 	</select>
 	
-	<!-- 게시물 전체 페이징 처리하는 리스트 출력 -->
-	<!-- <sql>조각은 필요한 SQL구성에 include하여 재사용할 수 있다 -->
+	<!-- 게시물 검색, 페이징 처리하여 리스트 출력 -->
+	<!-- <sql>조각은 필요한 SQL구성에 include하여 재사용할 수 있다. 페이징, 검색 유지를 위한 동적 SQL include -->
 	<select id="listSearch" resultType="BoardVO">
 		<![CDATA[
 			select * from tbl_board where bno > 0
@@ -42,7 +31,7 @@
 		]]>
 		<include refid="search"></include>
 	</select>
-	
+		
 	<!-- 동적SQL문. <sql>태그로 동일한 sql구문 재사용. -->
 	<sql id="search">
 		<if test="searchType != null">
@@ -68,14 +57,23 @@
 		</if>
 	</sql>
 	
+	<!-- 총/검색 후 게시물을 위한 동적 SQL 조각 -->
+	<sql id="count">
+		<if test="searchType != null">
+			<if test="searchType == 'tcw'.toString()">
+				where (title like CONCAT('%', #{keyword}, '%') OR content like CONCAT('%',#{keyword},'%')
+				OR writer like CONCAT('%',#{keyword},'%'))
+			</if>
+		</if>
+	</sql>
+	
 	<!-- 글 작성 -->
 	<!-- nvl(A,B):A가 null이면 B, null이 아니면 A 오라클 nvl(칼럼명, 0) mysql ifnull(칼럼명, 0)
 		게시글 조회수 증가처리 쿼리 - 조회수(초기값=0)=조회수+1 -->
 	<insert id="insert" parameterType="com.p.project.DTO.BoardVO">
 		INSERT INTO tbl_board(bno, title, content, writer) VALUES (
 		(SELECT IFNULL(MAX(bno)+1, 1) FROM tbl_board a),
-		#{title}, #{content}, #{writer}
-		)
+		#{title}, #{content}, #{writer})
 	</insert>
 	
 	<!-- 상세 보기 -->
@@ -148,6 +146,17 @@
 		<![CDATA[
 		select count(bno) from tbl_board where bno > 0
 		]]>
+	</select> -->
+	
+		<!-- 게시글 목록 조회 ,검색 조회 -->
+	<!-- <select id="listAll" resultType="com.p.project.DTO.BoardVO">
+		select * from tbl_board
+		SELECT bno, title, content, writer, regdate, viewcnt FROM tbl_board
+		
+		WHERE 절을 include 태그로 삽입
+		<include refid="search"></include>
+		
+		ORDER BY bno desc, regdate desc
 	</select> -->
 	
 </mapper>

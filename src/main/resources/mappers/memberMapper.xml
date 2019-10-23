@@ -54,16 +54,5 @@
 		SELECT userId FROM tbl_member2
 		WHERE userId=#{userId} AND userPw=#{userPw}
 	</select> -->
-	
-	<!-- 관리자 : 회원 정보 수정 -->
-	<update id="adminUpdate">
-		update tbl_member2 set userPw=#{}, userName=#{}
-		where userId=#{}
-	</update>
-	
-	<!-- 관리자 : 회원 탈퇴 -->
-	<delete id="adminDelete">
-		delete from tbl_member2
-		where userId=#{userId}
-	</delete>
+
 </mapper>

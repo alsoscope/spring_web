@@ -142,11 +142,22 @@
 					<div>
 						<h5>새로운 댓글 등록</h5>
 					</div>
-					<div class="input-field col s6">
-						<input id="newReplyWriter" name="newReplyWriter" type="text" data-length="10" >
-						<label for="input_text" style="color:blue-grey;">Writer</label>
-					</div>
-
+					
+					<c:choose>
+						<c:when test="${ }">
+							<div class="input-field col s6">
+								<input id="newReplyWriter" name="newReplyWriter" type="text" data-length="10" >
+								<label for="input_text" style="color:blue-grey;">Writer</label>
+							</div>
+						</c:when>
+						
+						<c:when test="${ }">
+							<div class="input-field col s6">
+								<input id="newReplyWriter" name="newReplyWriter" type="text" data-length="10" >
+								<label for="input_text" style="color:blue-grey;">Writer</label>
+							</div>
+						</c:when>
+					</c:choose>
 				</div>
 				<div class="row">
 					<div class="input-field col s12">

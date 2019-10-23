@@ -38,12 +38,20 @@
 </form> --%>
 
 <h2 align="center">Q & A</h2><br>
-<div style="text-align:center;">총 (${map.count })개의 게시물이 있습니다<!-- 레코드의 개수를 출력 --><br>
-<c:if test="${keyword != null }">
-	<div style="text-align:center;">검색 결과 : (${map.count })개의 게시물이 있습니다&nbsp;</div>
-</c:if>
 
-<button type="button" id="btnWrite" class="btn btn-default">글쓰기</button></div>
+<c:choose>
+	<c:when test="${keword == null }">
+	<div style="text-align:center;">총 (${map.count })개의 게시물이 있습니다<!-- 레코드의 개수를 출력 --></div><br>
+	</c:when>
+
+	<c:when test="${keyword != null }">
+		<div style="text-align:center;">검색 결과 : (${map.resultCount })개의 게시물이 있습니다&nbsp;</div>
+	</c:when>
+</c:choose>
+
+<div style="text-align:center;">
+	<button type="button" id="btnWrite" class="btn btn-default">글쓰기</button>
+</div>
 <br>
 
 <!-- <div class="container">
