@@ -257,7 +257,7 @@ public class MemberController {
 		String userId=(String)session.getAttribute("userId");
 		//회원 정보를 model에 저장
 		model.addAttribute("dto", memberService.viewMember(userId));
-		logger.info("출력 아이디 : "+userId);
+		logger.info("회원정보 확인 아이디 : "+userId);
 		return "member/member_view";
 	}//memberView
 	
