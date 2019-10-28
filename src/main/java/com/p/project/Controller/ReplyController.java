@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,13 +38,17 @@ public class ReplyController {
 	//ResponseBody annotation : return되는 값은 view가 아닌 HTTP ResponseBody에 직접 쓰여지게 된다
 	@ResponseBody
 	@RequestMapping(value="", method=RequestMethod.POST)
-	public ResponseEntity<String> register(@RequestBody ReplyVO vo){
+	public ResponseEntity<String> register(@RequestBody ReplyVO vo, HttpSession session){
 		ResponseEntity<String> entity=null;
 		
 		try {
+			String userId=(String)session.getAttribute("userId");
+			vo.setReplyer(userId);
+			logger.info("Reply : " + vo);
+
 			service.addReply(vo);
 			entity=new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
-			logger.info("Reply : " + vo);
+			logger.info("댓글 작성 회원 : " + userId);
 		}catch(Exception e) {
 			e.printStackTrace();
 			entity=new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);

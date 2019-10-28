@@ -91,11 +91,11 @@
 		</div>
 		<div class="form-group" style="align:right;">
 			이름
-			<input class="form-control" name="writer" id="writer" value="${dto.writer }" readonly="readonly" style="width:50px;" >
+			<input class="form-control" name="writer" id="writer" value="${dto.writer }" readonly="readonly" style="width:50px; color:#4d4d4d;">
 		</div>
 		<div class="form-group">
 			제목
-			<input class="form-control" name="title" id="title" size="50" value="${dto.title }" readonly="readonly">
+			<input class="form-control" name="title" id="title" size="50" value="${dto.title }" readonly="readonly" style="color:#4d4d4d;">
 		</div>
 		<div class="form-group">
 		</div>
@@ -135,50 +135,51 @@
 		</div> -->
 		
 	 <br>
-	 <!-- 댓글 등록 -->	
+	 
+	 <!-- 댓글 등록. 로그인 한 회원만 댓글 작성 -->
+	 <c:if test="${ login.userId != null}">
 	 <div class="row">
 			<form class="col s12" id="replyForm">
-				<div class="row">
+				
 					<div>
-						<h5>새로운 댓글 등록</h5>
+						<h5>댓글 등록</h5>
 					</div>
-					
-					<c:choose>
-						<c:when test="${ }">
+						<%-- <div class="row">
 							<div class="input-field col s6">
-								<input id="newReplyWriter" name="newReplyWriter" type="text" data-length="10" >
-								<label for="input_text" style="color:blue-grey;">Writer</label>
+								<input id="input_text" name="newReplyWriter" type="text" data-length="10" value="${login.userName}" style="color:#4d4d4d;">
+								<div class="form-group">
+								<label for="input_text" style="color:blue-grey;">Writer ${login.userName}</label></div>
 							</div>
-						</c:when>
+						</div> --%>
 						
-						<c:when test="${ }">
+						<div class="row">
 							<div class="input-field col s6">
-								<input id="newReplyWriter" name="newReplyWriter" type="text" data-length="10" >
-								<label for="input_text" style="color:blue-grey;">Writer</label>
+								<!-- <input id="input_text" name="newReplyWriter" type="text" data-length="10" > -->
+								<label for="input_text" style="color:blue-grey;">Writer ${login.userId }</label>
 							</div>
-						</c:when>
-					</c:choose>
-				</div>
+						</div>
+				
 				<div class="row">
 					<div class="input-field col s12">
-						<!-- <textarea id=" newReplyText" name="newReplyText" class="materialize-textarea"
-							data-length="120" ></textarea> -->
-							<input id="newReplyText" name="newReplyText" type="text" data-length="120" >
+						<!-- <textarea id="newReplyText" name="newReplyText" class="materialize-textarea" data-length="120" ></textarea> -->
+						<input id="textarea2" name="newReplyText" class="materialize-textarea" type="text" data-length="120" >
 						<label for="textarea2" style="color:blue-grey;">ReplyText</label>
 					</div>
 				</div>
-
+				
+		</form>
+		</div>
+		</c:if>		
+				
 				<div style="float: right;">
 					<a href="javascript:void(0);" class="btn-floating btn-large waves-effect waves-light blue-grey material-icons"
 						onClick="replyAddBtn(this);">+</a>
 					
 					<!-- <i class="material-icons">+</i></a> -->
 					
-					<!-- <input type="submit" class="btn-floating btn-large waves-effect waves-light blue-grey material-icons"
-					id="replyAddBtn"> -->
+					<!-- <button type="button" class="btn-floating btn-large waves-effect waves-light blue-grey material-icons"
+					id="replyAdd"><i class="material-icons">+</i></button> -->
 				</div>
-			</form>
-		</div>
 
 	<!-- 지속적인 목록 갱신. <li>가 반복적으로 구성, 이를 <ul>태그의 내용물로 추가하는 방식. 문자열로 이루어지기에 지저분한 코드. JS 템플릿을 적용. -->
 	<!-- 댓글 목록 The time line -->
@@ -234,11 +235,13 @@
 			<div class="modal-body" data-rno>
 				<p><i class="material-icons prefix">mode_comment</i><input type="text" id="replytext"></p>
 			</div>
+			
 			<div class="modal-footer">
 				<button type="button" id="replyModBtn">MODIFY</button>
 				<button type="button" id="replyDelBtn">DELETE</button>
 				<button type="button" class="modal-close" data-dismiss="modal">CLOSE</button>
 			</div>
+
 		</div>
 	</div>
 	
@@ -303,46 +306,46 @@
 	
 	<!-- 댓글등록 처리 JavaScript -->
 	<script>
-	function replyAddBtn(){
-	/* $("#replyAddBtn").on("click", function(){ */
-		var replyerObj=$("#newReplyWriter");
-		var replytextObj=$("#newReplyText");
-		var replyer=replyerObj.val();
-		var replytext=replytextObj.val();
-		
-		if(replyer == "" || replyer == null){
-			alert("작성자명을 입력해주세요");
-			replyForm.replyer.focus();
-		}else if(replytext == "" || replytext == null){
-			alert("내용을 입력해주세요");
-			replyForm.replytext.focus();
-		}
-
-		//jQuery를 이용해 $.ajax() 를 통해 서버를 호출. 전송하는 데이터는 JSON으로 구성된 문자열 사용. 전송받는 결과는 단순 문자열.
-		$.ajax({
-			type:'post',
-			url:'/replies/',
-			headers:{"Content-Type" : "application/json", "X-HTTP-Method-Override" : "POST"},
-			dataType:'text',
-			data:JSON.stringify({
-				bno:bno,
-				replyer:replyer,
-				replytext:replytext
-			}),
-			success:function(result){
-				console.log("result : " + result);
-				if(result=='SUCCESS'){
-					alert("등록 되었습니다");
-					/* getAllList(); *///댓글 등록 후 전체 댓글 목록의 갱신
-					replyPage=1;
-					getPage("/replies/"+bno+"/"+replyPage);
-
-					$("#replyAddBtn").submit();	
-				}
-			}});
-		document.getElementById("replyForm").reset();//input form을 비워준다.
-	/* }); */
-	};
+/* 	$(document).ready(function(){
+		$("#replyAdd").click(function(){
+			var replyer=$('input[name=newReplyWriter]').val();
+			var replyer=$('input[name=newReplyText]').val();
+			
+			if(replyer == "" || replyer == null){
+				alert("작성자명을 입력해주세요");
+				replyForm.replyer.focus();
+				return;
+			}else if(replytext == "" || replytext == null){
+				alert("내용을 입력해주세요");
+				replyForm.replytext.focus();
+				return;
+			}
+			
+			$.ajax({
+				type:'post',
+				url:'/replies/',
+				headers:{"Content-Type" : "application/json", "X-HTTP-Method-Override" : "POST"},
+				dataType:'text',
+				data:JSON.stringify({
+					bno:bno,
+					replyer:replyer,
+					replytext:replytext
+				}),
+				success:function(result){
+					console.log("result : " + result);
+					if(result=='SUCCESS'){
+						alert("등록 되었습니다");
+						replyPage=1;
+						getPage("/replies/"+bno+"/"+replyPage);
+						document.replyForm.submit();
+					}
+				}});
+			document.getElementById("replyForm").reset();
+		});
+	}); */
+	</script>
+	
+	<script>
 	
 	//댓글 목록의 이벤트 처리.Replies List 버튼을 클릭하면 댓글 목록을 가져온다.
 	/* $("#repliesDiv").on("click", function(){
@@ -353,6 +356,62 @@
 		getPage("/replies/" + bno + "/1");
 	}); */
 	
+	function replyAddBtn(){
+		/* $("#replyAddBtn").on("click", function(){ */
+			/* var replyerObj=$("#newReplyWriter");
+			var replytextObj=$("#newReplyText");
+			var replyer=replyerObj.val();
+			var replytext=replytextObj.val();
+			
+			if(replyer == "" || replyer == null){
+				alert("작성자명을 입력해주세요");
+				replyForm.replyer.focus();
+			}else if(replytext == "" || replytext == null){
+				alert("내용을 입력해주세요");
+				replyForm.replytext.focus();
+			} */
+			
+			/* var replyer=$('input[name=newReplyWriter]').val(); */
+			var replytext=$('input[name=newReplyText]').val();
+			
+			/* var replytext=$('textarea[name=newReplyText]').val(); */
+			
+			/* if(replyer == "" || replyer == null){
+				alert("작성자명을 입력해주세요");
+				replyForm.replyer.focus();
+			}else  */
+				
+				if(replytext == "" || replytext == null){
+				alert("내용을 입력해주세요");
+				replyForm.replytext.focus();
+			}
+			
+			//jQuery를 이용해 $.ajax() 를 통해 서버를 호출. 전송하는 데이터는 JSON으로 구성된 문자열 사용. 전송받는 결과는 단순 문자열.
+			$.ajax({
+				type:'post',
+				url:'/replies/',
+				headers:{"Content-Type" : "application/json", "X-HTTP-Method-Override" : "POST"},
+				dataType:'text',
+				data:JSON.stringify({
+					bno:bno,
+					//replyer:replyer,
+					replytext:replytext
+				}),
+				success:function(result){
+					console.log("result : " + result);
+					if(result=='SUCCESS'){
+						alert("등록 되었습니다");
+						/* getAllList(); *///댓글 등록 후 전체 댓글 목록의 갱신
+						replyPage=1;
+						getPage("/replies/"+bno+"/"+replyPage);
+
+						$("#replyAddBtn").submit();	
+					}
+				}});
+			document.getElementById("replyForm").reset();//input form을 비워준다.
+		/* }); */
+		};
+		
 	//댓글 목록 버튼의 toggle 처리
 	$("#trigger").click(function(){
 		$(".timeline li").toggle("slow");
@@ -450,9 +509,8 @@
 	<script>
 	//Materialize
 	//초기화. 플러그인을 위한 옵션이 없기 때문에 동적으로 추가하고 싶다면 초기화시킨다.
-	 $(document).ready(function() {
-		    $('input#input_text, textarea#textarea2').characterCounter();
-		    
+	 $(document).ready(function() {	 
+		    $('input#input_text, textarea#textarea2').characterCounter();		    
 		    /* document.getElementById("input#input_text, textarea#textarea2").style.color="blue-grey lighten-3"; */
 	 });
 	
