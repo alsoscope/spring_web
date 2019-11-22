@@ -30,6 +30,8 @@
 	<!-- <insert id="insertProduct" parameterType="com.p.project.DTO.ProductDTO" useGeneratedKeys="true" keyProperty="product_id">
 		INSERT INTO tbl_product (product_name, product_price, product_desc)
 		VALUES ( #{product_name},#{product_price},#{product_desc} ) -->
+		
+	<!-- 국내 영화 등록 -->
 	<insert id="insertProduct" parameterType="com.p.project.DTO.ProductDTO" useGeneratedKeys="true" keyProperty="product_id">
 		INSERT INTO tbl_product (product_name, product_price, product_desc)
 		VALUES ( #{product_name},#{product_price},#{product_desc} )
@@ -42,6 +44,17 @@
 		<!-- values ( #{product_name},#{product_price},#{product_desc},#{product_url} ) -->
 	</insert>
 	
+	<!-- 국외 영화 등록 -->
+	<insert id="insertAbroad" parameterType="com.p.project.DTO.ProductDTO" useGeneratedKeys="true" keyProperty="product_id">
+		INSERT INTO tbl_product_abroad (ab_item_name, ab_item_price, ab_item_desc)
+		VALUES ( #{ab_item_name},#{ab_item_price},#{ab_item_desc} )
+	</insert>
+	
+	<!-- 기타 영상 등록 -->
+	<insert id="insertEtcetera" parameterType="com.p.project.DTO.ProductDTO" useGeneratedKeys="true" keyProperty="product_id">
+		INSERT INTO tbl_product_etcetera (etc_item_name, etc_item_price, etc_item_desc)
+		VALUES ( #{etc_item_name},#{etc_item_price},#{etc_item_desc} )
+	</insert>
 	<!-- 첨부파일 기능 : tbl_attach MySQL의 경우, 바로 직전에 생성된 PK를 알아낼 때 LAST_INSERT_ID()를 활용 -->
 	<!-- <insert id="addAttach">
 		INSERT INTO tbl_attach (fullName, product_id)

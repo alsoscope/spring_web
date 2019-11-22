@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
@@ -50,9 +51,35 @@ public class ReplyDAOImpl implements ReplyDAO{
 		return session.selectList(namespace + ".listPage", paramMap);
 	}
 
+	//페이징 처리를 위한 전체 댓글 목록 개수
 	@Override
 	public int count(int bno) throws Exception {
 		return session.selectOne("reply.count", bno);
+	}
+
+	//replyer 비밀번호 확인
+	@Override
+	public boolean pwConfirm(String replyer, String replyPw) throws Exception {
+		boolean result=false;
+		
+		Map<String, String> hashMap=new HashMap<String, String>();
+		hashMap.put("replyer", replyer);
+		hashMap.put("replyPw", replyPw);
+		
+		int count=session.selectOne("reply.pwConfirm", hashMap);
+		
+		if(count==1) {
+			result=true;
+		}
+		return result;
+		
+		/*int result=session.selectOne("reply.pwConfirm", hashMap);
+
+		if(result>0) {
+			return true; 
+		}else {
+			return false;
+		}*/
 	}
 
 }

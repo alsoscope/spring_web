@@ -10,6 +10,7 @@ public class ReplyVO {
 	private String replyer;
 	private Date regdate;
 	private Date updatedate;
+	private String replyPw;
 	
 	public int getRno() {
 		return rno;
@@ -47,10 +48,17 @@ public class ReplyVO {
 	public void setUpdatedate(Date updatedate) {
 		this.updatedate = updatedate;
 	}
+	public String getReplyPw() {
+		return replyPw;
+	}
+	public void setReplyPw(String replyPw) {
+		this.replyPw = replyPw;
+	}
+	
 	@Override
 	public String toString() {
 		return "ReplyVO [rno=" + rno + ", bno=" + bno + ", replytext=" + replytext + ", replyer=" + replyer
-				+ ", regdate=" + regdate + ", updatedate=" + updatedate + "]";
+				+ ", regdate=" + regdate + ", updatedate=" + updatedate + ", replyPw=" + replyPw + "]";
 	}
 	
 }

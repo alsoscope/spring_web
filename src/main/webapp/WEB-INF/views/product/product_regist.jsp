@@ -44,6 +44,22 @@
 	<br>
 	<!-- <form class="create-form" id="create-form" method="post" action="/shop/product/insertProduct" onsubmit="return validation();"> -->
 	<form class="create-form" id="create-form" method="post" action="/shop/product/insertProduct">
+		
+		<label for="exampleInputEmail1">분류</label>
+		<div style="align:center;">
+			<label class="radio-inline">
+				<input type="radio" name="radio_btn" id="korea" value="korea">국내영화
+			</label>
+			<label class="radio-inline">
+				<input type="radio" name="radio_btn" id="abroad" value="abroad">국외영화
+			</label>
+			<label class="radio-inline">
+				<input type="radio" name="radio_btn" id="etcetera" value="etcetera">기타
+			</label>
+			<!-- name: 라디오 버튼의 이름/value:선택 항목들이 가지는 고유한 값. submit으로 서버로 전송됨.
+			input 태그 바로 밖에서 라디오 버튼을 설명한다./checked:기본으로 선택할 사항  -->
+		</div><br>
+		  
 		  <div class="form-group">
 		    <label for="exampleInputEmail1">상품명</label>
 		    <input type="text" name="product_name" class="form-control" id="product_name">
@@ -55,7 +71,7 @@
 		  <div class="form-group">
 		    <label for="exampleInputEmail1">상품 상세</label>
 		    <textarea id="product_desc" name="product_desc" class="form-control" rows="5" cols="60"></textarea>
-		  </div>		  
+		  </div>
 		  
 		  <div class="form-group">
 		    <label for="exampleInputEmail1">상품 이미지</label>
@@ -67,11 +83,11 @@
 		  </div> -->
 		  
 		  <div align="center">
-			  <!-- <button type="submit" class="btn btn-default">등록</button> -->
 			  <!-- <button type="reset" class="btn btn-default" id="goBack">목록</button> -->
-		  	  <!-- <input type="button" class="btn btn-default" value="목록" onClick="goBack();"/> -->
-			  <!-- <input type="submit" class="btn btn-default" value="상품 등록"> -->
-			  <input type="submit" class="create btn btn-success" value="상품 등록">
+			  
+		  	  <!-- <input type="button" class="btn btn-default" value="등록 테스트" onClick="radio_check();"/> -->
+				<input type="submit" class="create btn btn-success" value="등록 테스트">
+			  <!-- <input type="submit" class="create btn btn-success" value="상품 등록"> -->
 		  	  <input type="button" class="btn btn-default" value="뒤로가기" id="goBack();"/>
 		  </div>
 	
@@ -95,7 +111,7 @@
 			</div>
 		</li>
 	</script>
-		
+
 <script>
 $(function () {
     var obj = $(".dropzone");
@@ -204,12 +220,127 @@ $(function () {
 		};		
 	/* }); */
 
-	//첨부파일. 최종 submit이 일어나면 서버에는 사용자가 업로드한 파일의 정보를 같이 전송하는데, 업로드 된 파일의 이름을 form태그 내부로 포함 시켜 전송한다.	
+	
+		/* function radio_check(){
+			//라디오 버튼 name 가져오기
+			var radio_btn=document.getElementsByName("radio_btn");
+			
+			//라디오 버튼 세트의 id값 가져오기0
+			var korea=$('input[id=korea]').val();
+			var abroad=$('input[id=abroad]').val();
+			var etcetera=$('input[id=etcetera]').val();
+
+			//라디오 버튼이 체크되었는지 확인하기 위한 변수
+			var radio_btn_check=0;
+			
+			for(var i=0; i<radio_btn.length; i++){
+				//만약 라디오 버튼이 체크되었다면 true
+				if(radio_btn[i].checked==true){
+					//라디오 버튼 값
+					alert(radio_btn[i].value);
+					//라디오 버튼이 체크 되었다면 radio_btn_check를 1로 만들어줌.
+					radio_btn_check=1;
+					
+					if(radio_btn[i].value == korea){
+						alert("국내영화");
+						console.log("국내영화");		
+						
+						event.preventDefault();//먼저 기본 동작을 막는다.
+						//form submit
+						alert("form submit - 국내영화");
+					
+						var that = $(this);
+						var str = "";
+						
+						$(".uploadedList .del-btn").each(function (index) {
+							str += "<input type='hidden' name='files[" + index + "]' value='" + $(this).attr("href") + "' >";
+						});
+						
+						that.append(str);
+						
+						that.get(0).action="location.href='/shop/product/insertProduct'";
+						that.get(0).submit();
+						
+						console.log("국내영화 insert 성공");
+						
+					}else if(radio_btn[i].value == abroad){
+						alert("국외영화");
+						console.log("국외영화");
+					}else if(radio_btn[i].value == etcetera){
+						alert("기타");
+						console.log("기타");
+					}
+				}
+			}
+
+			if(radio_btn_check==0){
+				alert("분류 항목을 선택해주세요.");
+			}
+			
+			
+		}	 */
+	
+	//첨부파일. 최종 submit이 일어나면 서버에는 사용자가 업로드한 파일의 정보를 같이 전송하는데, 업로드 된 파일의 이름을 form태그 내부로 포함 시켜 전송한다.
 	$("#create-form").submit(function(event){
 	/* $("#create-form").click(function (event){ */
 		event.preventDefault();//먼저 기본 동작을 막는다.
+		
+		//라디오 버튼 name 가져오기
+		var radio_btn=document.getElementsByName("radio_btn");
+		
+		//라디오 버튼 세트의 id값 가져오기0
+		var korea=$('input[id=korea]').val();
+		var abroad=$('input[id=abroad]').val();
+		var etcetera=$('input[id=etcetera]').val();
 
-		alert("form submit!!");
+		//라디오 버튼이 체크되었는지 확인하기 위한 변수
+		var radio_btn_check=0;
+		
+		for(var i=0; i<radio_btn.length; i++){
+			//만약 라디오 버튼이 체크되었다면 true
+			if(radio_btn[i].checked==true){
+				//라디오 버튼 값
+				alert(radio_btn[i].value);
+				//라디오 버튼이 체크 되었다면 radio_btn_check를 1로 만들어줌.
+				radio_btn_check=1;
+				
+				if(radio_btn[i].value == korea){
+					alert("국내영화");
+					console.log("국내영화");		
+					
+					event.preventDefault();//먼저 기본 동작을 막는다.
+					//form submit
+					alert("form submit - 국내영화");
+				
+					var that = $(this);
+					var str = "";
+					
+					$(".uploadedList .del-btn").each(function (index) {
+						str += "<input type='hidden' name='files[" + index + "]' value='" + $(this).attr("href") + "' >";
+					});
+					
+					that.append(str);
+					
+					document.getElementById("create-form").action="/shop/product/insertProduct";
+					that.get(0).submit();
+					
+					console.log("국내영화 insert 성공");
+					
+				}else if(radio_btn[i].value == abroad){
+					alert("국외영화");
+					console.log("국외영화");
+				}else if(radio_btn[i].value == etcetera){
+					alert("기타");
+					console.log("기타");
+				}
+			}
+		}
+
+		if(radio_btn_check==0){
+			alert("분류 항목을 선택해주세요.");
+		}
+		
+		/* alert("form submit!!");
 		//console.log(fullName);
 		
 		var that = $(this);
@@ -226,7 +357,7 @@ $(function () {
 		
 		//모든 파일의 정보를 <input type='hidden'>으로 생성한 후, <form> 데이터의 submit()을 호출해서 서버를 호출한다.
 		//jQuery의 get(0)은 순수한 DOM 객체를 얻어내기 위해 사용.
-		that.get(0).submit();
+		that.get(0).submit(); */
 	});	
 </script>
 	

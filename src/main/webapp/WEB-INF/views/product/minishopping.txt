@@ -277,3 +277,35 @@ create table tbl_product(
 );
 
 alter table tbl_attach add foreign key (product_id) references tbl_product(product_id);
+
+
+
+
+
+카테고리별 DB
+create table tbl_product(
+	product_id int not null auto_increment primary key,
+	product_name varchar(30) not null,
+	product_price int default 0 not null,
+	product_desc varchar(300) not null,
+	product_url varchar(300) not null
+);
+alter table tbl_attach add foreign key (product_id) references tbl_product(product_id);
+
+create table tbl_product_abroad(
+	ab_item_id int not null auto_increment primary key,
+	ab_item_name varchar(30) not null,
+	ab_item_price int default 0 not null,
+	ab_item_desc varchar(300) not null,
+	ab_item_url varchar(300) not null
+);
+alter table tbl_attach add foreign key (product_id) references tbl_product_abroad(ab_item_id);
+
+create table tbl_product_etcetera(
+	etc_item_id int not null auto_increment primary key,
+	etc_item_name varchar(30) not null,
+	etc_item_price int default 0 not null,
+	etc_item_desc varchar(300) not null,
+	etc_item_url varchar(300) not null
+);
+alter table tbl_attach add foreign key (product_id) references tbl_product_etcetera(etc_item_id);

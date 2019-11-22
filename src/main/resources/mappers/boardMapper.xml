@@ -13,9 +13,12 @@
 	
 	<!-- 게시물 검색, 페이징 처리하여 리스트 출력 -->
 	<!-- <sql>조각은 필요한 SQL구성에 include하여 재사용할 수 있다. 페이징, 검색 유지를 위한 동적 SQL include -->
+	<!-- 댓글 개수 출력하는 서브쿼리 추가 -->
 	<select id="listSearch" resultType="BoardVO">
 		<![CDATA[
-			select * from tbl_board where bno > 0
+			select b.*,	
+			(select count(*) from tbl_reply where bno=b.bno) as recnt
+			from tbl_board b where bno > 0
 		]]>
 		
 		<include refid="search"></include>
