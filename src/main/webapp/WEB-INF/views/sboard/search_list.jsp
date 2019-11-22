@@ -94,7 +94,12 @@
 	<c:forEach var="row" items="${list }">
 	<tr>
 		<td>${row.bno }</td>
-		<td><a href="/sboard/viewPage${pageMaker.makeSearch(pageMaker.cri.page) }&bno=${row.bno}">${row.title }</a></td>
+		<td><a href="/sboard/viewPage${pageMaker.makeSearch(pageMaker.cri.page) }&bno=${row.bno}">${row.title }</a>
+			<!-- 댓글이 있으면 게시글 이름 옆에 개추 출력 -->
+			<c:if test="${ row.recnt > 0}">
+			<span>(${row.recnt })</span>
+			</c:if>
+		</td>
 		<td>${row.writer }</td>
 		<td>
 			<!-- 원하는 날짜형식으로 출력하기 위해 fmt 태그 사용 -->
@@ -192,7 +197,8 @@
 	<script>
 		$(document).ready(function(){
 			//검색버튼 처리
-			$("#form1").attr("action", ""search_list"+'${pageMaker.makeQuery(1)}'+"&searchType="+$("select option:selected").val()+"&keyword="+$('#keywordInput').val()");
+			$("#form1").attr("action", ""search_list"+'${pageMaker.makeQuery(1)}'+"&searchType="+
+					$("select option:selected").val()+"&keyword="+$('#keywordInput').val()");
 			
 			/* $('#searchBtn').on("click", function(event){
 					self.location="search_list"+'${pageMaker.makeQuery(1)}'+"&searchType="+$("select option:selected").val()+"&keyword="+$('#keywordInput').val();

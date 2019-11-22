@@ -22,10 +22,27 @@
 	</filter-mapping>
 	<!-- 인코딩 필터 추가 -->
 	
+	<!-- Spring Security는 서블릿 필터로 동작, 모든 요청을 스프링 시큐리티가 처리하므로 요청의 앞단에서 필요한 체크를 수행한다. -->
+	<!-- <filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping> -->
+	<!-- Spring Security -->
+	
 	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>/WEB-INF/spring/root-context.xml</param-value>
+		<param-value>
+			/WEB-INF/spring/root-context.xml
+
+			<!-- 스프링 시큐리티에 사용되는 빈들을 위한 설정파일을 스프링 프레임워크가 읽어들이도록 설정 파일 지정을 추가한다. -->
+			/WEB-INF/spring/security-context.xml
+		</param-value>
 	</context-param>
 	
 	<!-- Creates the Spring Container shared by all Servlets and Filters -->

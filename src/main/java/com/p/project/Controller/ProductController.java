@@ -88,6 +88,9 @@ public class ProductController {
 			productService.getAttach(product_id);
 		}*/
 		
+		
+		
+		
 		logger.info("insert Product : " + dto.toString());
 		productService.insertProduct(dto);
 		
@@ -95,7 +98,21 @@ public class ProductController {
 		logger.info("getFiles() : " + files);*/
 		
 		return "redirect:/";
-	}
+	}//insertProduct
+	
+	@RequestMapping(value="insertAbroad", method=RequestMethod.POST)
+	public String insertAbroad(ProductDTO dto, ProductDTO product_id) throws Exception{	
+		logger.info("insert insertAbroad : " + dto.toString());
+		productService.insertAbroad(dto);		
+		return "redirect:/";
+	}//insertAbroad
+	
+	@RequestMapping(value="insertEtcetera", method=RequestMethod.POST)
+	public String insertEtcetera(ProductDTO dto, ProductDTO product_id) throws Exception{	
+		logger.info("insert insertEtcetera : " + dto.toString());
+		productService.insertEtcetera(dto);		
+		return "redirect:/";
+	}//insertEtcetera
 	
 	//1. 상품 전체 목록 페이지 매핑. service에서 가져온 리스트 객체 리턴
 /*	@RequestMapping(value="/", method=RequestMethod.GET)
@@ -182,15 +199,19 @@ public class ProductController {
 	
 	//해외 영화 카테고리
 	@RequestMapping("product_list_abroad")
-	public String product_list_aborad() {
-		
+	public String product_list_aborad(Model model, Criteria cri) {
+		logger.info("product_list_abroad");
+		List<ProductDTO> list=productService.listProduct();
+		model.addAttribute("vo", list);
 		return "/product/product_list_abroad";
 	}
 	
 	//기타 영상 카테고리
 	@RequestMapping("product_list_etcetera")
-	public String product_list_etcetera() {
-		
+	public String product_list_etcetera(Model model, Criteria cri) {
+		logger.info("product_list_etcetera");
+		List<ProductDTO> list=productService.listProduct();
+		model.addAttribute("vo", list);
 		return "/product/product_list_etcetera";
 	}
 

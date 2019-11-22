@@ -54,6 +54,16 @@ public class ProductDAOImpl implements ProductDAO {
 	public void insertProduct(ProductDTO dto) throws Exception{
 		sqlSession.insert("product.insertProduct", dto);
 	}
+	
+	@Override
+	public void insertAbroad(ProductDTO dto) throws Exception{
+		sqlSession.insert("product.insertAbroad", dto);
+	}
+	
+	@Override
+	public void insertEtcetera(ProductDTO dto) throws Exception{
+		sqlSession.insert("product.inseinsertEtceterartProduct", dto);
+	}
 
 	//6. 상품 이미지 삭제 위한 이미지 파일 정보
 	@Override

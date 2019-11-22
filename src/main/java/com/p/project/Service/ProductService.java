@@ -21,6 +21,10 @@ public interface ProductService {
 	
 	//5. 상품 등록
 	public void insertProduct(ProductDTO dto) throws Exception;
+	//5. 상품 등록
+	public void insertAbroad(ProductDTO dto) throws Exception;
+	//5. 상품 등록
+	public void insertEtcetera(ProductDTO dto) throws Exception;
 	
 	//6. 상품 이미지 삭제 위한 이미지 파일 정보
 	public String fileInfo(int product_id);

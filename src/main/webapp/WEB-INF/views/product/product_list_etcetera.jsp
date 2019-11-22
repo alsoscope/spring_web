@@ -49,7 +49,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	
-  <title>CINEPHILE - 국내 영화</title>
+  <title>CINEPHILE - 기타</title>
 	
   <!-- Bootstrap core JavaScript -->
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -87,9 +87,9 @@
       <div class="col-lg-3">
         <h3 class="my-4">영화 목록</h3>
         <div class="list-group">
-          <a href="${path}/shop/product/product_list_korean" class="list-group-item active">한국 영화</a>
+          <a href="${path}/shop/product/product_list_korean" class="list-group-item">한국 영화</a>
           <a href="${path}/shop/product/product_list_abroad" class="list-group-item">해외 영화</a>
-          <a href="${path}/shop/product/product_list_etcetera" class="list-group-item">기타 영상</a>
+          <a href="${path}/shop/product/product_list_etcetera" class="list-group-item active">기타 영상</a>
           
           <c:if test="${sessionScope.adminId!=null }">
           <a href="${path}/shop/product/product_regist" class="list-group-item">상품 등록</a>
