@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.p.project.DTO.Criteria;
+import com.p.project.DTO.ProductAbDTO;
 import com.p.project.DTO.ProductDTO;
 import com.p.project.Service.ProductServiceImpl;
 
@@ -62,7 +63,7 @@ public class ProductDAOImpl implements ProductDAO {
 	
 	@Override
 	public void insertEtcetera(ProductDTO dto) throws Exception{
-		sqlSession.insert("product.inseinsertEtceterartProduct", dto);
+		sqlSession.insert("product.insertEtcetera", dto);
 	}
 
 	//6. 상품 이미지 삭제 위한 이미지 파일 정보
@@ -112,6 +113,29 @@ public class ProductDAOImpl implements ProductDAO {
 		return sqlSession.selectList(namespace + ".getAttach", product_id);
 	}
 
+	
+	@Override
+	public void addAttach_ab(String fullName, int product_id) throws Exception {
+
+		HashMap<String, Object> map=new HashMap<String, Object>();
+		map.put("fullName", fullName);
+		map.put("product_id", product_id);
+		
+		logger.info("ProductDAOImpl fullName : " + fullName);		
+		logger.info("ProductDAOImpl attach_id : " + product_id);
+		sqlSession.insert(namespace + ".addAttach_ab", map);
+	}
+
+	//첨부파일 있는 게시물 조회
+	@Override
+	public List<String> getAttach_ab(int product_id) throws Exception {
+		return sqlSession.selectList(namespace + ".getAttach_ab", product_id);
+	}
+	
+	
+	
+	
+	
 	//첨부파일 수정 : 기존의 첨부파일을 삭제하고 새롭게 추가한다
 	@Override
 	public void replaceAttach(String fullName, int product_id) throws Exception {
@@ -146,4 +170,14 @@ public class ProductDAOImpl implements ProductDAO {
 		return sqlSession.selectList(namespace + ".infiniteScrollUp", product_id);
 	}
 	//++++++++++++++++++스크롤링 Test++++++++++++++++++
+
+	@Override
+	public List<ProductDTO> listAbroad() {
+		return sqlSession.selectList("product.listAbroad");
+	}
+
+	@Override
+	public List<ProductDTO> listEtcetera() {
+		return sqlSession.selectList("product.listEtcetera");
+	}
 }

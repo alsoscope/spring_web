@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.p.project.Controller.ProductController;
 import com.p.project.DAO.ProductDAO;
 import com.p.project.DTO.Criteria;
+import com.p.project.DTO.ProductAbDTO;
 import com.p.project.DTO.ProductDTO;
 
 @Service
@@ -79,11 +80,10 @@ public class ProductServiceImpl implements ProductService{
 	@Transactional
 	@Override
 	public void insertProduct(ProductDTO dto) throws Exception {
-	
-		logger.info("INSERT 직전 시퀀스값 : " + dto.getProduct_id());
+		logger.info("insertProduct 직전 시퀀스값 : " + dto.getProduct_id());
 		productDao.insertProduct(dto);
-		logger.info("dto : " + dto);
-		logger.info("INSERT 직후 시퀀스값 : " + dto.getProduct_id());
+		logger.info("insertProduct dto : " + dto);
+		logger.info("insertProduct 직후 시퀀스값 : " + dto.getProduct_id());
 		
 		String[] files=dto.getFiles();
 		logger.info("Arrays.toString(files) : " + Arrays.toString(files));		
@@ -109,8 +109,8 @@ public class ProductServiceImpl implements ProductService{
 					
 					productDao.addAttach(fileName, product_id);
 					logger.info("getProduct_id : " + product_id);
-					logger.info("addAttach 완료 fileName : " + fileName);
-					logger.info("addAttach 완료 files : " + files);
+					logger.info("insertProduct addAttach 완료 fileName : " + fileName);
+					logger.info("insertProduct addAttach 완료 files : " + files);
 				}				
 		} catch (DataIntegrityViolationException ex) { 
 			logger.info("DataIntegrityViolationException : " + ex);
@@ -121,10 +121,10 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public void insertAbroad(ProductDTO dto) throws Exception {
 	
-		logger.info("INSERT 직전 시퀀스값 : " + dto.getProduct_id());
-		productDao.insertProduct(dto);
-		logger.info("dto : " + dto);
-		logger.info("INSERT 직후 시퀀스값 : " + dto.getProduct_id());
+		logger.info("insertAbroad 직전 시퀀스값 : " + dto.getProduct_id());
+		productDao.insertAbroad(dto);
+		logger.info("insertAbroad dto : " + dto);
+		logger.info("insertAbroad 직후 시퀀스값 : " + dto.getProduct_id());
 		
 		String[] files=dto.getFiles();
 		logger.info("Arrays.toString(files) : " + Arrays.toString(files));		
@@ -135,23 +135,15 @@ public class ProductServiceImpl implements ProductService{
 				System.out.println("files null");
 				return;
 			}			
-			
-				//파일이 not null일 때
-				logger.info("files not null : " + files);
-				
-				//향상된 for문. for each문의 형식 → for(변수타입 변수이름 : 배열 이름)
+				logger.info("files not null : " + files);			
+
 				for(String fileName : files) {	
 					int product_id=dto.getProduct_id();
 					
-					/*if(files.length > 1) {
-						logger.info("files.length : " + files.length);
-						return;
-					}*/
-					
-					productDao.addAttach(fileName, product_id);
+					productDao.addAttach_ab(fileName, product_id);
 					logger.info("getProduct_id : " + product_id);
-					logger.info("addAttach 완료 fileName : " + fileName);
-					logger.info("addAttach 완료 files : " + files);
+					logger.info("insertAbroad addAttach 완료 fileName : " + fileName);
+					logger.info("insertAbroad addAttach 완료 files : " + files);
 				}				
 		} catch (DataIntegrityViolationException ex) { 
 			logger.info("DataIntegrityViolationException : " + ex);
@@ -162,10 +154,10 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public void insertEtcetera(ProductDTO dto) throws Exception {
 	
-		logger.info("INSERT 직전 시퀀스값 : " + dto.getProduct_id());
-		productDao.insertProduct(dto);
-		logger.info("dto : " + dto);
-		logger.info("INSERT 직후 시퀀스값 : " + dto.getProduct_id());
+		logger.info("insertEtcetera 직전 시퀀스값 : " + dto.getProduct_id());
+		productDao.insertEtcetera(dto);
+		logger.info("insertEtcetera dto : " + dto);
+		logger.info("insertEtcetera 직후 시퀀스값 : " + dto.getProduct_id());
 		
 		String[] files=dto.getFiles();
 		logger.info("Arrays.toString(files) : " + Arrays.toString(files));		
@@ -176,23 +168,15 @@ public class ProductServiceImpl implements ProductService{
 				System.out.println("files null");
 				return;
 			}			
-			
-				//파일이 not null일 때
 				logger.info("files not null : " + files);
 				
-				//향상된 for문. for each문의 형식 → for(변수타입 변수이름 : 배열 이름)
 				for(String fileName : files) {	
 					int product_id=dto.getProduct_id();
 					
-					/*if(files.length > 1) {
-						logger.info("files.length : " + files.length);
-						return;
-					}*/
-					
 					productDao.addAttach(fileName, product_id);
 					logger.info("getProduct_id : " + product_id);
-					logger.info("addAttach 완료 fileName : " + fileName);
-					logger.info("addAttach 완료 files : " + files);
+					logger.info("insertEtcetera addAttach 완료 fileName : " + fileName);
+					logger.info("insertEtcetera addAttach 완료 files : " + files);
 				}				
 		} catch (DataIntegrityViolationException ex) { 
 			logger.info("DataIntegrityViolationException : " + ex);
@@ -205,6 +189,11 @@ public class ProductServiceImpl implements ProductService{
 			return productDao.getAttach(product_id);
 		};
 
+		@Override
+		public List<String> getAttach_ab(int product_id) throws Exception {
+			return productDao.getAttach_ab(product_id);
+		};
+		
 	//6. 상품 이미지 삭제 위한 이미지 파일 정보
 	@Override
 	public String fileInfo(int product_id) {
@@ -236,6 +225,16 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public List<ProductDTO> infiniteScrollUp(Integer product_id) {
 		return productDao.infiniteScrollUp(product_id);
+	}
+
+	@Override
+	public List<ProductDTO> listAbroad() {
+		return productDao.listAbroad();
+	}
+
+	@Override
+	public List<ProductDTO> listEtcetera() {
+		return productDao.listEtcetera();
 	}
 
 	//++++++++++++++++++스크롤링 Test++++++++++++++++++

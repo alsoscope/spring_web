@@ -3,12 +3,17 @@ package com.p.project.Service;
 import java.util.List;
 
 import com.p.project.DTO.Criteria;
+import com.p.project.DTO.ProductAbDTO;
 import com.p.project.DTO.ProductDTO;
 
 public interface ProductService {
 
 	//1. 상품 목록
 	public List<ProductDTO> listProduct();
+	//1. 상품 목록
+	public List<ProductDTO> listAbroad();
+	//1. 상품 목록
+	public List<ProductDTO> listEtcetera();
 	
 	//2. 상품 상세
 	public ProductDTO detailProduct(int product_id);
@@ -44,4 +49,5 @@ public interface ProductService {
 	//첨부파일 게시물 조회
 	public List<String> getAttach(int product_id) throws Exception;
 	
+	public List<String> getAttach_ab(int product_id) throws Exception;
 }

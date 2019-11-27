@@ -305,7 +305,6 @@ $(function () {
 				radio_btn_check=1;
 				
 				if(radio_btn[i].value == korea){
-					alert("국내영화");
 					console.log("국내영화");		
 					
 					event.preventDefault();//먼저 기본 동작을 막는다.
@@ -327,11 +326,45 @@ $(function () {
 					console.log("국내영화 insert 성공");
 					
 				}else if(radio_btn[i].value == abroad){
-					alert("국외영화");
 					console.log("국외영화");
+					
+					event.preventDefault();//먼저 기본 동작을 막는다.
+					//form submit
+					alert("form submit - 국외영화");
+				
+					var that = $(this);
+					var str = "";
+					
+					$(".uploadedList .del-btn").each(function (index) {
+						str += "<input type='hidden' name='files[" + index + "]' value='" + $(this).attr("href") + "' >";
+					});
+					
+					that.append(str);
+					
+					document.getElementById("create-form").action="/shop/product/insertAbroad";
+					that.get(0).submit();
+					
+					console.log("국외영화 insert 성공");
 				}else if(radio_btn[i].value == etcetera){
-					alert("기타");
 					console.log("기타");
+					
+					event.preventDefault();//먼저 기본 동작을 막는다.
+					//form submit
+					alert("form submit - 기타");
+				
+					var that = $(this);
+					var str = "";
+					
+					$(".uploadedList .del-btn").each(function (index) {
+						str += "<input type='hidden' name='files[" + index + "]' value='" + $(this).attr("href") + "' >";
+					});
+					
+					that.append(str);
+					
+					document.getElementById("create-form").action="/shop/product/insertEtcetera";
+					that.get(0).submit();
+					
+					console.log("기타영상 insert 성공");
 				}
 			}
 		}

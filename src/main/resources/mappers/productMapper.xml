@@ -14,6 +14,20 @@
 		FROM tbl_product ORDER BY product_name -->
 	</select>
 	
+	<!-- 국외 영상 - 상품 전체 목록 -->
+	<select id="listAbroad" resultType="com.p.project.VO.ProductVO">
+		SELECT * FROM tbl_product_abroad, tbl_attach_ab
+		WHERE tbl_product_abroad.ab_item_id = tbl_attach_ab.product_id
+		ORDER BY ab_insert DESC
+	</select>
+	
+	<!-- 기타 영상 - 상품 전체 목록 -->
+	<select id="listEtcetera" resultType="com.p.project.VO.ProductVO">
+		SELECT * FROM tbl_product_etcetera, tbl_attach
+		WHERE tbl_product_etcetera.etc_item_id = tbl_attach.product_id
+		ORDER BY etc_insert DESC
+	</select>
+	
 	<!-- 02. 상품 상세 보기 -->
 	<select id="detailProduct" resultType="com.p.project.DTO.ProductDTO">
 		SELECT product_id, product_name, product_price, product_desc
@@ -30,6 +44,10 @@
 	<!-- <insert id="insertProduct" parameterType="com.p.project.DTO.ProductDTO" useGeneratedKeys="true" keyProperty="product_id">
 		INSERT INTO tbl_product (product_name, product_price, product_desc)
 		VALUES ( #{product_name},#{product_price},#{product_desc} ) -->
+	
+	
+	
+	
 		
 	<!-- 국내 영화 등록 -->
 	<insert id="insertProduct" parameterType="com.p.project.DTO.ProductDTO" useGeneratedKeys="true" keyProperty="product_id">
@@ -45,9 +63,14 @@
 	</insert>
 	
 	<!-- 국외 영화 등록 -->
-	<insert id="insertAbroad" parameterType="com.p.project.DTO.ProductDTO" useGeneratedKeys="true" keyProperty="product_id">
+	<!-- <insert id="insertAbroad" parameterType="com.p.project.DTO.ProductAbDTO" useGeneratedKeys="true" keyProperty="product_id">
 		INSERT INTO tbl_product_abroad (ab_item_name, ab_item_price, ab_item_desc)
 		VALUES ( #{ab_item_name},#{ab_item_price},#{ab_item_desc} )
+	</insert> -->
+	
+	<insert id="insertAbroad" parameterType="com.p.project.DTO.ProductDTO" useGeneratedKeys="true" keyProperty="product_id">
+		INSERT INTO tbl_product_abroad (product_name, product_price, product_desc)
+		VALUES ( #{product_name},#{product_price},#{product_desc} )
 	</insert>
 	
 	<!-- 기타 영상 등록 -->
@@ -55,6 +78,14 @@
 		INSERT INTO tbl_product_etcetera (etc_item_name, etc_item_price, etc_item_desc)
 		VALUES ( #{etc_item_name},#{etc_item_price},#{etc_item_desc} )
 	</insert>
+	
+	
+	<resultMap id="etcResult" type="com.p.project.DTO.ProductDTO">
+		<result property="product_id" column="etc_item_id"/>
+		<result property="product_price" column="etc_item_price"></result>
+		<result property="product_desc" column="etc_item_desc"></result>
+	</resultMap>
+	
 	<!-- 첨부파일 기능 : tbl_attach MySQL의 경우, 바로 직전에 생성된 PK를 알아낼 때 LAST_INSERT_ID()를 활용 -->
 	<!-- <insert id="addAttach">
 		INSERT INTO tbl_attach (fullName, product_id)
@@ -67,6 +98,16 @@
 		VALUES (#{fullName}, #{product_id})
 		<!-- INSERT INTO tbl_attach (fullName, product_id) VALUES (#{fullName}, #{product_id, jdbcType=INTEGER}) -->
 	</insert>
+	
+	<insert id="addAttach_ab" parameterType="com.p.project.DTO.ProductDTO">					
+		INSERT INTO tbl_attach_ab (fullName, product_id)
+		VALUES (#{fullName}, #{product_id})
+		<!-- INSERT INTO tbl_attach (fullName, product_id) VALUES (#{fullName}, #{product_id, jdbcType=INTEGER}) -->
+	</insert>
+	
+	<select id="getAttach_ab" resultType="string">
+		select fullName from tbl_attach_ab where product_id=#{product_id}
+	</select>
 	
 	<!-- 04. 상품 수정/편집 -->
 	<update id="updateProduct">
