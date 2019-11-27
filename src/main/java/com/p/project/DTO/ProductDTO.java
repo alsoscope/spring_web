@@ -10,29 +10,12 @@ public class ProductDTO {
 	private String insert_regdate;
 	private String update_regdate;
 	
+	//첨부파일
+	private String[] files;
 	
 	//private String product_url; //상품 이미지 경로
 	//private MultipartFile product_Photo; //상품 이미지 파일
-
-	public String getInsert_regdate() {
-		return insert_regdate;
-	}
-
-	public void setInsert_regdate(String insert_regdate) {
-		this.insert_regdate = insert_regdate;
-	}
-
-	public String getUpdate_regdate() {
-		return update_regdate;
-	}
-
-	public void setUpdate_regdate(String update_regdate) {
-		this.update_regdate = update_regdate;
-	}
-
-	//첨부파일
-	private String[] files;
-
+	
 	public int getProduct_id() {
 		return product_id;
 	}
@@ -65,6 +48,22 @@ public class ProductDTO {
 		this.product_desc = product_desc;
 	}
 
+	public String getInsert_regdate() {
+		return insert_regdate;
+	}
+
+	public void setInsert_regdate(String insert_regdate) {
+		this.insert_regdate = insert_regdate;
+	}
+
+	public String getUpdate_regdate() {
+		return update_regdate;
+	}
+
+	public void setUpdate_regdate(String update_regdate) {
+		this.update_regdate = update_regdate;
+	}
+
 	public String[] getFiles() {
 		return files;
 	}
@@ -80,5 +79,4 @@ public class ProductDTO {
 				+ ", update_regdate=" + update_regdate + ", files=" + Arrays.toString(files) + "]";
 	}
 
-	
 }

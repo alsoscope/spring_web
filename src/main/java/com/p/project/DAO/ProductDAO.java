@@ -4,11 +4,16 @@ import java.util.List;
 
 import com.p.project.DTO.ProductDTO;
 import com.p.project.DTO.Criteria;
+import com.p.project.DTO.ProductAbDTO;
 
 //비즈니스로직 ,DB연동 작업처리
 public interface ProductDAO {
 	//1. 상품목록
 	public List<ProductDTO> listProduct();
+	//1. 상품목록
+	public List<ProductDTO> listAbroad();
+	//1. 상품목록
+	public List<ProductDTO> listEtcetera();
 	
 	//2.상품 상세
 	public ProductDTO detailProduct(int product_id);
@@ -48,6 +53,12 @@ public interface ProductDAO {
 	
 	//첨부파일 있는 게시물 조회
 	public List<String> getAttach(int product_id) throws Exception;
+	
+	public void addAttach_ab(String fullName, int product_id)throws Exception;
+	
+	//첨부파일 있는 게시물 조회
+	public List<String> getAttach_ab(int product_id) throws Exception;
+	
 	
 	//첨부파일 수정 : 기존의 첨부파일을 삭제하고 새롭게 추가한다
 	public void replaceAttach(String fullName, int product_id) throws Exception;

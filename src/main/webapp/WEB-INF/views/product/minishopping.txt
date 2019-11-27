@@ -254,13 +254,6 @@ REFERENCES tbl_product(product_id) ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE tbl_attach ADD CONSTRAINT fk_product_attach FOREIGN KEY(product_id)
 REFERENCES tbl_product(product_id) ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE tbl_attach NOCHECK ADD CONSTRAINT fk_product_attach FOREIGN KEY(product_id) REFERENCES tbl_product(product_id);
-
-ALTER TABLE tablename WITH NOCHECK
-ADD CONSTRAINT FK_constraint_name
-FOREIGN KEY (child_column)
-REFERENCES parent_tablename(parent_column) --(O)
-
 create table tbl_attach(
 	fullName varchar(150) not null,
 	product_id int(11) not null,
@@ -297,15 +290,56 @@ create table tbl_product_abroad(
 	ab_item_name varchar(30) not null,
 	ab_item_price int default 0 not null,
 	ab_item_desc varchar(300) not null,
-	ab_item_url varchar(300) not null
+	ab_item_url varchar(300) not null,
+	ab_insert datetime default current_timestamp,
+	ab_update datetime default null on update current_timestamp
 );
 alter table tbl_attach add foreign key (product_id) references tbl_product_abroad(ab_item_id);
+
+CREATE TABLE `tbl_product_abroad` (
+  `product_id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_name` varchar(30) NOT NULL,
+  `product_price` int(11) NOT NULL DEFAULT '0',
+  `product_desc` varchar(300) NOT NULL,
+  `insert_regdate` datetime DEFAULT CURRENT_TIMESTAMP,
+  `update_regdate` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`product_id`));
+
+fk 먼저 삭제후 drop table, create 하기
+alter table `tbl_product_abroad` drop foreign key `fk_abroad_attach`;
+
 
 create table tbl_product_etcetera(
 	etc_item_id int not null auto_increment primary key,
 	etc_item_name varchar(30) not null,
 	etc_item_price int default 0 not null,
 	etc_item_desc varchar(300) not null,
-	etc_item_url varchar(300) not null
+	etc_item_url varchar(300) not null,
+	etc_insert datetime default current_timestamp,
+	etc_insert datetime default current_timestamp
 );
 alter table tbl_attach add foreign key (product_id) references tbl_product_etcetera(etc_item_id);
+
+-- 참조키 무결성 에러. delete from tbl_attach 하여 다시 fk를 설정하였다.
+
+alter table tbl_attach add constraint fk_abroad_attach foreign key(product_id)
+references tbl_product_abroad(ab_item_id) ON DELETE CASCADE ON UPDATE CASCADE;
+
+alter table tbl_attach add constraint fk_etcetera_attach foreign key(product_id)
+references tbl_product_etcetera(etc_item_id) ON DELETE CASCADE ON UPDATE CASCADE;
+
+CREATE TABLE `tbl_product` (
+  `product_id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_name` varchar(30) NOT NULL,
+  `product_price` int(11) NOT NULL DEFAULT '0',
+  `product_desc` varchar(300) NOT NULL,
+  `insert_regdate` datetime DEFAULT CURRENT_TIMESTAMP,
+  `update_regdate` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`product_id`)
+));
+  
+alter table tbl_product_abroad add ab_insert datetime default current_timestamp;
+alter table tbl_product_abroad add ab_update datetime default null on update current_timestamp;
+
+alter table tbl_product_etcetera add etc_insert datetime default current_timestamp;
+alter table tbl_product_etcetera add etc_update datetime default null on update current_timestamp;

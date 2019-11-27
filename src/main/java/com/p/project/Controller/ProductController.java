@@ -39,6 +39,7 @@ import com.p.project.Service.ProductService;
 import com.p.project.DTO.Criteria;
 import com.p.project.DTO.MemberDTO;
 import com.p.project.DTO.PageMaker;
+import com.p.project.DTO.ProductAbDTO;
 
 //상품 관련 페이지 매핑
 @Controller
@@ -87,10 +88,7 @@ public class ProductController {
 		}else {
 			productService.getAttach(product_id);
 		}*/
-		
-		
-		
-		
+	
 		logger.info("insert Product : " + dto.toString());
 		productService.insertProduct(dto);
 		
@@ -168,6 +166,14 @@ public class ProductController {
 		return productService.getAttach(product_id);
 	}
 	
+	@ResponseBody
+	@RequestMapping("/getAttach_ab/{product_id}")
+	public List<String> getAttach_ab(@PathVariable("product_id")int product_id) throws Exception{
+		logger.info("getAttach : " + productService.getAttach_ab(product_id).toString());
+		return productService.getAttach_ab(product_id);
+	}
+	
+	
 	//한국 영화 카테고리
 	@RequestMapping(value="product_list_korean")
 	public String product_list_korean(Model model, Criteria cri) throws Exception{
@@ -201,7 +207,7 @@ public class ProductController {
 	@RequestMapping("product_list_abroad")
 	public String product_list_aborad(Model model, Criteria cri) {
 		logger.info("product_list_abroad");
-		List<ProductDTO> list=productService.listProduct();
+		List<ProductDTO> list=productService.listAbroad();
 		model.addAttribute("vo", list);
 		return "/product/product_list_abroad";
 	}
@@ -210,7 +216,7 @@ public class ProductController {
 	@RequestMapping("product_list_etcetera")
 	public String product_list_etcetera(Model model, Criteria cri) {
 		logger.info("product_list_etcetera");
-		List<ProductDTO> list=productService.listProduct();
+		List<ProductDTO> list=productService.listEtcetera();
 		model.addAttribute("vo", list);
 		return "/product/product_list_etcetera";
 	}
