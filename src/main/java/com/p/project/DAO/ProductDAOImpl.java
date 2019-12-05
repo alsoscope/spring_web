@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.p.project.DTO.Criteria;
-import com.p.project.DTO.ProductAbDTO;
 import com.p.project.DTO.ProductDTO;
 import com.p.project.Service.ProductServiceImpl;
 
@@ -126,13 +125,28 @@ public class ProductDAOImpl implements ProductDAO {
 		sqlSession.insert(namespace + ".addAttach_ab", map);
 	}
 
+	@Override
+	public void addAttach_etc(String fullName, int product_id) throws Exception {
+
+		HashMap<String, Object> map=new HashMap<String, Object>();
+		map.put("fullName", fullName);
+		map.put("product_id", product_id);
+		
+		logger.info("ProductDAOImpl fullName : " + fullName);		
+		logger.info("ProductDAOImpl product_id : " + product_id);
+		sqlSession.insert(namespace + ".addAttach_etc", map);
+	}
+	
 	//첨부파일 있는 게시물 조회
 	@Override
 	public List<String> getAttach_ab(int product_id) throws Exception {
 		return sqlSession.selectList(namespace + ".getAttach_ab", product_id);
 	}
 	
-	
+	@Override
+	public List<String> getAttach_etc(int product_id) throws Exception {
+		return sqlSession.selectList(namespace + ".getAttach_etc", product_id);
+	}
 	
 	
 	
@@ -179,5 +193,15 @@ public class ProductDAOImpl implements ProductDAO {
 	@Override
 	public List<ProductDTO> listEtcetera() {
 		return sqlSession.selectList("product.listEtcetera");
+	}
+
+	@Override
+	public ProductDTO detailAbroad(int product_id) {
+		return sqlSession.selectOne(namespace + ".detailAbroad", product_id);
+	}
+
+	@Override
+	public ProductDTO detailEtcetera(int product_id) {
+		return sqlSession.selectOne(namespace + ".detailEtcetera", product_id);
 	}
 }

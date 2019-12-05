@@ -39,7 +39,6 @@ import com.p.project.Service.ProductService;
 import com.p.project.DTO.Criteria;
 import com.p.project.DTO.MemberDTO;
 import com.p.project.DTO.PageMaker;
-import com.p.project.DTO.ProductAbDTO;
 
 //상품 관련 페이지 매핑
 @Controller
@@ -131,6 +130,24 @@ public class ProductController {
 		return "/product/product_detail";
 	}
 	
+	@RequestMapping("/detail_ab/{product_id}")
+	public String detailAbroad(Model model, @PathVariable("product_id")int product_id) throws Exception{
+		
+		model.addAttribute("vo", productService.detailAbroad(product_id));
+		logger.info("클릭한 product_id : " + product_id);
+		
+		return "/product/product_detail_ab";
+	}
+	
+	@RequestMapping("/detail_etc/{product_id}")
+	public String detailEtcetera(Model model, @PathVariable("product_id")int product_id) throws Exception{
+		
+		model.addAttribute("vo", productService.detailEtcetera(product_id));
+		logger.info("클릭한 product_id : " + product_id);
+		
+		return "/product/product_detail";
+	}
+	
 	//게시글 수정 form
 	@RequestMapping(value="/product_update/{product_id}", method=RequestMethod.GET)
 	public String product_update(ProductDTO dto, Model model, @PathVariable("product_id")int product_id, RedirectAttributes rttr) throws Exception{
@@ -173,6 +190,12 @@ public class ProductController {
 		return productService.getAttach_ab(product_id);
 	}
 	
+	@ResponseBody
+	@RequestMapping("/getAttach_etc/{product_id}")
+	public List<String> getAttach_etc(@PathVariable("product_id")int product_id) throws Exception{
+		logger.info("getAttach : " + productService.getAttach_etc(product_id).toString());
+		return productService.getAttach_etc(product_id);
+	}
 	
 	//한국 영화 카테고리
 	@RequestMapping(value="product_list_korean")

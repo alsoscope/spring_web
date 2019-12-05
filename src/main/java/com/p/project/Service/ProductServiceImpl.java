@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.p.project.Controller.ProductController;
 import com.p.project.DAO.ProductDAO;
 import com.p.project.DTO.Criteria;
-import com.p.project.DTO.ProductAbDTO;
 import com.p.project.DTO.ProductDTO;
 
 @Service
@@ -35,6 +34,16 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public ProductDTO detailProduct(int product_id) {
 		return productDao.detailProduct(product_id);
+	}
+	
+	@Override
+	public ProductDTO detailAbroad(int product_id) {
+		return productDao.detailAbroad(product_id);
+	}
+	
+	@Override
+	public ProductDTO detailEtcetera(int product_id) {
+		return productDao.detailEtcetera(product_id);
 	}
 	
 	//3. 상품 수정 : 세 가지 작업이 이루어지기에 트랜잭션 처리한다
@@ -173,10 +182,10 @@ public class ProductServiceImpl implements ProductService{
 				for(String fileName : files) {	
 					int product_id=dto.getProduct_id();
 					
-					productDao.addAttach(fileName, product_id);
+					productDao.addAttach_etc(fileName, product_id);
 					logger.info("getProduct_id : " + product_id);
-					logger.info("insertEtcetera addAttach 완료 fileName : " + fileName);
-					logger.info("insertEtcetera addAttach 완료 files : " + files);
+					logger.info("insertEtcetera addAttach_etc 완료 fileName : " + fileName);
+					logger.info("insertEtcetera addAttach_etc 완료 files : " + files);
 				}				
 		} catch (DataIntegrityViolationException ex) { 
 			logger.info("DataIntegrityViolationException : " + ex);
@@ -192,6 +201,11 @@ public class ProductServiceImpl implements ProductService{
 		@Override
 		public List<String> getAttach_ab(int product_id) throws Exception {
 			return productDao.getAttach_ab(product_id);
+		};
+		
+		@Override
+		public List<String> getAttach_etc(int product_id) throws Exception {
+			return productDao.getAttach_etc(product_id);
 		};
 		
 	//6. 상품 이미지 삭제 위한 이미지 파일 정보
