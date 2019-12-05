@@ -16,11 +16,18 @@
 <!-- controller로부터 리턴받은 문자열이 success이면 관리자명, 관리자id 출력 -->
 <c:if test="${msg == 'success' }">
 	<%-- <h2> 전달 메세지 확인 : ${msg }</h2> --%>
-	<h2> 접속한 관리자 ID 확인 : ${sessionScope.userId }</h2>
+	<%-- <h2> 접속한 관리자 ID 확인 : ${sessionScope.userId }</h2>
 	<h2> 접속한 관리자 PW 확인 : ${sessionScope.userPw }</h2>
-	<h2> 접속한 관리자 NAME 확인 : ${sessionScope.userName }</h2>
+	<h2> 접속한 관리자 NAME 확인 : ${sessionScope.userName }</h2> --%>
+	<h2>관리자 로그인 성공</h2>
+	<h3>페이지 이동 중 ...</h3>
 </c:if>
 
+<script>
+	setTimeout(function(){
+		location.href="/";
+	},3000);
+</script>
 <%@ include file="../forward/footer.jsp" %>
 </body>
 </html>

@@ -17,14 +17,14 @@
 	<!-- 국외 영상 - 상품 전체 목록 -->
 	<select id="listAbroad" resultType="com.p.project.VO.ProductVO">
 		SELECT * FROM tbl_product_abroad, tbl_attach_ab
-		WHERE tbl_product_abroad.ab_item_id = tbl_attach_ab.product_id
+		WHERE tbl_product_abroad.product_id = tbl_attach_ab.product_id
 		ORDER BY ab_insert DESC
 	</select>
 	
 	<!-- 기타 영상 - 상품 전체 목록 -->
 	<select id="listEtcetera" resultType="com.p.project.VO.ProductVO">
-		SELECT * FROM tbl_product_etcetera, tbl_attach
-		WHERE tbl_product_etcetera.etc_item_id = tbl_attach.product_id
+		SELECT * FROM tbl_product_etcetera, tbl_attach_etc
+		WHERE tbl_product_etcetera.product_id = tbl_attach_etc.product_id
 		ORDER BY etc_insert DESC
 	</select>
 	
@@ -38,16 +38,22 @@
 		FROM tbl_product WHERE product_id=#{productId} -->
 	</select>
 	
+	<select id="detailAbroad" resultType="com.p.project.DTO.ProductDTO">
+		SELECT product_id, product_name, product_price, product_desc
+		FROM tbl_product_abroad WHERE product_id=#{product_id}
+	</select>
+	<select id="detailEtcetera" resultType="com.p.project.DTO.ProductDTO">
+		SELECT product_id, product_name, product_price, product_desc
+		FROM tbl_product_etcetera WHERE product_id=#{product_id}
+	</select>
+	
 	<!-- 03. 상품 등록하기 tbl_product, tbl_attach와 참조 무결성 제약으로 트랜잭션된다. 
 	useGeneratedKeys : 사용하는 DB에서 자체적으로 생선한 키(ex:auto_increment)를 받는 옵션, 디폴트는 false이므로 값을 받고자 할 경우 true로 정의
 	keyProperty : INSERT/UPDATE 쿼리에만 적용되는 속성, return값으로 보내주고자 하는 컬럼명을 정의-->
 	<!-- <insert id="insertProduct" parameterType="com.p.project.DTO.ProductDTO" useGeneratedKeys="true" keyProperty="product_id">
 		INSERT INTO tbl_product (product_name, product_price, product_desc)
 		VALUES ( #{product_name},#{product_price},#{product_desc} ) -->
-	
-	
-	
-	
+
 		
 	<!-- 국내 영화 등록 -->
 	<insert id="insertProduct" parameterType="com.p.project.DTO.ProductDTO" useGeneratedKeys="true" keyProperty="product_id">
@@ -63,11 +69,6 @@
 	</insert>
 	
 	<!-- 국외 영화 등록 -->
-	<!-- <insert id="insertAbroad" parameterType="com.p.project.DTO.ProductAbDTO" useGeneratedKeys="true" keyProperty="product_id">
-		INSERT INTO tbl_product_abroad (ab_item_name, ab_item_price, ab_item_desc)
-		VALUES ( #{ab_item_name},#{ab_item_price},#{ab_item_desc} )
-	</insert> -->
-	
 	<insert id="insertAbroad" parameterType="com.p.project.DTO.ProductDTO" useGeneratedKeys="true" keyProperty="product_id">
 		INSERT INTO tbl_product_abroad (product_name, product_price, product_desc)
 		VALUES ( #{product_name},#{product_price},#{product_desc} )
@@ -75,16 +76,9 @@
 	
 	<!-- 기타 영상 등록 -->
 	<insert id="insertEtcetera" parameterType="com.p.project.DTO.ProductDTO" useGeneratedKeys="true" keyProperty="product_id">
-		INSERT INTO tbl_product_etcetera (etc_item_name, etc_item_price, etc_item_desc)
-		VALUES ( #{etc_item_name},#{etc_item_price},#{etc_item_desc} )
+		INSERT INTO tbl_product_etcetera (product_name, product_price, product_desc)
+		VALUES ( #{product_name},#{product_price},#{product_desc} )
 	</insert>
-	
-	
-	<resultMap id="etcResult" type="com.p.project.DTO.ProductDTO">
-		<result property="product_id" column="etc_item_id"/>
-		<result property="product_price" column="etc_item_price"></result>
-		<result property="product_desc" column="etc_item_desc"></result>
-	</resultMap>
 	
 	<!-- 첨부파일 기능 : tbl_attach MySQL의 경우, 바로 직전에 생성된 PK를 알아낼 때 LAST_INSERT_ID()를 활용 -->
 	<!-- <insert id="addAttach">
@@ -104,6 +98,21 @@
 		VALUES (#{fullName}, #{product_id})
 		<!-- INSERT INTO tbl_attach (fullName, product_id) VALUES (#{fullName}, #{product_id, jdbcType=INTEGER}) -->
 	</insert>
+	
+	<insert id="addAttach_etc" parameterType="com.p.project.DTO.ProductDTO">					
+		INSERT INTO tbl_attach_etc (fullName, product_id)
+		VALUES (#{fullName}, #{product_id})
+		<!-- INSERT INTO tbl_attach (fullName, product_id) VALUES (#{fullName}, #{product_id, jdbcType=INTEGER}) -->
+	</insert>
+	
+	<!-- 특정 게시물의 첨부파일을 시간 순서대로 가져오는 SQL문 -->
+	<select id="getAttach" resultType="string">
+		select fullName from tbl_attach where product_id=#{product_id}
+	</select>
+	
+	<select id="getAttach_etc" resultType="string">
+		select fullName from tbl_attach_etc where product_id=#{product_id}
+	</select>
 	
 	<select id="getAttach_ab" resultType="string">
 		select fullName from tbl_attach_ab where product_id=#{product_id}
@@ -139,11 +148,6 @@
 	<![CDATA[
 		select count(product_id) from tbl_product where product_id > 0
 	]]>
-	</select>
-	
-	<!-- 특정 게시물의 첨부파일을 시간 순서대로 가져오는 SQL문 -->
-	<select id="getAttach" resultType="string">
-		select fullName from tbl_attach where product_id=#{product_id}
 	</select>
 	
 	<!-- 첨부파일 수정 : 기존의 첨부파일을 삭제하고 새롭게 추가한다 -->

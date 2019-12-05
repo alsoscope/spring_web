@@ -10,12 +10,6 @@ public class ProductVO {
 	private String getLink;
 	private String regdate;
 	
-	public String getRegdate() {
-		return regdate;
-	}
-	public void setRegdate(String regdate) {
-		this.regdate = regdate;
-	}
 	public int getProduct_id() {
 		return product_id;
 	}
@@ -46,16 +40,24 @@ public class ProductVO {
 	public void setFullName(String fullName) {
 		this.fullName = fullName;
 	}
-	@Override
-	public String toString() {
-		return "ProductVO [product_id=" + product_id + ", product_name=" + product_name + ", product_desc="
-				+ product_desc + ", product_price=" + product_price + ", fullName=" + fullName + ", getLink=" + getLink
-				+ ", regdate=" + regdate + "]";
-	}
 	public String getGetLink() {
 		return getLink;
 	}
 	public void setGetLink(String getLink) {
 		this.getLink = getLink;
 	}
+	public String getRegdate() {
+		return regdate;
+	}
+	public void setRegdate(String regdate) {
+		this.regdate = regdate;
+	}
+	
+	@Override
+	public String toString() {
+		return "ProductVO [product_id=" + product_id + ", product_name=" + product_name + ", product_desc="
+				+ product_desc + ", product_price=" + product_price + ", fullName=" + fullName + ", getLink=" + getLink
+				+ ", regdate=" + regdate + "]";
+	}
+
 }

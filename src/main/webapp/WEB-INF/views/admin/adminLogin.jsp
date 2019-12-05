@@ -11,7 +11,7 @@
 		align:center;
 		display: block;
 		padding: 10px;
-		width: 40%;
+		width: 50%;
   		margin:0 auto !important;
 		align:center !important;
 
@@ -32,7 +32,7 @@
   </div>
   <div class="form-group">
 &nbsp;&nbsp;<label for="exampleInputEmail2">관리자 비밀번호</label>
-    <input type="password" class="form-control" id="userPw" name="userPw" placeholder="password 입력">
+    <input type="password" class="form-control" id="userPw" name="userPw" placeholder="Password 입력">
   </div>
   
 &nbsp;<button type="submit" class="btn btn-default" id="btnLogin">관리자 확인
@@ -56,15 +56,15 @@
 			//태그.val("값") : 태그의 값을 변경
 			var userId=$("#userId").val();
 			var userPw=$("#userPw").val();
-			if(userId==""){
-				alert("아이디를 입력하세요");
+			if(userId=="" || userId==null){
+				alert("관리자 아이디를 입력하세요");
 				$("#userId").focus(); //입력 포커스 이동
-				return; //함수 종료
+				return false; //함수 종료
 			}
-			if(userPw==""){
-				alert("비밀번호를 입력하세요");
+			if(userPw=="" || userPw==null){
+				alert("관리자 비밀번호를 입력하세요");
 				$("#userPw").focus();
-				return;
+				return false;
 			}
 			//폼 내부의 데이터를 전송할 주소
 			document.form1.action="${path}/admin/logincheck";

@@ -66,7 +66,7 @@
 		  </div>
 		  <div class="form-group">
 		    <label for="exampleInputPassword1">가격</label>
-		    <input type="text" name="product_price" class="form-control" id="product_price">
+		    <input type="text" name="product_price" class="form-control" id="product_price" onkeydown="check_number()">
 		  </div>
 		  <div class="form-group">
 		    <label for="exampleInputEmail1">상품 상세</label>
@@ -86,7 +86,7 @@
 			  <!-- <button type="reset" class="btn btn-default" id="goBack">목록</button> -->
 			  
 		  	  <!-- <input type="button" class="btn btn-default" value="등록 테스트" onClick="radio_check();"/> -->
-				<input type="submit" class="create btn btn-success" value="등록 테스트">
+				<input type="submit" class="create btn btn-success" value="등록">
 			  <!-- <input type="submit" class="create btn btn-success" value="상품 등록"> -->
 		  	  <input type="button" class="btn btn-default" value="뒤로가기" id="goBack();"/>
 		  </div>
@@ -190,100 +190,53 @@ $(function () {
 </script>
 
 <script>
-	/* $(document).ready(function(){ */
+	/* $(document).ready(function(){
 		//유효성 체크
 		function validation(){
-			var product_name=$("#product_name").val();
-			var product_price=$("#product_price").val();
-			var product_desc=$("#product_desc").val(); //상품 description
-			//var product_photo=$("#product_photo").val();
-			
-			//상품등록 클릭 이벤트가 발생하면 폼 내부 값 유효성 체크한 뒤 서버로 전송
-			if(product_name==null){
-				alert("상품 정보 미입력!");
-				product_name.focus();
-				return false;
-			}
-			/* if(product_price==""){
-				alert("상품가격 미입력!");
-				product_price.focus();
-				//return false;
-			}
-			if(product_desc==""){
-				alert("상품설명 미입력!");
-				product_desc.focus();
-				//return false;
-			}	 */
-			//상품 정보 전송
-			//document.form1.action="${path}/shop/product/insertProduct";
-			//document.form1.submit();
-		};		
-	/* }); */
+			document.form1.action="${path}/shop/product/insertProduct";
+			document.form1.submit();
+		};
+		
+		function radio_check(){		
+		}
+	 }); */
 
-	
-		/* function radio_check(){
-			//라디오 버튼 name 가져오기
-			var radio_btn=document.getElementsByName("radio_btn");
-			
-			//라디오 버튼 세트의 id값 가져오기0
-			var korea=$('input[id=korea]').val();
-			var abroad=$('input[id=abroad]').val();
-			var etcetera=$('input[id=etcetera]').val();
-
-			//라디오 버튼이 체크되었는지 확인하기 위한 변수
-			var radio_btn_check=0;
-			
-			for(var i=0; i<radio_btn.length; i++){
-				//만약 라디오 버튼이 체크되었다면 true
-				if(radio_btn[i].checked==true){
-					//라디오 버튼 값
-					alert(radio_btn[i].value);
-					//라디오 버튼이 체크 되었다면 radio_btn_check를 1로 만들어줌.
-					radio_btn_check=1;
-					
-					if(radio_btn[i].value == korea){
-						alert("국내영화");
-						console.log("국내영화");		
-						
-						event.preventDefault();//먼저 기본 동작을 막는다.
-						//form submit
-						alert("form submit - 국내영화");
-					
-						var that = $(this);
-						var str = "";
-						
-						$(".uploadedList .del-btn").each(function (index) {
-							str += "<input type='hidden' name='files[" + index + "]' value='" + $(this).attr("href") + "' >";
-						});
-						
-						that.append(str);
-						
-						that.get(0).action="location.href='/shop/product/insertProduct'";
-						that.get(0).submit();
-						
-						console.log("국내영화 insert 성공");
-						
-					}else if(radio_btn[i].value == abroad){
-						alert("국외영화");
-						console.log("국외영화");
-					}else if(radio_btn[i].value == etcetera){
-						alert("기타");
-						console.log("기타");
-					}
-				}
-			}
-
-			if(radio_btn_check==0){
-				alert("분류 항목을 선택해주세요.");
-			}
-			
-			
-		}	 */
-	
+	//password에 숫자만 입력할 수 있도록 유효성 검사
+	function check_number(){
+		var product_price = $("#product_price").val();
+		
+		if(!((event.keyCode>=48 && event.keyCode<=57) || (event.keyCode>=96 && event.keyCode<=105)
+				|| event.keyCode==8)){
+			alert("숫자를 입력해주세요.");
+			event.returnValue=false;
+		}
+	}
+		
 	//첨부파일. 최종 submit이 일어나면 서버에는 사용자가 업로드한 파일의 정보를 같이 전송하는데, 업로드 된 파일의 이름을 form태그 내부로 포함 시켜 전송한다.
 	$("#create-form").submit(function(event){
 	/* $("#create-form").click(function (event){ */
 		event.preventDefault();//먼저 기본 동작을 막는다.
+		
+		//폼 내부 값 유효성 체크
+		var product_name=$("#product_name").val();
+		var product_price=$("#product_price").val();
+		
+		if(product_name==null || product_name==""){
+			alert("상품 이름 미입력!");
+			$("#product_name").focus();
+			return false;
+		}else if(product_price==null || product_price==""){
+			alert("상품 가격 미입력!");
+			$("#product_price").focus();
+			return false;
+		}else if($("#product_desc").val()==""){
+			alert("상품 설명 미입력!");
+			$("#product_desc").focus();
+			return false;
+		}/* else if($("#dropzone").val()==""){
+			alert("상품 사진 미등록!");
+			return false;
+		} */
 		
 		//라디오 버튼 name 가져오기
 		var radio_btn=document.getElementsByName("radio_btn");
@@ -368,7 +321,7 @@ $(function () {
 				}
 			}
 		}
-
+		
 		if(radio_btn_check==0){
 			alert("분류 항목을 선택해주세요.");
 		}
