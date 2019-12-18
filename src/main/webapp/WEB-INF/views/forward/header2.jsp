@@ -63,7 +63,7 @@
           
           <li class="nav-item">
 	          <c:if test="${ login.userId!=null || naverName ne null}">
-		            <a class="nav-link" href="/member/member_view">내 정보</a>
+		            <a class="nav-link" href="/member/member_view/${login.userId }">내 정보</a>
 	          </c:if>
           </li>
           

@@ -30,30 +30,30 @@ public class MemberDAOImpl implements MemberDAO {
 	//회원목록
 	@Override
 	public List<MemberVO> memberList() {
-		return sqlSession.selectList("member2.memberList");
+		return sqlSession.selectList("member.memberList");
 	}
 
 	//회원 등록
 	@Override
 	public void insertMember(MemberVO vo) {
-		sqlSession.insert("member2.insertMember", vo);
+		sqlSession.insert("member.insertMember", vo);
 	}
 	
 	//회원정보 상세 조회
 	@Override
 	public MemberVO viewMember(String userId) {
-		return sqlSession.selectOne("member2.viewMember", userId);
+		return sqlSession.selectOne("member.viewMember", userId);
 	}
 
 	@Override
 	public void deleteMember(String userId) {
-		sqlSession.delete("member2.deleteMember", userId);
+		sqlSession.delete("member.deleteMember", userId);
 	}
 
 	//회원 정보 수정 처리
 	@Override
 	public void updateMember(MemberVO vo) {
-		sqlSession.update("member2.updateMember", vo);
+		sqlSession.update("member.updateMember", vo);
 	}
 
 	//회원정보 수정 및 삭제를 위한 비밀번호 체크
@@ -63,7 +63,7 @@ public class MemberDAOImpl implements MemberDAO {
 		Map<String, String> map=new HashMap<String, String>();
 		map.put("userId", userId);
 		map.put("userPw", userPw);
-		int count=sqlSession.selectOne("member2.checkPw", map);
+		int count=sqlSession.selectOne("member.checkPw", map);
 		if(count==1) result=true;
 		return result;
 	}
@@ -74,6 +74,6 @@ public class MemberDAOImpl implements MemberDAO {
 /*		Map<String, String> map=new HashMap<String, String>();
 		map.put("userId", userId);
 		map.put("userPw", userPw);*/
-		return sqlSession.selectOne("member2.login", dto);
+		return sqlSession.selectOne("member.login", dto);
 	}
 }

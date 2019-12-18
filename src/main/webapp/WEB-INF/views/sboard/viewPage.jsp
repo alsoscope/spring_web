@@ -91,7 +91,7 @@
 		</div>
 		<div class="form-group" style="align:right;">
 			이름
-			<input class="form-control" name="writer" id="writer" value="${dto.writer }" readonly="readonly" style="width:50px; color:#4d4d4d;">
+			<input class="form-control" name="writer" id="writer" value="${dto.writer }" readonly="readonly" style="width:180px; color:#4d4d4d;">
 		</div>
 		<div class="form-group">
 			제목
@@ -247,32 +247,38 @@
 				<!-- <p><i class="material-icons prefix">account_circle</i><input type="text" name="replyer" id="replyer"></p> -->
 				<i class="material-icons prefix">mode_comment</i><p><input type="text" id="replytext"></p>
 			</div>
+			<form name="pwConfirm">
 			<div class="modal-footer">
-					<div class="row">
-						
-				<c:if test="${ login.userId == vo.replyer }">
-					<!-- 댓글 작성자만 비밀번호를 이용해 수정, 삭제 할 수 있다. -->
-				        <div class="col s12">
-				          	비밀번호:
-				          <div class="input-field inline">
-				            <input id="replyPw" type="password">
-				            <label for="email_inline">Password</label>
-				          </div>
-				          
-				          <div>${message }</div>
-				          
-				        <button type="button" id="replyModBtn">MODIFY</button>
-						<button type="button" id="replyDelBtn">DELETE</button>
-					
-				<button type="button" class="modal-close" data-dismiss="modal">CLOSE</button>				
-				        </div>
-				</c:if>
-				      </div>				
+				<div class="row">					
+				<!-- 댓글 작성자만 비밀번호를 이용해 수정, 삭제 할 수 있다. -->
+			        <div class="col s12">
+			          	비밀번호:
+			          <div class="input-field inline">
+			            <input id="replyPw" type="password">
+			            <label for="email_inline">Password</label>
+			          </div>
+			          
+			          <div>${message }</div>
+			          
+			        <button type="button" id="replyModBtn">MODIFY</button>
+					<button type="button" id="replyDelBtn">DELETE</button>
+				
+						<button type="button" class="modal-close" data-dismiss="modal">CLOSE</button>				
+			        </div>
+			      </div>
 			</div>
+			</form>		
 		</div>
 	</div>
 	
-	<script>	
+	<script>
+	
+	/* function pwConfirm(){
+		document.modal1.action="/replies/replyModal";
+		document.modal1.submit();
+		console.log("/replies/replyModal");
+	} */
+	
 	//각 댓글의 버튼 이벤트. 수정/삭제를 위한 Modal OPEN-------------------------------------
 	$(".timeline").on("click", ".replyLi", function(event){
 		var reply=$(this);
@@ -282,7 +288,7 @@
 		/* alert($(this).parent().find('replyer')); */
 		
 		//event.relatedTarger : 해당 이벤트와 관련된 다른 DOM 요소 선택
-		replyer=$(event.relatedTarget).data('replyer');
+		//replyer=$(event.relatedTarget).data('replyer');
 		//alert("replyer : " + replyer);
 		
 		/* $("#replyer").val(reply.find(".timeline-replyer").text());		
@@ -291,7 +297,7 @@
 		/* var replyer = "<c:out value="${replyer}"></c:out>";
 		console.log("replyer : " + replyer); */
 		
-		$.ajax({
+		/* $.ajax({
 			type:'get',
 			url:'/replies/' + bno + "/1",
 			contentType:'application/json; charset=utf-8',
@@ -311,7 +317,7 @@
 				console.log(jsonObj);
 
 			}
-		});
+		}); */
 		
 	});
 	
@@ -354,7 +360,7 @@
 		//JSON 객체 확인. Array 배열에 데이터가 담겨있음.
 		console.log("------------replyArr result------------");
 		console.log(replyArr);
-		console.log("replyArr[0].replyer : " + replyArr[0].replyer);
+		//console.log("replyArr[0].replyer : " + replyArr[0].replyer);
 		
 		//JSON객체로 파싱
 		/* var jsonObj=JSON.parse(replyArr);
@@ -507,7 +513,7 @@
 	$("#replyModBtn").on("click", function(){
 		var rno = $(".modal-title").html();
 		var replytext=$("#replytext").val();	
-		//var replyPw=$("#replyPw").val();
+		var replyPw=$("#replyPw").val();
 		
 		$.ajax({
 			type:'put',
@@ -517,21 +523,26 @@
 				"X-HTTP-Method-Override" : "PUT"
 			},
 			data:JSON.stringify({
-				replytext : replytext
-				//replyPw : replyPw
+				replytext : replytext,
+				replyPw : replyPw
 			}),
 			dataType:'text',
 			success:function(result){
 				console.log("Reply Update result : " + result);
 				if(result == 'SUCCESS'){
 					alert("수정 되었습니다.");
+					console.log("수정 SUCCESS");
 					getPage("/replies/" + bno + "/" + replyPage);							
 					
-					/* $(".modal").close(); */
+					// $(".modal").close();
 				}
 			}
 		});
 		$("#replyPw").val('');
+		
+		/* document.pwConfirm.action="/replies/replyModal/" + rno;
+		document.pwConfirm.submit(); */
+		console.log("/replies/replyModal");
 	});
 	
 	//댓글 삭제-------------------------------------

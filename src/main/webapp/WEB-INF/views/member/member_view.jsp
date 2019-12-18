@@ -61,12 +61,12 @@
 		</tr>
 		<tr>
 			<td>비밀번호</td>
-			<td><input type="password" name="userPw" value="${dto.userPw }"></td>
+			<td><input type="password" name="userPw"></td>
 		</tr>
-		<%-- <tr>
+		<!-- <tr>
 			<td>비밀번호 확인</td>
-			<td><input type="password" name="userPw" value="${dto.userPw }"></td>
-		</tr> --%>
+			<td><input type="password" name="userPw"></td>
+		</tr> -->
 		<tr>
 			<td>이름</td>
 			<td><input name="userName" value="${dto.userName }"></td>

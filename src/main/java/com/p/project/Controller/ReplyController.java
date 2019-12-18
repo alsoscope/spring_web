@@ -91,17 +91,21 @@ public class ReplyController {
 	//3. 댓글 수정. REST방식에서 update. 작업은 PUT(전체 데이터 수정),PATCH(일부 데이터 수정)방식으로 처리.
 	@ResponseBody
 	@RequestMapping(value="/{rno}", method= {RequestMethod.PUT, RequestMethod.PATCH})
-	public ResponseEntity<String> update(@PathVariable("rno") int rno, @RequestBody ReplyVO vo, Model model){
+	public ResponseEntity<String> update(@PathVariable("rno") int rno, @RequestBody ReplyVO vo, Model model) throws Exception{
 		ResponseEntity<String> entity=null;
 		
+		boolean result=service.pwConfirm(vo.getReplyer(), vo.getReplyPw());
+		
+		String replyer=vo.getReplyer();
+		logger.info("replyer : " + replyer);
+		
 		try{
-			vo.setRno(rno);
+			/*vo.setRno(rno);
 			service.modifyReply(vo);
 
 			entity=new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
-			logger.info("Reply Update SUCCESS : " + vo);
-			
-			/*boolean result=service.pwConfirm(vo.getReplyer(), vo.getReplyPw());
+			logger.info("Reply Update SUCCESS : " + vo);*/
+						
 			if(result) {
 				vo.setRno(rno);
 				service.modifyReply(vo);
@@ -111,7 +115,7 @@ public class ReplyController {
 			}else {
 				model.addAttribute("message", "비밀번호가 맞지 않습니다.");	
 			}			
-*/		}catch(Exception e) {
+		}catch(Exception e) {
 			e.printStackTrace();
 			entity=new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
@@ -142,9 +146,6 @@ public class ReplyController {
 		ResponseEntity<Map<String, Object>> entity=null;
 		
 		try {
-			String replyer=vo.getReplyer();
-			logger.info("replyer : " + replyer);
-			
 			Criteria cri=new Criteria();
 			cri.setPage(page);
 			
@@ -166,14 +167,10 @@ public class ReplyController {
 					
 			//리턴할 JSON 선언
 			JSONObject jsonObj=new JSONObject();*/
-			
-			
-			
-			
-			
+					
 			/*JSONParser parser = new JSONParser();
 			
-			
+		
 			String replyer=(String)jsonObj.get("replyer");
 			System.out.println("replyer : " + replyer);
 			
@@ -192,5 +189,19 @@ public class ReplyController {
 		}  
 		return entity;
 	}//listPage()-------------------
+	
+	/*@RequestMapping(value="/replyModal/{rno}", method=RequestMethod.POST)
+	public void replyModal(Model model, ReplyVO vo, @PathVariable("rno") int rno) throws Exception{
+		boolean confirm=service.pwConfirm(vo.getReplyer(), vo.getReplyPw());
+		
+		if(confirm) {
+			vo.setRno(rno);
+			service.modifyReply(vo);
+			logger.info("Reply 수정 : " + vo);
+		}else {
+			model.addAttribute("message", "비밀번호가 맞지 않습니다.");	
+		}
+	}*/
+	
 	
 }//ReplyController
