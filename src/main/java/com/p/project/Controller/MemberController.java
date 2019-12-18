@@ -1,6 +1,7 @@
 package com.p.project.Controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Date;
 import java.util.List;
 
@@ -29,6 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -254,23 +256,32 @@ public class MemberController {
 	@RequestMapping("member_view")
 	public String memberView(Model model, HttpSession session) {
 		//현재 로그인 중인 아이디의 세션을 가져와서 회원정보 조회를 처리한다.
-		String userId=(String)session.getAttribute("userId");
+		String user_Id=(String)session.getAttribute("userId");
 		//회원 정보를 model에 저장
-		model.addAttribute("dto", memberService.viewMember(userId));
-		logger.info("회원정보 확인 아이디 : "+userId);
+		model.addAttribute("dto", memberService.viewMember(user_Id));
+		logger.info("회원정보 확인 아이디 : "+user_Id);
 		return "member/member_view";
 	}//memberView
 	
 	//회원 - 회원정보 수정 처리
 	@RequestMapping(value="member_update", method=RequestMethod.POST)
-	public String memberUpdate(@ModelAttribute MemberVO vo, Model model) {
+	public String memberUpdate(@ModelAttribute MemberVO vo, Model model, HttpServletResponse response) throws Exception {
 		//비밀번호 체크
 		boolean result=memberService.checkPw(vo.getUserId(), vo.getUserPw());
 		
 		if(result) {//비밀번호가 일치하면 수정 처리 후, 전체 회원 목록으로 리다이렉트
 			memberService.updateMember(vo);
 			logger.info("수정 성공 : " + vo);
-			return "redirect:/";			
+			
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('수정이 완료 되었습니다.');"
+					+ "location.href='/member/member_view';</script>");
+			out.flush();
+			out.close();
+			
+			/*return "redirect:/member/member_view/" + vo.getUserId();*/
+			return null;
 		}else {//비밀번호가 일치하지 않는다면, div에 불일치 문구 출력, view,jsp로 포워드
 			//다시 동일한 화면을 출력하기 위해서 가입일자와 수정일자 그리고 불일치 문구를 model에 저장, 상세화면으로 포워드
 			MemberVO vo2=memberService.viewMember(vo.getUserId());

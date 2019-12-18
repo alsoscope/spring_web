@@ -21,14 +21,14 @@
 		<!-- SELECT c.cart_id AS cartId, c.user_id AS userId, c.product_id AS productId, 
 			m.userName, p.product_name AS productName, c.amount, 
 			p.product_price AS productPrice, (product_price * amount) money
-		FROM tbl_member2 m, tbl_product p, tbl_cart c
+		FROM tbl_member m, tbl_product p, tbl_cart c
 		WHERE m.userId = c.user_id
 			AND p.product_id=c.product_id AND c.user_id = #{user_id}
 		ORDER BY c.cart_id -->
 		
 		SELECT c.cartId, c.userId, p.product_id, m.userName, p.product_name, c.amount, 
 			   p.product_price, (product_price * amount) money
-		FROM tbl_member2 m, tbl_product p, tbl_cart c
+		FROM tbl_member m, tbl_product p, tbl_cart c
 		WHERE m.userId = c.userId
 			AND p.product_id=c.product_id
 			AND c.userId = #{userId}

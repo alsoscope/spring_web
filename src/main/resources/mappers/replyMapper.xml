@@ -10,7 +10,7 @@
 	
 	<select id="list" resultType="ReplyVO">
 		SELECT rno, bno, replytext, replyer, regdate, updatedate, replyPw
-		FROM tbl_reply r, tbl_member2 m 
+		FROM tbl_reply r, tbl_member m 
 		WHERE r.replyer = m.userId AND bno=#{bno}
 		ORDER BY rno desc
 	</select>
@@ -35,14 +35,14 @@
 		order by rno desc limit #{cri.pageStart}, #{cri.perPageNum} -->
 		
 		SELECT * 
-		FROM tbl_reply r, tbl_member2 m
+		FROM tbl_reply r, tbl_member m
 		WHERE r.replyer = m.userId AND bno=#{bno}
 		ORDER BY rno desc LIMIT #{cri.pageStart}, #{cri.perPageNum}
 		
 	</select>
 	
 	<!-- 댓글 replyer 비밀번호 확인  -->
-	<select id="pwConfirm" resultType="int" parameterType="java.util.HashMap">
+	<select id="pwConfirm" resultType="int">
 		SELECT COUNT(*) FROM tbl_reply
 		WHERE replyer=#{replyer} AND replyPw=#{replyPw}
 	</select>	

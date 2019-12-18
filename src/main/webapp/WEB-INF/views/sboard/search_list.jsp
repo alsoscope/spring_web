@@ -10,11 +10,19 @@
 <style type='text/css'>
 	table{
 		margin: auto;
-		width:600px !important;
+		width:800px !important;
 	}
 	body{
 		margin-bottom:-100px !important;
 	}
+	.footer{
+	width: 100%;
+    position:relative !important; 
+    bottom:0;
+    left: 0;
+    right:0;
+    top:120px;  
+}
 </style>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

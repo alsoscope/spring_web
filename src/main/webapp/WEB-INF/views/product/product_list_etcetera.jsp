@@ -40,10 +40,11 @@
 }
 .footer{
 	width: 100%;
-    position:static !important; 
+    position:relative !important; 
     bottom:0;
     left: 0;
     right:0;
+    top:120px;  
 }
 </style>
   <meta charset="utf-8">
