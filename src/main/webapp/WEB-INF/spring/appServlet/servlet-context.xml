@@ -81,11 +81,16 @@
 		<beans:property name="maxUploadSize" value="10485760" /> <!-- 10mb 제한 -->
 	</beans:bean>
 
-	<!-- 업로드된 파일의 저장 위치 지정 -->
-	<!-- <beans:bean id="uploadPath" class="java.lang.String">
-		<beans:constructor-arg value="C:\\_shop"></beans:constructor-arg>
+	<!-- 스프링 프로젝트 / 업로드된 파일의 저장 위치 지정 -->
+	<beans:bean id="uploadPath" class="java.lang.String">
+		<beans:constructor-arg value="C:\_shop"></beans:constructor-arg>
 	</beans:bean>
- -->
+
+	<!-- 우분투 배포용 파일 업로드 경로 -->
+	<!-- <beans:bean id="uploadPath" class="java.lang.String">
+		<beans:constructor-arg value="/var/upload"></beans:constructor-arg>
+	</beans:bean> -->
+	
 	<context:component-scan base-package="com.p.project" />
 
 </beans:beans>

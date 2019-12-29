@@ -26,7 +26,7 @@
 <script>
 	setTimeout(function(){
 		location.href="/";
-	},3000);
+	},2000);
 </script>
 <%@ include file="../forward/footer.jsp" %>
 </body>
