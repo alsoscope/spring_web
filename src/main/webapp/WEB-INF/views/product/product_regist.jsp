@@ -86,9 +86,9 @@
 			  <!-- <button type="reset" class="btn btn-default" id="goBack">목록</button> -->
 			  
 		  	  <!-- <input type="button" class="btn btn-default" value="등록 테스트" onClick="radio_check();"/> -->
-				<input type="submit" class="create btn btn-success" value="등록">
+			  <input type="submit" class="create btn btn-success" value="등록">
 			  <!-- <input type="submit" class="create btn btn-success" value="상품 등록"> -->
-		  	  <input type="button" class="btn btn-default" value="뒤로가기" id="goBack();"/>
+		  	  <input type="button" class="btn btn-default" value="뒤로가기" onclick="goBack();">
 		  </div>
 	
 		<br>
@@ -375,8 +375,10 @@ $(function () {
 	/* $("#btnList").click(function(){
 		location.href="${path}/";
 	}); */
-	
-  	function goBack(){
+</script>
+
+<script>
+	function goBack(){
 		window.history.back(); //window.history.go(-1);
 	}
 </script>

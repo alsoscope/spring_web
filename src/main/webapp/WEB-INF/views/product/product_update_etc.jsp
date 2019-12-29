@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>수정_Korean</title>
+<title>수정_ETC</title>
 <style type="text/css">
 	.edit-form{
 		margin: auto;
@@ -43,12 +43,12 @@
 <body>
 <br>
 <br>
-<h2 style="text-align:center;">수정_Korean</h2>
+<h2 style="text-align:center;">수정_ETC</h2>
 
 	<br>
-	<form class="edit-form" id="edit-form" method="post" role="form" action="/shop/product/updatePost" onsubmit="return checkValidation()">
-	<!-- <form class="form1" id="form1" method="post" action="/shop/product/insertProduct"> -->	 
-		  <%-- <div data-src="${dto.product_id }"></div> --%>
+	<form class="edit-form" id="edit-form" method="post" role="form" action="/shop/product/updatePost_etc" onsubmit="return checkValidation()">
+	<!-- <form class="form1" id="form1" method="post" action="/shop/product/insertProduct"> -->
+		<%-- <div data-src="${dto.product_id }"></div> --%>
 		  <input type="hidden" name="product_id" value="${dto.product_id }">
 		  <div class="form-group">
 		    <label for="exampleInputEmail1">상품명</label>
@@ -178,7 +178,7 @@ $(function () {
 		
 		$.ajax({
 			type:"GET",
-			url:"/shop/product/getAttach/"+product_id,
+			url:"/shop/product/getAttach_etc/"+product_id,
 			dataType:"JSON",
 			processData:false, //header가 아닌 body로 전달
 			contentType:false,

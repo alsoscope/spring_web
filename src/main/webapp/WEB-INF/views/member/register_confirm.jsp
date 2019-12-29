@@ -22,6 +22,7 @@ h3 {
 </head>
 <body>
 
+<!-- 네이버 로그인 성공 -->
 <script type="text/javascript">
 $(document).ready(function() {
     var name = ${result }.response.name;
@@ -32,12 +33,13 @@ $(document).ready(function() {
   //location.href = "${pageContext.request.contextPath}/";
 </script>
 
-<div style="background-color: #15a181; width:350px; height: 70px; text-align: center; color: white;">
+<!-- <div style="background-color: #15a181; width:350px; height: 70px; text-align: center; color: white;">
     <h3>네이버 로그인 성공</h3>
-</div>
+</div> -->
 
 <%-- ${result } --%>
 
+<!-- 일반 회원가입 성공 -->
   <br>
   <h3 id="name"></h3><br>
   <h3 id="email"></h3>
@@ -50,14 +52,22 @@ $(document).ready(function() {
 <h3>이름 : ${vo.userName }</h3>
 </c:if>
 
+<br>
+
+<h3>페이지 이동 중 ...</h3>
+
   <script>
     $(function () {
       /* $("body").hide();
       $("body").fadeIn(1000);  // 1초 뒤에 사라 지자  */
      
-      setTimeout(function(){$("body").fadeOut(1000);},100000);
-      setTimeout(function(){location.href= "${pageContext.request.contextPath}/"},100000); //2초 뒤에 메인 화면  
-    
+      setTimeout(function(){
+    	  $("body").fadeOut(1000);
+	  },2000);
+      
+      setTimeout(function(){
+    	  location.href= "${pageContext.request.contextPath}/";
+      },2000); //2초 뒤에 메인 화면     
     });
   </script>
   

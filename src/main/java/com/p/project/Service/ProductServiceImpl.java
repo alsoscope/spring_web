@@ -73,7 +73,58 @@ public class ProductServiceImpl implements ProductService{
 			logger.info("새로 수정되는 파일 : " + fileName);
 		}
 	}
-
+	@Transactional
+	@Override
+	public void updateAbroad(ProductDTO dto) throws Exception {
+		
+		//수정
+		productDao.updateAbroad(dto);
+		logger.info("updateAbroad" + dto.toString());
+		
+		//기존의 첨부파일 삭제
+		int product_id=dto.getProduct_id();		
+		productDao.deleteAttach_ab(product_id);
+		logger.info("deleteAttach_ab product_id : " + product_id);
+		
+		//새로운 첨부파일 정보 입력
+		String[] files=dto.getFiles();
+		if(files == null) {
+			return;
+		}
+		
+		logger.info("새로운 파일 : " + files);
+		
+		for(String fileName : files) {
+			productDao.replaceAttach_ab(fileName, product_id);
+			logger.info("새로 수정되는 파일 : " + fileName);
+		}
+	}
+	@Transactional
+	@Override
+	public void updateEtcetera(ProductDTO dto) throws Exception {
+		
+		//수정
+		productDao.updateEtcetera(dto);
+		logger.info("updateEtcetera" + dto.toString());
+		
+		//기존의 첨부파일 삭제
+		int product_id=dto.getProduct_id();		
+		productDao.deleteAttach_etc(product_id);
+		logger.info("deleteAttach_etc product_id : " + product_id);
+		
+		//새로운 첨부파일 정보 입력
+		String[] files=dto.getFiles();
+		if(files == null) {
+			return;
+		}
+		
+		logger.info("새로운 파일 : " + files);
+		
+		for(String fileName : files) {
+			productDao.replaceAttach_etc(fileName, product_id);
+			logger.info("새로 수정되는 파일 : " + fileName);
+		}
+	}
 	//4. 상품 게시글 삭제 : tbl_attach가 tbl_product를 참조하기에 반드시 첨부파일과 관련된 정보부터 삭제 후, 상품 게시글을 삭제한다. 
 	@Transactional
 	@Override
@@ -81,7 +132,16 @@ public class ProductServiceImpl implements ProductService{
 		productDao.deleteAttach(product_id);
 		productDao.deleteProduct(product_id);
 	}
-	
+	@Override
+	public void deleteAbroad(int product_id) throws Exception {
+		productDao.deleteAttach_ab(product_id);
+		productDao.deleteAbroad(product_id);
+	}
+	@Override
+	public void deleteEtcetera(int product_id) throws Exception {
+		productDao.deleteAttach_etc(product_id);
+		productDao.deleteEtcetera(product_id);
+	}
 	//5. 상품 등록
 	//첨부파일 기능 추가, @Transactional : 선언적 트랜잭션 처리. insertProduct의 쿼리문이 처리 도중 에러가 났을 때 처리한 쿼리를 자동으로 rollback해주기 위해 사용
 	//트랜잭션 처리 하지 않으면, 정상적으로 완료가 되었다는 처리가 나기에 데이터를 복구 시켜놔야함.
@@ -193,27 +253,21 @@ public class ProductServiceImpl implements ProductService{
 	}//insertEtcetera
 	
 	//첨부파일 조회
-		@Override
-		public List<String> getAttach(int product_id) throws Exception {
-			return productDao.getAttach(product_id);
-		};
-
-		@Override
-		public List<String> getAttach_ab(int product_id) throws Exception {
-			return productDao.getAttach_ab(product_id);
-		};
-		
-		@Override
-		public List<String> getAttach_etc(int product_id) throws Exception {
-			return productDao.getAttach_etc(product_id);
-		};
-		
-	//6. 상품 이미지 삭제 위한 이미지 파일 정보
 	@Override
-	public String fileInfo(int product_id) {
-		return productDao.fileInfo(product_id);
-	}
+	public List<String> getAttach(int product_id) throws Exception {
+		return productDao.getAttach(product_id);
+	};
+
+	@Override
+	public List<String> getAttach_ab(int product_id) throws Exception {
+		return productDao.getAttach_ab(product_id);
+	};
 	
+	@Override
+	public List<String> getAttach_etc(int product_id) throws Exception {
+		return productDao.getAttach_etc(product_id);
+	};
+			
 	//-----------------paging-----------------
 	public List<ProductDTO> criteriaList(Criteria cri){
 		return productDao.criteriaList(cri);
@@ -224,6 +278,22 @@ public class ProductServiceImpl implements ProductService{
 		return productDao.countPaging(cri);
 	}
 	//-----------------paging-----------------
+	
+	@Override
+	public List<ProductDTO> listAbroad() {
+		return productDao.listAbroad();
+	}
+
+	@Override
+	public List<ProductDTO> listEtcetera() {
+		return productDao.listEtcetera();
+	}
+
+	//6. 상품 이미지 삭제 위한 이미지 파일 정보
+/*	@Override
+	public String fileInfo(int product_id) {
+		return productDao.fileInfo(product_id);
+	}
 	
 	//++++++++++++++++++스크롤링 Test++++++++++++++++++
 	@Override
@@ -239,17 +309,6 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public List<ProductDTO> infiniteScrollUp(Integer product_id) {
 		return productDao.infiniteScrollUp(product_id);
-	}
-
-	@Override
-	public List<ProductDTO> listAbroad() {
-		return productDao.listAbroad();
-	}
-
-	@Override
-	public List<ProductDTO> listEtcetera() {
-		return productDao.listEtcetera();
-	}
-
+	}*/
 	//++++++++++++++++++스크롤링 Test++++++++++++++++++
 }

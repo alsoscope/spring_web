@@ -75,7 +75,7 @@
           <a href="/shop/product/product_list_etcetera" class="list-group-item">기타 영상</a>
           
           <c:if test="${sessionScope.adminId!=null }">
-          <a href="${path}/shop/product/product_write" class="list-group-item">상품 등록</a>
+          <a href="${path}/shop/product/product_regist" class="list-group-item">상품 등록</a>
           <!-- <button type="submit" id="btnAdd" class="list-group-item">상품등록</button> -->
           </c:if>
         </div>
@@ -97,7 +97,7 @@
 	<!-- handlebars.js 를 이용해서 첨부할 파일을 템플릿으로 작성한다. -->
 	<script id="templateAttach" type="text/x-handlebars-template">
 	<span data-src='{{fullName}}' class="card-img-top img-fluid">
-		<span><img class="card-img-top img-fluid" style="width:900px; height:400px;" src="{{getLink}}" alt="attachments"></span>
+		<span><img class="card-img-top img-fluid" style="width:600px; height:600px;" src="{{getLink}}" alt="attachments"></span>
 		<div class="img-pop">
 			<a href="{{getLink}}">클릭하면 확대됩니다  → {{fileName}}</a>
 		</div>
@@ -234,7 +234,7 @@
 		$("#btnUpdate").click(function(){
 			var bno="${vo.product_id}";
 			//페이지 주소 변경(이동)
-			self.location="/shop/product/product_update/"+bno;
+			self.location="/shop/product/product_update_ab/"+bno;
 		});
 	});
 	
@@ -256,7 +256,7 @@
 		}
 		
 		alert("delete all files");
-		formObj.attr("action", "/shop/product/product_remove");
+		formObj.attr("action", "/shop/product/product_remove_ab");
 		formObj.submit();
 	});
 </script>

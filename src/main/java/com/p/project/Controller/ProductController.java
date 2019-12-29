@@ -3,11 +3,13 @@ package com.p.project.Controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.List;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
@@ -94,21 +96,29 @@ public class ProductController {
 		/*String[] files=(String[])dto.getFiles();
 		logger.info("getFiles() : " + files);*/
 		
-		return "redirect:/";
+		return "redirect:/shop/product/product_list_korean";
 	}//insertProduct
 	
 	@RequestMapping(value="insertAbroad", method=RequestMethod.POST)
-	public String insertAbroad(ProductDTO dto, ProductDTO product_id) throws Exception{	
+	public String insertAbroad(ProductDTO dto, ProductDTO product_id, HttpServletRequest request, HttpServletResponse response) throws Exception{	
 		logger.info("insert insertAbroad : " + dto.toString());
-		productService.insertAbroad(dto);		
-		return "redirect:/";
+		productService.insertAbroad(dto);
+		
+		//radio button의 value 값을 가져온다.
+		String abroad=request.getParameter("abroad");
+		
+		/*PrintWriter out=response.getWriter();
+		out.println("분류 : " + abroad);*/
+		System.out.println("분류 : " + abroad);
+		
+		return "redirect:/shop/product/product_list_abroad";
 	}//insertAbroad
 	
 	@RequestMapping(value="insertEtcetera", method=RequestMethod.POST)
 	public String insertEtcetera(ProductDTO dto, ProductDTO product_id) throws Exception{	
 		logger.info("insert insertEtcetera : " + dto.toString());
 		productService.insertEtcetera(dto);		
-		return "redirect:/";
+		return "redirect:/shop/product/product_list_etcetera";
 	}//insertEtcetera
 	
 	//1. 상품 전체 목록 페이지 매핑. service에서 가져온 리스트 객체 리턴
@@ -131,10 +141,17 @@ public class ProductController {
 	}
 	
 	@RequestMapping("/detail_ab/{product_id}")
-	public String detailAbroad(Model model, @PathVariable("product_id")int product_id) throws Exception{
+	public String detailAbroad(Model model, @PathVariable("product_id")int product_id,HttpServletRequest request) throws Exception{
 		
 		model.addAttribute("vo", productService.detailAbroad(product_id));
 		logger.info("클릭한 product_id : " + product_id);
+		
+		//radio button의 value 값을 가져온다.
+		String abroad=request.getParameter("abroad");
+		if(abroad == null) {
+			abroad = "AAbroad";
+		}
+		System.out.println("분류 : " + abroad);
 		
 		return "/product/product_detail_ab";
 	}
@@ -145,17 +162,44 @@ public class ProductController {
 		model.addAttribute("vo", productService.detailEtcetera(product_id));
 		logger.info("클릭한 product_id : " + product_id);
 		
-		return "/product/product_detail";
+		return "/product/product_detail_etc";
 	}
 	
 	//게시글 수정 form
 	@RequestMapping(value="/product_update/{product_id}", method=RequestMethod.GET)
 	public String product_update(ProductDTO dto, Model model, @PathVariable("product_id")int product_id, RedirectAttributes rttr) throws Exception{
+		
+/*		if(request.getParameter("abroad") == "AAbroad") {
+			model.addAttribute("dto", productService.detailAbroad(product_id));
+		}else {
+		}
+*/					
 		model.addAttribute("dto", productService.detailProduct(product_id));
+		
 		rttr.addFlashAttribute("msg" , "success");
 		logger.info("수정할 product_id : " + product_id);
 		logger.info("----------product_update_form----------");
 		return "/product/product_update";
+	}
+
+	@RequestMapping(value="/product_update_ab/{product_id}", method=RequestMethod.GET)
+	public String product_update_ab(ProductDTO dto, Model model, @PathVariable("product_id")int product_id, RedirectAttributes rttr) throws Exception{
+		model.addAttribute("dto", productService.detailAbroad(product_id));
+		
+		rttr.addFlashAttribute("msg" , "success");
+		logger.info("수정할 product_id : " + product_id);
+		logger.info("----------Abroad update form----------");
+		return "/product/product_update_ab";
+	}
+	
+	@RequestMapping(value="/product_update_etc/{product_id}", method=RequestMethod.GET)
+	public String product_update_etc(ProductDTO dto, Model model, @PathVariable("product_id")int product_id, RedirectAttributes rttr) throws Exception{
+		model.addAttribute("dto", productService.detailEtcetera(product_id));
+		
+		rttr.addFlashAttribute("msg" , "success");
+		logger.info("수정할 product_id : " + product_id);
+		logger.info("----------Etcetera update form----------");
+		return "/product/product_update_etc";
 	}
 	
 	//게시글 수정 post
@@ -165,13 +209,39 @@ public class ProductController {
 		logger.info("------- updatePost -------");
 		return "redirect:/shop/product/detail/" + dto.getProduct_id();
 	}
+	@RequestMapping(value="/updatePost_ab", method=RequestMethod.POST)
+	public String updatePost_ab(@ModelAttribute ProductDTO dto) throws Exception{
+		productService.updateAbroad(dto);
+		logger.info("------- updateAbroad -------");
+		return "redirect:/shop/product/detail_ab/" + dto.getProduct_id();
+	}
+	@RequestMapping(value="/updatePost_etc", method=RequestMethod.POST)
+	public String updatePost_etc(@ModelAttribute ProductDTO dto) throws Exception{
+		productService.updateEtcetera(dto);
+		logger.info("------- updateEtcetera -------");
+		return "redirect:/shop/product/detail_etc/" + dto.getProduct_id();
+	}
 	
 	@RequestMapping("product_remove")
 	public String product_remove(int product_id, RedirectAttributes rttr) throws Exception {
-		productService.deleteProduct(product_id);
 		
+		/*if(request.getParameter("abroad") == "AAbroad") {
+			productService.deleteAbroad(product_id);
+		}*/
+		productService.deleteProduct(product_id);		
 		rttr.addFlashAttribute("msg", "SUCCESS");
-		
+		return "redirect:/";
+	}
+	@RequestMapping("product_remove_ab")
+	public String product_remove_ab(int product_id, RedirectAttributes rttr) throws Exception {
+		productService.deleteAbroad(product_id);
+		rttr.addFlashAttribute("msg", "SUCCESS");
+		return "redirect:/";
+	}
+	@RequestMapping("product_remove_etc")
+	public String product_remove_etc(int product_id, RedirectAttributes rttr) throws Exception {
+		productService.deleteEtcetera(product_id);
+		rttr.addFlashAttribute("msg", "SUCCESS");
 		return "redirect:/";
 	}
 	
@@ -214,17 +284,6 @@ public class ProductController {
 		
 		return "/product/product_list_korean";
 	}
-	
-	/*@RequestMapping(value="product_list_korean")
-	public String product_list_korean(Model model, Integer product_id) throws Exception{
-	
-		logger.info("product_list_korean2..............");
-
-		//List<ProductDTO> list=productService.listTest();
-		model.addAttribute("list", productService.getAttach(product_id));		
-		
-		return "/product/product_list_korean";
-	}*/
 	
 	//해외 영화 카테고리
 	@RequestMapping("product_list_abroad")

@@ -70,9 +70,9 @@
       <div class="col-lg-3">
         <h3 class="my-4">영화 목록</h3>
         <div class="list-group">
-          <a href="/shop/product/product_list_korean" class="list-group-item active">한국 영화</a>
+          <a href="/shop/product/product_list_korean" class="list-group-item">한국 영화</a>
           <a href="/shop/product/product_list_abroad" class="list-group-item">해외 영화</a>
-          <a href="/shop/product/product_list_etcetera" class="list-group-item">기타 영상</a>
+          <a href="/shop/product/product_list_etcetera" class="list-group-item active">기타 영상</a>
           
           <c:if test="${sessionScope.adminId!=null }">
           <a href="${path}/shop/product/product_regist" class="list-group-item">상품 등록</a>
@@ -198,7 +198,7 @@
 		 var template=Handlebars.compile($("#templateAttach").html());
 		 
 		 //컨트롤러에서 문자열의 리스트를 반환, JSON 형태로 데이터 전송하면 getJSON을 이용해 처리한다.
-		 $.getJSON("/shop/product/getAttach/"+bno, function(list){
+		 $.getJSON("/shop/product/getAttach_etc/"+bno, function(list){
 			$(list).each(function(){
 				var fileInfo=getFileInfo(this);
 				
@@ -234,7 +234,7 @@
 		$("#btnUpdate").click(function(){
 			var bno="${vo.product_id}";
 			//페이지 주소 변경(이동)
-			self.location="/shop/product/product_update/"+bno;
+			self.location="/shop/product/product_update_etc/"+bno;
 		});
 	});
 	
@@ -256,7 +256,7 @@
 		}
 		
 		alert("delete all files");
-		formObj.attr("action", "/shop/product/product_remove");
+		formObj.attr("action", "/shop/product/product_remove_etc");
 		formObj.submit();
 	});
 </script>

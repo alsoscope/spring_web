@@ -135,13 +135,13 @@
         <c:forEach var="row" items="${vo }">
 	          <div class="col-lg-4 col-md-6 mb-4" data-bno="${row.product_id }" >
 	            <div class="card h-100"  >            
-	              <a href="/shop/product/detail/${row.product_id }">
+	              <a href="/shop/product/detail_etc/${row.product_id }">
 	              	<img class="card-img-top" src="/shop/product/displayFile?fileName=${row.fullName}" style="width:700; height:400;" alt="포스터" title="클릭시 이동"/>
 	              	<%-- <img class="card-img-top" src="${row.product_id}" style="width:700; height:400;" alt="포스터" title="클릭시 이동"> --%>
 	              </a>
 	              <div class="card-body">
 	                <h4 class="card-title">
-	                  <a href="${path }/shop/product/detail/${row.product_id }">${row.product_name }</a>
+	                  <a href="${path }/shop/product/detail_etc/${row.product_id }">${row.product_name }</a>
 	                </h4>
 	                <h5><fmt:formatNumber value="${row.product_price }" pattern="###,###,###" /></h5>
 	                <p class="card-text">${row.product_desc }</p>

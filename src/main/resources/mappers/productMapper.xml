@@ -50,11 +50,6 @@
 	<!-- 03. 상품 등록하기 tbl_product, tbl_attach와 참조 무결성 제약으로 트랜잭션된다. 
 	useGeneratedKeys : 사용하는 DB에서 자체적으로 생선한 키(ex:auto_increment)를 받는 옵션, 디폴트는 false이므로 값을 받고자 할 경우 true로 정의
 	keyProperty : INSERT/UPDATE 쿼리에만 적용되는 속성, return값으로 보내주고자 하는 컬럼명을 정의-->
-	<!-- <insert id="insertProduct" parameterType="com.p.project.DTO.ProductDTO" useGeneratedKeys="true" keyProperty="product_id">
-		INSERT INTO tbl_product (product_name, product_price, product_desc)
-		VALUES ( #{product_name},#{product_price},#{product_desc} ) -->
-
-		
 	<!-- 국내 영화 등록 -->
 	<insert id="insertProduct" parameterType="com.p.project.DTO.ProductDTO" useGeneratedKeys="true" keyProperty="product_id">
 		INSERT INTO tbl_product (product_name, product_price, product_desc)
@@ -109,13 +104,11 @@
 	<select id="getAttach" resultType="string">
 		select fullName from tbl_attach where product_id=#{product_id}
 	</select>
-	
-	<select id="getAttach_etc" resultType="string">
-		select fullName from tbl_attach_etc where product_id=#{product_id}
-	</select>
-	
 	<select id="getAttach_ab" resultType="string">
 		select fullName from tbl_attach_ab where product_id=#{product_id}
+	</select>
+	<select id="getAttach_etc" resultType="string">
+		select fullName from tbl_attach_etc where product_id=#{product_id}
 	</select>
 	
 	<!-- 04. 상품 수정/편집 -->
@@ -123,18 +116,25 @@
 		UPDATE tbl_product SET product_name=#{product_name}, product_price=#{product_price}, product_desc=#{product_desc}
 		WHERE product_id=#{product_id}
 	</update>
+	<update id="updateAbroad">
+		UPDATE tbl_product_abroad SET product_name=#{product_name}, product_price=#{product_price}, product_desc=#{product_desc}
+		WHERE product_id=#{product_id}
+	</update>
+	<update id="updateEtcetera">
+		UPDATE tbl_product_etcetera SET product_name=#{product_name}, product_price=#{product_price}, product_desc=#{product_desc}
+		WHERE product_id=#{product_id}
+	</update>
 	
 	<!-- 05. 상품 레코드 삭제 처리 -->
 	<delete id="deleteProduct">
-		delete from tbl_product
-		where product_id=#{product_id}
+		delete from tbl_product where product_id=#{product_id}
 	</delete>
-	
-	<!-- 06. 삭제를 위한 상품 이미지 파일 이름 select -->
-	<!-- <select id="fileInfo" resultType="String">
-		select product_url from tbl_product
-		where product_id=#{product_id}
-	</select> -->
+	<delete id="deleteAbroad">
+		delete from tbl_product_abroad where product_id=#{product_id}
+	</delete>
+	<delete id="deleteEtcetera">
+		delete from tbl_product_etcetera where product_id=#{product_id}
+	</delete>
 	
 	<!-- 페이징 처리 -->
 	<select id="listCriteria" resultType="com.p.project.DTO.ProductDTO">
@@ -163,11 +163,31 @@
 		<!-- INSERT INTO tbl_attach(fullName, product_id) 
 		VALUES(#{fullName}, #{product_id}) -->
 	</insert>
+	<insert id="replaceAttach_ab">
+		INSERT IGNORE INTO tbl_attach_ab(fullName, product_id) 
+		VALUES(#{fullName}, #{product_id})
+	</insert>
+	<insert id="replaceAttach_etc">
+		INSERT IGNORE INTO tbl_attach_etc(fullName, product_id) 
+		VALUES(#{fullName}, #{product_id})
+	</insert>
 	
 	<!-- 첨부파일 삭제 -->
 	<delete id="deleteAttach">
 		delete from tbl_attach where product_id=#{product_id}
 	</delete>
+	<delete id="deleteAttach_ab">
+		delete from tbl_attach_ab where product_id=#{product_id}
+	</delete>
+	<delete id="deleteAttach_etc">
+		delete from tbl_attach_etc where product_id=#{product_id}
+	</delete>
+	
+	<!-- 06. 삭제를 위한 상품 이미지 파일 이름 select -->
+	<!-- <select id="fileInfo" resultType="String">
+		select product_url from tbl_product
+		where product_id=#{product_id}
+	</select> -->
 	
 	<!-- ********//////무한 스크롤 테스트//////******** -->
 	<!-- <select id="listTest" resultType="com.p.project.DTO.ProductDTO">
