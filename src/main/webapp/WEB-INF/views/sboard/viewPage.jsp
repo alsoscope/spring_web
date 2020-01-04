@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>게시글 보기</title>
+<title>CINEPHILE / 게시글</title>
 <style>
 .viewPage{
 	align:center;

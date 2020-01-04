@@ -36,8 +36,11 @@
 	</select>
 	
 	<!-- 3. 장바구니 전체 금액 Oracle NVL(필드, 처리할 값), MySQL ifnull(필드, 처리할 값) : NULL 처리를 담당하는 함수-->
+	<!-- SELECT IFNULL(필드명, "대체할 값") FROM 테이블명;
+		IFNULL은 해당 필드의 값이 NULL을 반환할 때 다른 값으로 출력할 수 있도록 하는 함수이다.
+		아래 쿼리문은 price*amount 값이 NULL일 경우 0을 반환한다-->
 	<select id="sumMoney" resultType="int">
-		SELECT ifnull(SUM(product_price * amount), 0) money
+		SELECT IFNULL(SUM(product_price * amount), 0) money
 		FROM tbl_cart c, tbl_product p
 		WHERE c.product_id = p.product_id AND c.userId=#{userId}
 	</select>

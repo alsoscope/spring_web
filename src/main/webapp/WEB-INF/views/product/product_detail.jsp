@@ -10,7 +10,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
   
-  <title>CINEPHILE</title>
+  <title>CINEPHILE / 한국 영화</title>
 
   <!-- Bootstrap core CSS -->
   <link href="/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -130,7 +130,8 @@
 				<c:if test="${login.userId == null && naverName eq null && sessionScope.adminId == null}">
 					<p>로그인 뒤 대여가능 <a href="/member/loginGET">로그인</a></p>
 				</c:if>
-				<c:if test="${login.userId != null && naverName ne null && sessionScope.adminId == null }">
+				<%-- <c:if test="${login.userId != null && naverName ne null && sessionScope.adminId == null }"> --%>
+				<c:if test="${login.userId != null || naverName != null || sessionScope.adminId == null}">
 					<button type="submit" class="btn btn-default" value="장바구니에 담기">장바구니에 담기</button>
 				</c:if>
 			</form>

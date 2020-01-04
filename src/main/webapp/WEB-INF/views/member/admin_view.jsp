@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>회원정보</title>
+<title>CINEPHILE / 회원 정보</title>
 <style>
 	form{
 		margin:auto;

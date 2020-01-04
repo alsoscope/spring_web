@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>게시글 수정</title>
+<title>CINEPHILE / 수정</title>
 <style>
 form {
 	align:center;
@@ -23,34 +23,6 @@ form {
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-
-<!-- <script>
-$(document).ready(function(){
-		$("#updatePost").click(function(){
-			var title=$("#title").val();
-			var content=$("#content").val();
-			var writer=$("#writer").val();
-			if(title==""){
-				alert("제목을 입력하세요");
-				document.form1.title.focus();
-				return;
-			}
-			if(content==""){
-				alert("내용을 입력하세요");
-				document.form1.content.focus();
-				return;
-			}
-			if(writer==""){
-				alert("이름을 입력하세요");
-				document.form1.writer.focus();
-				return;
-			}
-			document.form1.action="updatePost";
-			//폼에 입력한 데이터를 서버로 전송
-			document.form1.submit();
-		});
-});
-</script> -->
 </head>
 <body>
 <%@ include file="../forward/header.jsp" %>
@@ -114,6 +86,33 @@ $(document).ready(function(){
 		});
 	</script>
 	
+	<!-- <script>
+$(document).ready(function(){
+		$("#updatePost").click(function(){
+			var title=$("#title").val();
+			var content=$("#content").val();
+			var writer=$("#writer").val();
+			if(title==""){
+				alert("제목을 입력하세요");
+				document.form1.title.focus();
+				return;
+			}
+			if(content==""){
+				alert("내용을 입력하세요");
+				document.form1.content.focus();
+				return;
+			}
+			if(writer==""){
+				alert("이름을 입력하세요");
+				document.form1.writer.focus();
+				return;
+			}
+			document.form1.action="updatePost";
+			//폼에 입력한 데이터를 서버로 전송
+			document.form1.submit();
+		});
+});
+</script> -->
 	<%@ include file="../forward/footer.jsp" %>
 </body>
 </html>

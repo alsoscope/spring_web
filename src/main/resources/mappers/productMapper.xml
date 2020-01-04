@@ -86,18 +86,14 @@
 		INSERT INTO tbl_attach (fullName, product_id)
 		VALUES (#{fullName}, #{product_id})
 		<!-- INSERT INTO tbl_attach (fullName, product_id) VALUES (#{fullName}, #{product_id, jdbcType=INTEGER}) -->
-	</insert>
-	
+	</insert>	
 	<insert id="addAttach_ab" parameterType="com.p.project.DTO.ProductDTO">					
 		INSERT INTO tbl_attach_ab (fullName, product_id)
 		VALUES (#{fullName}, #{product_id})
-		<!-- INSERT INTO tbl_attach (fullName, product_id) VALUES (#{fullName}, #{product_id, jdbcType=INTEGER}) -->
-	</insert>
-	
+	</insert>	
 	<insert id="addAttach_etc" parameterType="com.p.project.DTO.ProductDTO">					
 		INSERT INTO tbl_attach_etc (fullName, product_id)
 		VALUES (#{fullName}, #{product_id})
-		<!-- INSERT INTO tbl_attach (fullName, product_id) VALUES (#{fullName}, #{product_id, jdbcType=INTEGER}) -->
 	</insert>
 	
 	<!-- 특정 게시물의 첨부파일을 시간 순서대로 가져오는 SQL문 -->

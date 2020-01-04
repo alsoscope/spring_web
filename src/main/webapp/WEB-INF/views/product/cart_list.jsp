@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>장바구니 목록</title>
+<title>CINEPHILE / 장바구니</title>
 <style>
 	form{
 		margin: auto;
@@ -27,7 +27,7 @@
 <%@ include file="../forward/header.jsp" %>
 <body>
 <!-- 장바구니 화면/장바구니 목록 -->
-	<form name="form1" id="form1" method="post" action="${path }/shop/cart/update">
+	<form name="form1" id="form1" method="post" action="/shop/cart/cart_Success">
 	<h2>장바구니</h2><br>
 	
 	<%-- <c:choose>
@@ -40,7 +40,7 @@
 	<c:if test="${map.count == 0 }">
 		<h4>장바구니가 비어있습니다.</h4>
 	</c:if>
-	
+
 	<%-- <c:otherwise> --%>
 	<c:if test="${map.count != 0}">	
 		<!-- 장바구니에 담긴 상품수량 업데이트 처리 -->
@@ -66,6 +66,7 @@
 							즉, 화면으로부터 동일한 name속성의 값들이 CartController의 updateCart() 장바구니 수정 메서드의
 							매개변수 int[] amount, int[] product_id에 배열로 저장되어 처리된다 -->
 						<input type="number" style="width:60px" name="amount" value="${row.amount }" min="1" max="10">일 (최장 10일)
+						<button type="submit" class="btn btn-default" onClick="cartUpdate();">수정</button>
 						<input type="hidden" name="product_id" value="${row.product_id }">
 					</td>
 					<td style="width:100px">
@@ -80,14 +81,15 @@
 				<tr>
 					<td colspan="5" align="right">
 						대여 금액 합계 : <fmt:formatNumber pattern="###,###,###" value="${map.sumMoney }"/> 원<br>
-						수수료 : ${map.fee } 원<br>
+						대여 수수료 : ${map.fee } 원<br>
 						전체 주문 금액 : <fmt:formatNumber pattern="###,###,###" value="${map.allSum }"/> 원
 					</td>
 				</tr>
 			</table>
 			
 			<div style="text-align:center;">
-				<button type="submit" class="btn btn-default" id="btnUpdate">수정</button>		
+				<button type="submit" class="btn btn-default" id="btnOrder">결제</button>	
+						
 				<input type="button" class="btn btn-default" value="뒤로가기" onClick="goBack();"/>
 			</div>
 	</c:if>
@@ -101,6 +103,13 @@
 	function goBack(){
 		window.history.back(); //window.history.go(-1);
 	}
+	
+	function cartUpdate(){
+		document.form1.action="${path }/shop/cart/update";
+		document.form1.submit();
+	}
+	
+	
 </script>
 	
 <script>
