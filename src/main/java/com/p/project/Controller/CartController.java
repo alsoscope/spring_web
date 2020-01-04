@@ -88,6 +88,27 @@ public class CartController {
 		return "product/cart_list";
 	}//selectCart--------------------
 	
+	//결제 성공 확인
+	@RequestMapping("cart_Success")
+	public String cartSuccess(HttpSession session, Model model) {
+		String userId=(String)session.getAttribute("userId");
+		
+		Map<String, Object> map=new HashMap<String, Object>();
+		
+		//변수 list에 접속 중인 session으로 불러온 userId가 갖고있는 장바구니 객체를 저장한다.
+		List<CartDTO> list=cartService.selectCart(userId);
+		
+		//현재 세션 userId가 가지고 있는 sumMoney 장바구니 정보(합계)를 변수 sumMoney에 저장
+		int sumMoney=cartService.sumMoney(userId);
+		int fee=sumMoney >= 100000 ? 0 : 500;
+		
+		map.put("list", list);
+		map.put("allSum", sumMoney + fee);
+		model.addAttribute("map", map);
+		
+		return "product/cart_success";
+	}
+	
 	//3.장바구니 수정
 	@RequestMapping("update")
 	public String updateCart(@RequestParam int[] amount, @RequestParam int[] product_id, HttpSession session) {

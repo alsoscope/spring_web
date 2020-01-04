@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>회원정보</title>
+<title>CINEPHILE / 회원 정보</title>
 <style>
 	form{
 		margin:auto;
@@ -51,6 +51,16 @@
 <body>
 <%@ include file="../forward/header.jsp" %>
 	
+	<!-- 결제한 내역이 있다면 보여줌 -->
+	<%-- <c:if>
+	<form>
+	
+	
+	
+	</form>
+	</c:if> --%>
+	
+	<!-- 회원 정보 조회/수정/탈퇴 -->
 	<form name="form1" method="post">
 	<h2>회원 정보</h2><br>
 	<table class="table table-bordered">

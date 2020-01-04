@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>회원가입</title>
+<title>CINEPHILE / 회원가입</title>
 <style type="text/css">
 	.form{
 		padding-top:80px;

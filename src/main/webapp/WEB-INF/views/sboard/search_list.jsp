@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>CINEPHILE</title>
+<title>CINEPHILE / 게시판</title>
 <style type='text/css'>
 	table{
 		margin: auto;
