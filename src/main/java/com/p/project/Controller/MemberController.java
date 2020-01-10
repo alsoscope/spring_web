@@ -2,8 +2,16 @@ package com.p.project.Controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Date;
+//import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.inject.Inject;
 import javax.naming.NamingException;
@@ -21,10 +29,14 @@ import org.slf4j.LoggerFactory;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.mysql.cj.xdevapi.JsonParser;
+import com.p.project.DTO.CartDTO;
 import com.p.project.DTO.MemberDTO;
+import com.p.project.DTO.OrderDTO;
 import com.p.project.NaverLogin.NaverLoginBO;
+import com.p.project.Service.CartService;
 import com.p.project.Service.MemberService;
 import com.p.project.VO.MemberVO;
+import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -55,6 +67,7 @@ public class MemberController {
 	//MemberService 객체를 스프링에서 생성하여 주입시킴
 	@Inject
 	MemberService memberService;
+	CartService cartService;
 
 	//시작 페이지 mapping 변경
 	@RequestMapping(value = "loginGET", method = RequestMethod.GET)
@@ -253,14 +266,44 @@ public class MemberController {
 	
 	//회원----------------------------------------------------------------------
 	//회원 - 회원정보 조회, 수정
-	@RequestMapping("member_view")
-	public String memberView(Model model, HttpSession session) {
+	@RequestMapping(value="member_view", method=RequestMethod.GET)
+	public void memberView(Model model, HttpSession session, OrderDTO dto, CartDTO vo) throws Exception{
 		//현재 로그인 중인 아이디의 세션을 가져와서 회원정보 조회를 처리한다.
-		String user_Id=(String)session.getAttribute("userId");
-		//회원 정보를 model에 저장
-		model.addAttribute("dto", memberService.viewMember(user_Id));
-		logger.info("회원정보 확인 아이디 : "+user_Id);
-		return "member/member_view";
+		String userId=(String)session.getAttribute("userId");
+		model.addAttribute("dto", memberService.viewMember(userId));
+		
+		Map<String, Object> map=new HashMap<String, Object>();
+		
+		dto.setUserId(userId);
+		List<OrderDTO> list=memberService.selectOrder(dto);
+
+		List<OrderDTO> allSum=memberService.selectOrder(dto);
+		List<OrderDTO> amount=memberService.selectOrder(dto);
+		
+		
+		String s=dto.getInsertDate();
+		System.out.println("s : " + s);
+		
+		//주문한 날짜에서 '일'을 쪼개기
+		
+		//int amount=dto.getAmount();
+
+		map.put("list", list);
+		map.put("insertDate", s);
+		map.put("allSum", allSum);
+		map.put("amount", amount);
+		
+		model.addAttribute("map", map);
+		//주문한 날 + 대여일(amount)를 더한다
+		/*map.put("expr", getDate + amount);
+		
+		
+		*/
+
+		model.addAttribute("list", list);
+		
+		logger.info("회원정보 확인 아이디 : " + userId);
+		//return "member/member_view";
 	}//memberView
 	
 	//회원 - 회원정보 수정 처리

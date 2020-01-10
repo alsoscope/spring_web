@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.p.project.DTO.CartDTO;
+import com.p.project.DTO.OrderDTO;
 
 public interface CartService {
 	
@@ -28,4 +29,8 @@ public interface CartService {
 
 	//7. 장바구니 수량 수정
 	public void updateCartNum(CartDTO vo);
+	
+	//주문 테이블에 추가
+	public void insertOrder(OrderDTO vo);
+	
 }

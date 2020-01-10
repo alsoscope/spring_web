@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.p.project.DAO.CartDAO;
 import com.p.project.DTO.CartDTO;
+import com.p.project.DTO.OrderDTO;
 
 @Service
 public class CartServiceImpl implements CartService{
@@ -55,6 +56,12 @@ public class CartServiceImpl implements CartService{
 	@Override
 	public void updateCartNum(CartDTO vo) {
 		cartDao.updateCartNum(vo);
+	}
+	
+	//주문 테이블에 추가
+	@Override
+	public void insertOrder(OrderDTO vo) {
+		cartDao.insertOrder(vo);
 	}
 
 }

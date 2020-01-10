@@ -1,8 +1,10 @@
 package com.p.project.Controller;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -19,9 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.p.project.DTO.CartDTO;
+import com.p.project.DTO.OrderDTO;
 import com.p.project.DTO.ProductDTO;
 import com.p.project.Service.CartService;
 import com.p.project.Service.MemberService;
+import com.p.project.Service.ProductService;
 import com.p.project.VO.MemberVO;
 
 //장바구니 관련 controller
@@ -90,8 +94,10 @@ public class CartController {
 	
 	//결제 성공 확인
 	@RequestMapping("cart_Success")
-	public String cartSuccess(HttpSession session, Model model) {
-		String userId=(String)session.getAttribute("userId");
+	public String cartSuccess(HttpSession session, Model model, OrderDTO dto, CartDTO vo) {
+		String userId=(String)session.getAttribute("userId");	
+		dto.setUserId(userId);
+		logger.info("userId : " + userId);
 		
 		Map<String, Object> map=new HashMap<String, Object>();
 		
@@ -105,6 +111,10 @@ public class CartController {
 		map.put("list", list);
 		map.put("allSum", sumMoney + fee);
 		model.addAttribute("map", map);
+		
+		cartService.insertOrder(dto);
+		
+		/*cartService.deleteCart(cartId);*/
 		
 		return "product/cart_success";
 	}

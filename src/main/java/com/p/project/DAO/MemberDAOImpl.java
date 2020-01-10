@@ -8,6 +8,7 @@ import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
 import com.p.project.DTO.MemberDTO;
+import com.p.project.DTO.OrderDTO;
 import com.p.project.VO.MemberVO;
 
 import org.springframework.stereotype.Repository;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class MemberDAOImpl implements MemberDAO {
 
+	private static final String namespace = "member";
 	//SqlSession 객체를 스프링에서 생성하여 주입시킴
 	//의존관계 주입(Dependency Injection, DI)
 	//느슨한 결한
@@ -75,5 +77,10 @@ public class MemberDAOImpl implements MemberDAO {
 		map.put("userId", userId);
 		map.put("userPw", userPw);*/
 		return sqlSession.selectOne("member.login", dto);
+	}
+	
+	@Override
+	public List<OrderDTO> selectOrder(OrderDTO vo) throws Exception{
+		return sqlSession.selectList(namespace + ".selectOrder", vo);
 	}
 }

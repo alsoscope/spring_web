@@ -6,13 +6,8 @@
 
 	<!-- 1. 장바구니 추가 -->
 	<insert id="insertCart">
-		<!-- INSERT INTO tbl_cart(
-			product_id, amount
-		)VALUES(
-			#{product_id}, #{amount}
-		) -->
-		INSERT INTO tbl_cart(userId, product_id, amount) VALUES (
-			#{userId}, #{product_id}, #{amount}
+		INSERT INTO tbl_cart(userId, product_id, amount, product_name) VALUES (
+			#{userId}, #{product_id}, #{amount}, #{product_name}
 		)
 	</insert>
 
@@ -71,4 +66,11 @@
 		WHERE userId=#{userId}
 		AND product_id=#{product_id}
 	</update>
+	
+	<!-- 주문 테이블 tbl_order -->
+	<insert id="insertOrder">
+		INSERT INTO tbl_order (userId, product_id, amount, product_name, allSum)
+		VALUES (#{userId}, #{product_id}, #{amount}, #{product_name}, #{allSum})
+	</insert>
+	
 </mapper>
