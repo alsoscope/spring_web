@@ -54,5 +54,10 @@
 		SELECT userId FROM tbl_member
 		WHERE userId=#{userId} AND userPw=#{userPw}
 	</select> -->
-
+	
+	<select id="selectOrder" resultType="com.p.project.DTO.OrderDTO">
+		SELECT cartId, userId, product_id, amount, insertDate 
+		FROM tbl_order
+		WHERE userId=#{userId}	
+	</select>
 </mapper>

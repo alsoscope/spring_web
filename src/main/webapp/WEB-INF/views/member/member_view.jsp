@@ -52,13 +52,29 @@
 <%@ include file="../forward/header.jsp" %>
 	
 	<!-- 결제한 내역이 있다면 보여줌 -->
-	<%-- <c:if>
-	<form>
-	
-	
-	
-	</form>
-	</c:if> --%>
+
+		<table border="1">
+			<c:forEach items="${list }" var="list" varStatus="i">
+				<tr>
+					<th>상품명</th>
+					<th>결제 금액</th>
+					<th>대여시작일</th>
+					<th>대여기간 </th>
+					<th>대여만료일</th>
+				</tr>
+			
+			<tr>		
+				<td>${list.product_name }</td>
+				<td><fmt:formatNumber value="${list.allSum }"/></td>
+				<%-- <td><fmt:formatNumber value="${list }"/>일</td> --%>
+				<fmt:parseDate value="${list.insertDate }" var="insertDate" pattern='yyyy-MM-dd'></fmt:parseDate>
+				<td><fmt:formatDate value="${insertDate }" pattern='yyyy-MM-dd'/>일</td>
+				<td><fmt:formatNumber value="${list.amount }"/>일</td>
+				<td></td>
+			</tr>
+			</c:forEach>
+		</table>
+
 	
 	<!-- 회원 정보 조회/수정/탈퇴 -->
 	<form name="form1" method="post">

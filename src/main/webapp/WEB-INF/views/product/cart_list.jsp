@@ -48,7 +48,7 @@
 				<tr>
 					<th>상품명</th>
 					<th>일일 가격</th>
-					<th>대여일</th>
+					<th>대여기간</th>
 					<th>총 금액</th>
 					<th>취소</th>
 				</tr>
@@ -68,6 +68,7 @@
 						<input type="number" style="width:60px" name="amount" value="${row.amount }" min="1" max="10">일 (최장 10일)
 						<button type="submit" class="btn btn-default" onClick="cartUpdate();">수정</button>
 						<input type="hidden" name="product_id" value="${row.product_id }">
+						<input type="hidden" name="product_name" value="${row.product_name }">
 					</td>
 					<td style="width:100px">
 						<fmt:formatNumber pattern="###,###,###" value="${row.money }"/>원
@@ -82,7 +83,8 @@
 					<td colspan="5" align="right">
 						대여 금액 합계 : <fmt:formatNumber pattern="###,###,###" value="${map.sumMoney }"/> 원<br>
 						대여 수수료 : ${map.fee } 원<br>
-						전체 주문 금액 : <fmt:formatNumber pattern="###,###,###" value="${map.allSum }"/> 원
+						전체 결제 금액 : <fmt:formatNumber pattern="###,###,###" value="${map.allSum }"/> 원
+						<input type="hidden" name="allSum" value="${map.allSum }">
 					</td>
 				</tr>
 			</table>
@@ -108,8 +110,6 @@
 		document.form1.action="${path }/shop/cart/update";
 		document.form1.submit();
 	}
-	
-	
 </script>
 	
 <script>

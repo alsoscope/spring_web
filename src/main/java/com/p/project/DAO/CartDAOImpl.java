@@ -10,12 +10,15 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.p.project.DTO.CartDTO;
+import com.p.project.DTO.OrderDTO;
 
 @Repository
 public class CartDAOImpl implements CartDAO {
 
 	@Inject
 	SqlSession sqlSession;
+	
+	private static final String namespace = "cart";
 	
 	//1. 장바구니 등록
 	@Override
@@ -61,6 +64,12 @@ public class CartDAOImpl implements CartDAO {
 	@Override
 	public void updateCartNum(CartDTO vo) {
 		sqlSession.update("cart.updateCartNum", vo);
+	}
+	
+	//주문 테이블에 추가
+	@Override
+	public void insertOrder(OrderDTO vo) {
+		sqlSession.insert(namespace + ".insertOrder", vo);
 	}
 
 }

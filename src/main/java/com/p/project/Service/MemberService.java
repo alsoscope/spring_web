@@ -3,6 +3,7 @@ package com.p.project.Service;
 import java.util.List;
 
 import com.p.project.DTO.MemberDTO;
+import com.p.project.DTO.OrderDTO;
 import com.p.project.VO.MemberVO;
 
 public interface MemberService {
@@ -20,4 +21,7 @@ public interface MemberService {
 	public boolean checkPw(String userId, String userPw);
 	//로그인
 	public MemberVO login(MemberDTO dto) throws Exception;
+	
+	//주문 테이블 확인
+		public List<OrderDTO> selectOrder(OrderDTO vo) throws Exception;
 }

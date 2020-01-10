@@ -3,6 +3,7 @@ package com.p.project.DAO;
 import java.util.List;
 
 import com.p.project.DTO.MemberDTO;
+import com.p.project.DTO.OrderDTO;
 import com.p.project.VO.MemberVO;
 
 //기본 메소드 세팅
@@ -26,4 +27,6 @@ public interface MemberDAO {
 	//로그인
 	public MemberVO login(MemberDTO dto) throws Exception;
 
+	//주문 테이블 확인
+	public List<OrderDTO> selectOrder(OrderDTO vo) throws Exception;
 }

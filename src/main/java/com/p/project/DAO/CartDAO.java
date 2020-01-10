@@ -3,6 +3,7 @@ package com.p.project.DAO;
 import java.util.List;
 
 import com.p.project.DTO.CartDTO;
+import com.p.project.DTO.OrderDTO;
 
 public interface CartDAO {
 	//1.장바구니 추가
@@ -25,4 +26,8 @@ public interface CartDAO {
 	
 	//7. 장바구니 상품수량 변경. 동일한 상품일 경우 수량 합산하여 update
 	public void updateCartNum(CartDTO vo);
+	
+	//주문 테이블에 추가
+	public void insertOrder(OrderDTO vo);
+	
 }

@@ -108,6 +108,7 @@
           <%-- <img class="card-img-top img-fluid" style="width:900px; height:400px;" src="${vo.product_id}" alt="포스터" > --%>
 		<!-- <img class="card-img-top img-fluid" src="http://placehold.it/900x400" alt=""> -->
           <div class="card-body">
+			<form name="form1" role="form" method="post" action="${path}/shop/cart/insertCart">
             <h3 class="card-title">${vo.product_name }</h3>
             <h4>가격 : <fmt:formatNumber value="${vo.product_price }" pattern="###,###,###" /></h4>
             <p class="card-text">${vo.product_desc }</p>
@@ -116,9 +117,9 @@
             4.0 stars
             
             <!-- 상품을 장바구니에 추가시키기 위해 상품id번호, 수량을 form태그 전송 -->
-			<form name="form1" role="form" method="post" action="${path}/shop/cart/insertCart">
 				<!-- 현재의 상품id를 입력받기 위해 hidden속성으로 처리 -->
 				<input type="hidden" name="product_id" value="${vo.product_id }">
+				<input type="hidden" name="product_name" value="${vo.product_name }">
 				
 				<!-- select태그를 forEach문으로 1~10까지 수량을 선택할 수 있도록 처리 -->
 				<select name="amount">

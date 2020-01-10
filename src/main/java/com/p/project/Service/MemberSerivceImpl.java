@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import com.p.project.DAO.MemberDAOImpl;
 import com.p.project.DTO.MemberDTO;
+import com.p.project.DTO.OrderDTO;
 import com.p.project.VO.MemberVO;
 
 import org.springframework.stereotype.Service;
@@ -59,4 +60,10 @@ public class MemberSerivceImpl implements MemberService {
 	public MemberVO login(MemberDTO dto) throws Exception {
 		return memberDao.login(dto);
 	}
+	
+	@Override
+	public List<OrderDTO> selectOrder(OrderDTO vo) throws Exception{
+		return memberDao.selectOrder(vo);
+	}
+
 }
