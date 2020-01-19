@@ -272,35 +272,24 @@ public class MemberController {
 		String userId=(String)session.getAttribute("userId");
 		model.addAttribute("dto", memberService.viewMember(userId));
 		
-		Map<String, Object> map=new HashMap<String, Object>();
+		//Map<String, Object> map=new HashMap<String, Object>();
 		
 		dto.setUserId(userId);
 		List<OrderDTO> list=memberService.selectOrder(dto);
+		
+		
 
-		List<OrderDTO> allSum=memberService.selectOrder(dto);
-		List<OrderDTO> amount=memberService.selectOrder(dto);
 		
+		List<OrderDTO> expr=memberService.selectExprDate(dto);
 		
-		String s=dto.getInsertDate();
-		System.out.println("s : " + s);
-		
-		//주문한 날짜에서 '일'을 쪼개기
-		
-		//int amount=dto.getAmount();
+		String insertDate=dto.getInsertDate();
+		String exprDate=dto.getExprDate();		
 
-		map.put("list", list);
-		map.put("insertDate", s);
-		map.put("allSum", allSum);
-		map.put("amount", amount);
-		
-		model.addAttribute("map", map);
-		//주문한 날 + 대여일(amount)를 더한다
-		/*map.put("expr", getDate + amount);
-		
-		
-		*/
-
+		//map.put("expr", expr);
+		//map.put("list", list);
 		model.addAttribute("list", list);
+		model.addAttribute("expr", expr);
+		//model.addAttribute("map", "map");
 		
 		logger.info("회원정보 확인 아이디 : " + userId);
 		//return "member/member_view";

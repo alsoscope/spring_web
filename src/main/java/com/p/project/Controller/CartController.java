@@ -2,6 +2,8 @@ package com.p.project.Controller;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -51,10 +53,26 @@ public class CartController {
 		//장바구니에 기존 상품이 있는지 검사
 		int count=cartService.countCart(vo.getProduct_id(), userId);
 		
+		int amount=vo.getAmount();
+		
+		SimpleDateFormat f=new SimpleDateFormat("yyyy-MM-dd");
+		Calendar cal=Calendar.getInstance();
+		cal.setTime(new Date());
+		System.out.println("current : " + f.format(cal.getTime()));	
+		
 		//count = 0 ? cartService.updateCart(vo) : cartService.insertCart(vo);
 		if(count==0) {
 			//없으면 insertCart
+			
+			/*for(int i=1; i<=10; i++) {
+				if(amount==i) {
+					cal.add(Calendar.DATE, amount);
+					System.out.println("insert time : " + toString(cal));
+					vo.set
+				}
+			}*/
 			cartService.insertCart(vo);
+		
 		} else {
 			//있으면 updateCart
 			cartService.updateCart(vo);
@@ -112,6 +130,30 @@ public class CartController {
 		map.put("allSum", sumMoney + fee);
 		model.addAttribute("map", map);
 		
+		
+		
+		// insertDate에서 amount만큼 더 한 날짜 exprDate 구하기
+		SimpleDateFormat f=new SimpleDateFormat("yyyy-MM-dd");
+		
+		//현재시간
+		Calendar cal=Calendar.getInstance();
+		cal.setTime(new Date());
+		System.out.println("current : " + f.format(cal.getTime()));	
+		//-----------------------------------------------------------
+		
+		
+		int amount=vo.getAmount();
+		
+		Calendar expr=Calendar.getInstance();
+		
+		if(amount==1) {
+			expr.add(expr.DATE, amount);
+			expr.setTime(new Date());
+			System.out.println("insert 날짜에서 amount " + f.format(expr.getTime()));
+			
+			dto.setExprDate(expr);
+			
+		}
 		cartService.insertOrder(dto);
 		
 		/*cartService.deleteCart(cartId);*/

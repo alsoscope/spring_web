@@ -66,4 +66,9 @@ public class MemberSerivceImpl implements MemberService {
 		return memberDao.selectOrder(vo);
 	}
 
+	@Override
+	public List<OrderDTO> selectExprDate(OrderDTO vo) throws Exception {
+		return memberDao.selectExprDate(vo);
+	}
+
 }
