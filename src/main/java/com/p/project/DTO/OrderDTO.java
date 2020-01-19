@@ -1,5 +1,6 @@
 package com.p.project.DTO;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class OrderDTO {
@@ -10,6 +11,7 @@ public class OrderDTO {
 	private String insertDate;
 	private String product_name;
 	private int allSum;
+	private Calendar exprDate;
 	public int getCartId() {
 		return cartId;
 	}
@@ -52,11 +54,21 @@ public class OrderDTO {
 	public void setAllSum(int allSum) {
 		this.allSum = allSum;
 	}
+	public Calendar getExprDate() {
+		return exprDate;
+	}
+	public void setExprDate(Calendar exprDate) {
+		this.exprDate = exprDate;
+	}
 	@Override
 	public String toString() {
 		return "OrderDTO [cartId=" + cartId + ", userId=" + userId + ", product_id=" + product_id + ", amount=" + amount
-				+ ", insertDate=" + insertDate + ", product_name=" + product_name + ", allSum=" + allSum + "]";
+				+ ", insertDate=" + insertDate + ", product_name=" + product_name + ", allSum=" + allSum + ", exprDate="
+				+ exprDate + "]";
 	}
 
+	
+	
+	
 	
 }

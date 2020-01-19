@@ -24,4 +24,6 @@ public interface MemberService {
 	
 	//주문 테이블 확인
 		public List<OrderDTO> selectOrder(OrderDTO vo) throws Exception;
+		
+		public List<OrderDTO> selectExprDate(OrderDTO vo) throws Exception;
 }

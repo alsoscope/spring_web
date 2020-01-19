@@ -83,4 +83,9 @@ public class MemberDAOImpl implements MemberDAO {
 	public List<OrderDTO> selectOrder(OrderDTO vo) throws Exception{
 		return sqlSession.selectList(namespace + ".selectOrder", vo);
 	}
+
+	@Override
+	public List<OrderDTO> selectExprDate(OrderDTO vo) throws Exception {
+		return sqlSession.selectList(namespace + ".selectExprDate", vo);
+	}
 }

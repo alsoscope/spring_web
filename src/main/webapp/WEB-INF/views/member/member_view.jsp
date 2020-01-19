@@ -53,8 +53,9 @@
 	
 	<!-- 결제한 내역이 있다면 보여줌 -->
 
+		<%-- <c:forEach items="${map.list }" var="list" varStatus="i"> --%>
+		<c:forEach items="${list }" var="list" varStatus="status">
 		<table border="1">
-			<c:forEach items="${list }" var="list" varStatus="i">
 				<tr>
 					<th>상품명</th>
 					<th>결제 금액</th>
@@ -66,14 +67,25 @@
 			<tr>		
 				<td>${list.product_name }</td>
 				<td><fmt:formatNumber value="${list.allSum }"/></td>
-				<%-- <td><fmt:formatNumber value="${list }"/>일</td> --%>
+				
+				<!-- DB에서 가져온 날짜를 JSP 화면에 띄우기 : 대여시작일-->
+				
+				<!-- 1. parseDate로 String → Date 형 변환 -->
 				<fmt:parseDate value="${list.insertDate }" var="insertDate" pattern='yyyy-MM-dd'></fmt:parseDate>
+				<!-- 2. parseNumber로 Date → Number 형 변환 -->
+				<%-- <fmt:parseNumber value="${list.insertDate }" integerOnly="true"/> --%>
+				
+				<!-- 3. 숫자로 변환된 두 데이터를 연산 후 formatNumber 등으로 원하는 포맷과 단위로 화면에 출력 -->
 				<td><fmt:formatDate value="${insertDate }" pattern='yyyy-MM-dd'/>일</td>
+
 				<td><fmt:formatNumber value="${list.amount }"/>일</td>
-				<td></td>
+				
+				<fmt:parseDate value="${expr[status.index].exprDate }" var="exprDate" pattern='yyyy-MM-dd'></fmt:parseDate>
+				<td><fmt:formatDate value="${exprDate }" pattern='yyyy-MM-dd'/>일</td>
+				<!-- <td>일</td> -->
 			</tr>
-			</c:forEach>
 		</table>
+		</c:forEach>	
 
 	
 	<!-- 회원 정보 조회/수정/탈퇴 -->

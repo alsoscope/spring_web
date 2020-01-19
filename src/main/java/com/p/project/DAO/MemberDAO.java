@@ -29,4 +29,7 @@ public interface MemberDAO {
 
 	//주문 테이블 확인
 	public List<OrderDTO> selectOrder(OrderDTO vo) throws Exception;
+	
+	//주문 테이블 확인
+	public List<OrderDTO> selectExprDate(OrderDTO vo) throws Exception;
 }
