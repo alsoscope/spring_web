@@ -1,5 +1,5 @@
 ## Spring Web Portfolio
-스프링으로 만든 웹 어플리케이션 포트폴리오의 소개입니다.
+스프링으로 만든 웹 어플리케이션 포트폴리오입니다.
 
 ## CINEPHILE (VOD 웹 사이트)
 
@@ -15,7 +15,7 @@
 - JDK : JAVA 1.8
 - Language : Java Version 8, Java Script, JSTL, EL
 - DATABASE : MySQL 5.7
-- WAS : Tomcat 8.0
+- Web Server : AWS EC2 (ubuntu, Apache Tomcat 8.0)
 - Library Management : MAVEN
 - SQL Mapper : MyBatis
 
@@ -29,9 +29,6 @@
   - Service
   - VO (데이터 수집용)
   - Interceptor
-  - FileUpload
-  - NaverLogin
-      - JSP
   
 ### DATABASE
 - MySQL Table ERDiagram
@@ -43,7 +40,6 @@ USE cine_db;
 
 ### Function
 1. 회원가입
-    - 
 
 2. 로그인 (OAuth2.0(네이버 아이디 로그인), Session, 관리자 로그인)
     - OAuth2.0 인증 표준의 네이버 로그인 API를 이용하여 토큰을 발급 받아 로그인 한다.
@@ -56,13 +52,18 @@ USE cine_db;
     - DISCUSS 소셜 댓글 서비스
     - Ajax 댓글 
 
-- 관리자 메뉴(회원목록 확인, 상품 등록)
+4. 관리자 메뉴(회원목록 확인, 상품 등록)
   - 별도의 tbl_admin 테이블에 로그인 정보를 저장한다.
-  - jQuery의 Datatables 라이브러리로 회원 목록을 조회, 수정, 삭제한다.
 
-    - 국내영상/해외영상/기타영상 (장바구니 담기 기능)
-      각 영상 카테고리에 맞는 상품을 추가한다.
-        - 파일첨부는 오픈소스 Dropzone.js 를 사용한다.
+  - 상품등록
+    - 국내영상/해외영상/기타영상 각 목록에 맞는 상품을 추가한다.
+        - 파일첨부는 오픈소스 Dropzone.js 를 사용한다. 
+
+  - 회원관리
+    - jQuery의 Datatables 라이브러리로 회원 목록을 조회, 수정, 삭제한다.
     
+5. 장바구니 기능
+ - 대여일 선택 → 장바구니에 담기 → 결제 → 내 정보에서 결제 확인
+ 
 ref ) 코드로 배우는 스프링 웹 프로젝트(구멍가게 코딩단 지음),<br>
 https://brunch.co.kr/@businessinsight/42
