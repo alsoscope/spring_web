@@ -56,25 +56,14 @@
 	</select> -->
 	
 	<select id="selectOrder" resultType="com.p.project.DTO.OrderDTO">
-		SELECT cartId, userId, product_id, amount, insertDate, product_name, allSum
+		SELECT *
 		FROM tbl_order
-		WHERE userId=#{userId}
-		
-		
+		WHERE userId=#{userId}		
 	</select>
-	
-	<select id="selectExprDate" resultType="com.p.project.DTO.OrderDTO">
-		SELECT exprDate, amount FROM tbl_order WHERE userId=#{userId}
-			<choose>
-				<when test="amount == 1">
-					exprDate + interval 1 day
-				</when>
-				<when test="amount == 2">
-					exprDate + interval 2 day
-				</when>
-				<when test="amount == 3">
-					exprDate + interval 3 day
-				</when>
-			</choose>
+
+	<select id="countOrder" resultType="int">
+		SELECT COUNT(*) FROM tbl_order
+		WHERE userId=#{userId}
+		AND product_id=#{product_id}
 	</select>
 </mapper>

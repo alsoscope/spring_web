@@ -21,15 +21,62 @@
 			AND p.product_id=c.product_id AND c.user_id = #{user_id}
 		ORDER BY c.cart_id -->
 		
-		SELECT c.cartId, c.userId, p.product_id, m.userName, p.product_name, c.amount, 
+		<!-- SELECT c.cartId, c.userId, p.product_id, m.userName, p.product_name, c.amount, 
 			   p.product_price, (product_price * amount) money
 		FROM tbl_member m, tbl_product p, tbl_cart c
 		WHERE m.userId = c.userId
 			AND p.product_id=c.product_id
 			AND c.userId = #{userId}
+		ORDER BY c.cartId -->
+		
+		
+		
+		(SELECT c.cartId, c.userId, p.product_id, m.userName, p.product_name, c.amount, 
+			   p.product_price, (product_price * amount) money
+		FROM tbl_member m, tbl_product p, tbl_cart c
+		WHERE m.userId = c.userId
+			AND p.product_id=c.product_id
+			AND c.userId = #{userId}
+		)
+		
+		UNION
+		
+		(SELECT c.cartId, c.userId, p.product_id, m.userName, p.product_name, c.amount, 
+			   p.product_price, (product_price * amount) money
+		FROM tbl_member m, tbl_product_abroad p, tbl_cart c
+		WHERE m.userId = c.userId
+			AND p.product_id=c.product_id
+			AND c.userId = #{userId}
+		)
+		
+		UNION
+		
+		(SELECT c.cartId, c.userId, p.product_id, m.userName, p.product_name, c.amount, 
+			   p.product_price, (product_price * amount) money
+		FROM tbl_member m, tbl_product_etcetera p, tbl_cart c
+		WHERE m.userId = c.userId
+			AND p.product_id=c.product_id
+			AND c.userId = #{userId}
+		)
+	</select>
+	<select id="selectCart_ab" resultType="com.p.project.DTO.CartDTO">
+		SELECT c.cartId, c.userId, p.product_id, m.userName, p.product_name, c.amount, 
+			   p.product_price, (product_price * amount) money
+		FROM tbl_member m, tbl_product_abroad p, tbl_cart c
+		WHERE m.userId = c.userId
+			AND p.product_id=c.product_id
+			AND c.userId = #{userId}
 		ORDER BY c.cartId	
 	</select>
-	
+	<select id="selectCart_etc" resultType="com.p.project.DTO.CartDTO">
+		SELECT c.cartId, c.userId, p.product_id, m.userName, p.product_name, c.amount, 
+			   p.product_price, (product_price * amount) money
+		FROM tbl_member m, tbl_product_etcetera p, tbl_cart c
+		WHERE m.userId = c.userId
+			AND p.product_id=c.product_id
+			AND c.userId = #{userId}
+		ORDER BY c.cartId	
+	</select>
 	<!-- 3. 장바구니 전체 금액 Oracle NVL(필드, 처리할 값), MySQL ifnull(필드, 처리할 값) : NULL 처리를 담당하는 함수-->
 	<!-- SELECT IFNULL(필드명, "대체할 값") FROM 테이블명;
 		IFNULL은 해당 필드의 값이 NULL을 반환할 때 다른 값으로 출력할 수 있도록 하는 함수이다.
@@ -37,6 +84,11 @@
 	<select id="sumMoney" resultType="int">
 		SELECT IFNULL(SUM(product_price * amount), 0) money
 		FROM tbl_cart c, tbl_product p
+		WHERE c.product_id = p.product_id AND c.userId=#{userId}
+	</select>
+	<select id="sumMoney_ab" resultType="int">
+		SELECT IFNULL(SUM(product_price * amount), 0) money
+		FROM tbl_cart c, tbl_product_abroad p
 		WHERE c.product_id = p.product_id AND c.userId=#{userId}
 	</select>
 	
@@ -69,12 +121,15 @@
 	
 	<!-- 주문 테이블 tbl_order -->
 	<insert id="insertOrder">
-		INSERT INTO tbl_order (userId, product_id, amount, product_name, allSum)	
-		VALUES (#{userId}, #{product_id}, #{amount}, #{product_name}, #{allSum} 
-		
-
-		
-		)
+		INSERT INTO tbl_order (userId, product_id, amount, product_name, allSum, exprDate)	
+		VALUES (#{userId}, #{product_id}, #{amount}, #{product_name}, #{allSum}, #{exprDate})
 	</insert>
+	
+	<delete id="orderDelete">
+		DELETE FROM tbl_cart
+		WHERE userId=#{userId}
+	</delete>
+	
+
 	
 </mapper>

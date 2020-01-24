@@ -88,4 +88,12 @@ public class MemberDAOImpl implements MemberDAO {
 	public List<OrderDTO> selectExprDate(OrderDTO vo) throws Exception {
 		return sqlSession.selectList(namespace + ".selectExprDate", vo);
 	}
+	
+	@Override
+	public int countOrder(int product_id, String userId) {
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("product_id", product_id);
+		map.put("userId", userId);
+		return sqlSession.selectOne(namespace + ".countOrder", map);
+	}
 }

@@ -31,7 +31,15 @@ public class CartDAOImpl implements CartDAO {
 	public List<CartDTO> selectCart(String userId) {
 		return sqlSession.selectList("cart.selectCart", userId);
 	}
-
+	@Override
+	public List<CartDTO> selectCart_ab(String userId) {
+		return sqlSession.selectList("cart.selectCart_ab", userId);
+	}
+	@Override
+	public List<CartDTO> selectCart_etc(String userId) {
+		return sqlSession.selectList("cart.selectCart_etc", userId);
+	}
+	
 	//3. 장바구니 수정
 	@Override
 	public void updateCart(CartDTO vo) {
@@ -50,7 +58,12 @@ public class CartDAOImpl implements CartDAO {
 		sqlSession.selectOne("cart.sumMoney", userId);
 		return sqlSession.selectOne("cart.sumMoney", userId);
 	}
-
+	@Override
+	public int sumMoney_ab(String userId) {
+		sqlSession.selectOne("cart.sumMoney_ab", userId);
+		return sqlSession.selectOne("cart.sumMoney_ab", userId);
+	}
+	
 	//6. 장바구니 동일한 상품 확인
 	@Override
 	public int countCart(int product_id, String userId) {
@@ -71,5 +84,12 @@ public class CartDAOImpl implements CartDAO {
 	public void insertOrder(OrderDTO vo) {
 		sqlSession.insert(namespace + ".insertOrder", vo);
 	}
+
+	@Override
+	public void orderDelete(String userId) {
+		sqlSession.delete(namespace + ".orderDelete", userId);
+	}
+
+
 
 }
