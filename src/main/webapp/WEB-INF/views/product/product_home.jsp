@@ -90,7 +90,7 @@ body{
     <div class="row">
 
       <div class="col-lg-3">
-        <h3 class="my-4">영화 목록</h3>
+        <h3 class="my-4">목록</h3>
         <div class="list-group">
           <a href="${path}/shop/product/product_list_korean" class="list-group-item">한국 영화</a>
           <a href="${path}/shop/product/product_list_abroad" class="list-group-item">해외 영화</a>

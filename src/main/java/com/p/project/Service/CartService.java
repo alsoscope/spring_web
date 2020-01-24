@@ -14,7 +14,9 @@ public interface CartService {
 	
 	//2. 장바구니 수정
 	public List<CartDTO> selectCart(String userId);
-
+	public List<CartDTO> selectCart_ab(String userId);
+	public List<CartDTO> selectCart_etc(String userId);
+	
 	//3. 장바구니 수정
 	public void updateCart(CartDTO vo);
 	
@@ -23,6 +25,7 @@ public interface CartService {
 
 	//5. 장바구니 금액 합계. 상품 전체 금액 select조회한 결과 리턴
 	public int sumMoney(String userId);
+	public int sumMoney_ab(String userId);
 	
 	//6. 장바구니 동일한 상품 확인
 	public int countCart(int product_id, String userId);
@@ -32,5 +35,8 @@ public interface CartService {
 	
 	//주문 테이블에 추가
 	public void insertOrder(OrderDTO vo);
+	
+	public void orderDelete(String userId);
+	
 	
 }

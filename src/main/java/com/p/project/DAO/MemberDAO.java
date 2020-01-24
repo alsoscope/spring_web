@@ -32,4 +32,6 @@ public interface MemberDAO {
 	
 	//주문 테이블 확인
 	public List<OrderDTO> selectExprDate(OrderDTO vo) throws Exception;
+	
+	public int countOrder(int product_id, String userId);
 }

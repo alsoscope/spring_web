@@ -71,4 +71,8 @@ public class MemberSerivceImpl implements MemberService {
 		return memberDao.selectExprDate(vo);
 	}
 
+	@Override
+	public int countOrder(int product_id, String userId) {
+		return memberDao.countOrder(product_id, userId);
+	}
 }

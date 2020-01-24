@@ -272,24 +272,22 @@ public class MemberController {
 		String userId=(String)session.getAttribute("userId");
 		model.addAttribute("dto", memberService.viewMember(userId));
 		
-		//Map<String, Object> map=new HashMap<String, Object>();
+		Map<String, Object> map=new HashMap<String, Object>();
+		
+		int count=memberService.countOrder(dto.getProduct_id(), userId);
 		
 		dto.setUserId(userId);
-		List<OrderDTO> list=memberService.selectOrder(dto);
-		
-		
-
-		
-		List<OrderDTO> expr=memberService.selectExprDate(dto);
+		List<OrderDTO> list=memberService.selectOrder(dto);		
+		//List<OrderDTO> expr=memberService.selectExprDate(dto);
 		
 		String insertDate=dto.getInsertDate();
-		String exprDate=dto.getExprDate();		
-
-		//map.put("expr", expr);
-		//map.put("list", list);
+		//String exprDate=dto.getExprDate();
+		
+		map.put("count", list.size());
+		
 		model.addAttribute("list", list);
-		model.addAttribute("expr", expr);
-		//model.addAttribute("map", "map");
+
+		model.addAttribute("map", map);
 		
 		logger.info("회원정보 확인 아이디 : " + userId);
 		//return "member/member_view";

@@ -53,26 +53,10 @@ public class CartController {
 		//장바구니에 기존 상품이 있는지 검사
 		int count=cartService.countCart(vo.getProduct_id(), userId);
 		
-		int amount=vo.getAmount();
-		
-		SimpleDateFormat f=new SimpleDateFormat("yyyy-MM-dd");
-		Calendar cal=Calendar.getInstance();
-		cal.setTime(new Date());
-		System.out.println("current : " + f.format(cal.getTime()));	
-		
 		//count = 0 ? cartService.updateCart(vo) : cartService.insertCart(vo);
 		if(count==0) {
 			//없으면 insertCart
-			
-			/*for(int i=1; i<=10; i++) {
-				if(amount==i) {
-					cal.add(Calendar.DATE, amount);
-					System.out.println("insert time : " + toString(cal));
-					vo.set
-				}
-			}*/
 			cartService.insertCart(vo);
-		
 		} else {
 			//있으면 updateCart
 			cartService.updateCart(vo);
@@ -81,12 +65,28 @@ public class CartController {
 		
 		return "redirect:/shop/cart/listCart";
 	}//insertCart-------------------
-	
+	@RequestMapping("insertCart_ab")
+	public String insertCart_ab(@ModelAttribute CartDTO vo, HttpSession session) {
+		String userId=(String)session.getAttribute("userId");
+		vo.setUserId(userId);
+
+		int count=cartService.countCart(vo.getProduct_id(), userId);
+		
+		if(count==0) {
+			cartService.insertCart(vo);
+		} else {
+			cartService.updateCart(vo);
+		}
+		return "redirect:/shop/cart/listCart";
+	}//insertCart-------------------
+
 	//2. 장바구니 목록
 	@RequestMapping("listCart")
-	public String listCart(HttpSession session, Model model) {
+	public String listCart(HttpSession session, Model model, ProductDTO dto) {
 		
 		String userId=(String)session.getAttribute("userId");//session에 저장된 userId
+		
+		int count=cartService.countCart(dto.getProduct_id(), userId);
 		
 		Map<String, Object> map=new HashMap<String, Object>();
 		
@@ -94,8 +94,8 @@ public class CartController {
 		List<CartDTO> list=cartService.selectCart(userId); //장바구니 정보
 		
 		//변수 sumMoney에 장바구니에 담긴 전체 상품의 금액 저장
-		int sumMoney=cartService.sumMoney(userId);//장바구니 전체 금액 호출
-		
+		int sumMoney=cartService.sumMoney(userId);//장바구니 전체 금액 호출			
+
 		//장바구니 전체 금액에 따라 배송비 구분
 		//배송료 (10만원 이상 무료, 미만 2500부과)
 		int fee = sumMoney >= 100000 ? 0 : 500;//삼항연산자 (조건식) ? (true) : (false)
@@ -107,9 +107,26 @@ public class CartController {
 		map.put("allSum", sumMoney+fee);//주문 상품 전체 금액(+배송비)
 		model.addAttribute("map", map);
 		
+		//---------------------------------------------------------------------
+		/*List<CartDTO> list_ab=cartService.selectCart_ab(userId); //장바구니 정보
+		
+		int sumMoney_ab=cartService.sumMoney_ab(userId);//장바구니 전체 금액 호출			
+
+		//장바구니 전체 금액에 따라 배송비 구분
+		//배송료 (10만원 이상 무료, 미만 2500부과)
+		int fee_ab = sumMoney_ab >= 100000 ? 0 : 500;//삼항연산자 (조건식) ? (true) : (false)
+		
+		map.put("list", list_ab);//장바구니 정보 map에 저장
+		map.put("count", list.size()); //장바구니 상품의 유무
+		map.put("sumMoney", sumMoney_ab); //장바구니 전체 금액
+		map.put("fee", fee_ab);//수수료
+		map.put("allSum", sumMoney_ab+fee_ab);//주문 상품 전체 금액(+배송비)
+		model.addAttribute("map", map);*/
+		//---------------------------------------------------------------------
+		
 		return "product/cart_list";
-	}//selectCart--------------------
-	
+	}//listCart--------------------
+
 	//결제 성공 확인
 	@RequestMapping("cart_Success")
 	public String cartSuccess(HttpSession session, Model model, OrderDTO dto, CartDTO vo) {
@@ -130,33 +147,38 @@ public class CartController {
 		map.put("allSum", sumMoney + fee);
 		model.addAttribute("map", map);
 		
-		
-		
-		// insertDate에서 amount만큼 더 한 날짜 exprDate 구하기
+		// insert한 날짜에 amount만큼 더한 날짜 exprDate 구하기
+		//SimpleDateFormat 인스턴스로 날짜를 원하는 패턴으로 출력하기
 		SimpleDateFormat f=new SimpleDateFormat("yyyy-MM-dd");
 		
-		//현재시간
+		//---------------------------------------현재시간 확인
 		Calendar cal=Calendar.getInstance();
 		cal.setTime(new Date());
-		System.out.println("current : " + f.format(cal.getTime()));	
-		//-----------------------------------------------------------
-		
+		System.out.println("insertDate : " + f.format(cal.getTime()));	
+		//---------------------------------------------------------------
 		
 		int amount=vo.getAmount();
+		System.out.println("insert amount : " + amount);
 		
+		//Calendar 인스턴스 생성
 		Calendar expr=Calendar.getInstance();
 		
-		if(amount==1) {
-			expr.add(expr.DATE, amount);
-			expr.setTime(new Date());
-			System.out.println("insert 날짜에서 amount " + f.format(expr.getTime()));
-			
-			dto.setExprDate(expr);
-			
+		for(int i=1; i<=10; i++) {
+			if(amount==i) {
+				//Date 인스턴스만 format 메소드에 사용될 수 있다. Calendar 인스턴스를 Date 인스턴스로 변환하기.
+				expr.setTime(new Date());//new Date로 Date 객체 생성
+				expr.add(expr.DATE, amount);
+				
+				/*System.out.println(f.format(expr.getTime()));*/
+				String exprDate=f.format(expr.getTime());//출력용으로 Date 클래스를 얻는다.
+				System.out.println("exprDate : " + exprDate);
+				dto.setExprDate(exprDate);
+			}
 		}
+
 		cartService.insertOrder(dto);
 		
-		/*cartService.deleteCart(cartId);*/
+		cartService.orderDelete(userId);
 		
 		return "product/cart_success";
 	}

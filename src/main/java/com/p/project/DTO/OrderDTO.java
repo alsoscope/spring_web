@@ -11,7 +11,8 @@ public class OrderDTO {
 	private String insertDate;
 	private String product_name;
 	private int allSum;
-	private Calendar exprDate;
+	private String exprDate;
+	
 	public int getCartId() {
 		return cartId;
 	}
@@ -54,10 +55,10 @@ public class OrderDTO {
 	public void setAllSum(int allSum) {
 		this.allSum = allSum;
 	}
-	public Calendar getExprDate() {
+	public String getExprDate() {
 		return exprDate;
 	}
-	public void setExprDate(Calendar exprDate) {
+	public void setExprDate(String exprDate) {
 		this.exprDate = exprDate;
 	}
 	@Override
@@ -66,9 +67,5 @@ public class OrderDTO {
 				+ ", insertDate=" + insertDate + ", product_name=" + product_name + ", allSum=" + allSum + ", exprDate="
 				+ exprDate + "]";
 	}
-
-	
-	
-	
 	
 }

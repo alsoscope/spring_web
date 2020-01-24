@@ -26,4 +26,6 @@ public interface MemberService {
 		public List<OrderDTO> selectOrder(OrderDTO vo) throws Exception;
 		
 		public List<OrderDTO> selectExprDate(OrderDTO vo) throws Exception;
+		
+		public int countOrder(int product_id, String userId);
 }

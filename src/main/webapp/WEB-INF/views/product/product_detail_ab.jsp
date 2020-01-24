@@ -68,7 +68,7 @@
     <div class="row">
 
       <div class="col-lg-3">
-        <h3 class="my-4">영화 목록</h3>
+        <h3 class="my-4">목록</h3>
         <div class="list-group">
           <a href="/shop/product/product_list_korean" class="list-group-item">한국 영화</a>
           <a href="/shop/product/product_list_abroad" class="list-group-item active">해외 영화</a>
@@ -116,9 +116,10 @@
             4.0 stars
             
             <!-- 상품을 장바구니에 추가시키기 위해 상품id번호, 수량을 form태그 전송 -->
-			<form name="form1" role="form" method="post" action="${path}/shop/cart/insertCart">
+			<form name="form1" role="form" method="post" action="${path}/shop/cart/insertCart_ab">
 				<!-- 현재의 상품id를 입력받기 위해 hidden속성으로 처리 -->
 				<input type="hidden" name="product_id" value="${vo.product_id }">
+				<input type="hidden" name="product_name" value="${vo.product_name }">
 				
 				<!-- select태그를 forEach문으로 1~10까지 수량을 선택할 수 있도록 처리 -->
 				<select name="amount">

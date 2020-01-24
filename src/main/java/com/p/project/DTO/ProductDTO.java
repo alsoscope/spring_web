@@ -10,12 +10,11 @@ public class ProductDTO {
 	private String insert_regdate;
 	private String update_regdate;
 	
+	private boolean group;
+	
 	//첨부파일
 	private String[] files;
-	
-	//private String product_url; //상품 이미지 경로
-	//private MultipartFile product_Photo; //상품 이미지 파일
-	
+
 	public int getProduct_id() {
 		return product_id;
 	}
@@ -64,6 +63,14 @@ public class ProductDTO {
 		this.update_regdate = update_regdate;
 	}
 
+	public boolean isGroup(boolean group) {
+		return group;
+	}
+
+	public void setGroup(boolean group) {
+		this.group = group;
+	}
+
 	public String[] getFiles() {
 		return files;
 	}
@@ -76,7 +83,11 @@ public class ProductDTO {
 	public String toString() {
 		return "ProductDTO [product_id=" + product_id + ", product_name=" + product_name + ", product_price="
 				+ product_price + ", product_desc=" + product_desc + ", insert_regdate=" + insert_regdate
-				+ ", update_regdate=" + update_regdate + ", files=" + Arrays.toString(files) + "]";
+				+ ", update_regdate=" + update_regdate + ", group=" + group + ", files=" + Arrays.toString(files) + "]";
 	}
 
+	//private String product_url; //상품 이미지 경로
+	//private MultipartFile product_Photo; //상품 이미지 파일
+	
+	
 }

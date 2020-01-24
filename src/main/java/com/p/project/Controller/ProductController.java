@@ -105,11 +105,12 @@ public class ProductController {
 		productService.insertAbroad(dto);
 		
 		//radio button의 value 값을 가져온다.
-		String abroad=request.getParameter("abroad");
+		//String abroad=request.getParameter("abroad");
+		//dto.setGroup("abroad");
 		
 		/*PrintWriter out=response.getWriter();
 		out.println("분류 : " + abroad);*/
-		System.out.println("분류 : " + abroad);
+		//System.out.println("분류 : " + abroad);
 		
 		return "redirect:/shop/product/product_list_abroad";
 	}//insertAbroad
