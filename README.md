@@ -31,39 +31,39 @@
   - Interceptor
   
 ### DATABASE
-- MySQL Table ERDiagram
+- MySQL Table ER Diagram
 
 CREATE DATABASE cine_db;<br>
 USE cine_db;
 
-![20200101_191120](https://user-images.githubusercontent.com/44256670/71642596-3d92e900-2cf1-11ea-9d79-4b7335cba3bf.jpg)
+![20200129_175141](https://user-images.githubusercontent.com/44256670/73346660-9b532a80-42c9-11ea-993a-64a63cc9251b.jpg)
 
 ### Function
 1. 회원가입
 
 2. 로그인 (OAuth2.0(네이버 아이디 로그인), Session, 관리자 로그인)
-    - OAuth2.0 인증 표준의 네이버 로그인 API를 이용하여 토큰을 발급 받아 로그인 한다.
-    - Interceptor를 이용한 Login Session을 관리한다.
-    - Interceptor로 로그인 정보를 이용해 같은 내용이 데이터베이스에 존재하는지 확인한다.
+      - OAuth2.0 인증 표준의 네이버 로그인 API를 이용하여 토큰을 발급 받아 로그인 한다.
+      - Interceptor를 이용한 Login Session을 관리한다.
+      - Interceptor로 로그인 정보를 이용해 사용자가 데이터베이스에 존재하는지 확인한다.
 
 3. 게시판 (Ajax 댓글, Disqus 소셜 댓글)
-  - 기본 CRUD 게시판
-    - 글 작성, 글 조회, 글 수정, 글 삭제
+    - 기본 CRUD 게시판
+      - 글 작성, 글 조회, 글 수정, 글 삭제
     - DISCUSS 소셜 댓글 서비스
     - Ajax 댓글 
 
-4. 관리자 메뉴(회원목록 확인, 상품 등록)
-  - 별도의 tbl_admin 테이블에 로그인 정보를 저장한다.
+4. 관리자 메뉴
+    - 별도의 관리자 테이블에 로그인 정보를 저장한다.
 
-  - 상품등록
-    - 국내영상/해외영상/기타영상 각 목록에 맞는 상품을 추가한다.
-        - 파일첨부는 오픈소스 Dropzone.js 를 사용한다. 
+    - 상품등록
+      - 국내영상/해외영상/기타영상 각 목록에 맞는 상품을 추가한다.
+          - 파일첨부는 오픈소스 Dropzone.js 를 사용한다. 
 
-  - 회원관리
-    - jQuery의 Datatables 라이브러리로 회원 목록을 조회, 수정, 삭제한다.
+    - 회원관리
+      - jQuery의 Datatables 라이브러리로 회원 목록을 조회, 수정, 삭제한다.
     
 5. 장바구니 기능
- - 대여일 선택 → 장바구니에 담기 → 결제 → 내 정보에서 결제 확인
+  - 대여일 선택 → 장바구니에 담기 → 결제 → 내 정보에서 결제 확인
  
 ref ) 코드로 배우는 스프링 웹 프로젝트(구멍가게 코딩단 지음),<br>
 https://brunch.co.kr/@businessinsight/42
