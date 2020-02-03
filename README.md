@@ -20,7 +20,7 @@
 - SQL Mapper : MyBatis
 
 - FRONT-END : HTML, CSS, BootStrap, Materialize.css
-- Open Source Library : JQuery, Ajax, Handlebars.js, Dropzone.js, DataTables
+- Open Source Library : JQuery, Ajax, Handlebars.js, DataTables
 
 ### 클래스 구성
   - Controller
