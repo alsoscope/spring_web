@@ -38,11 +38,11 @@ public class AdminController {
 		
 		//로그인 성공
 		if(name!=null) {
-			session.setAttribute("userId", vo.getUserId());
+			//session.setAttribute("userId", vo.getUserId());
 			session.setAttribute("adminId", vo.getUserId());
 			
-			session.setAttribute("userName", name);
-			session.setAttribute("adminName", name);
+			//session.setAttribute("userName", name);
+			//session.setAttribute("adminName", name);
 			
 			session.setMaxInactiveInterval(86400); //특정 세션만 타임아웃 설정. 초 단위.
 			

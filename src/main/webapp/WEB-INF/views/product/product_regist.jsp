@@ -15,11 +15,10 @@
     border:2px dotted;
     text-align:center;
     font-size:24px;
-/*     padding-top:12px;
-    width:90%;
-    height:50px;
-    color:#92AAB0;
-    margin-top:10px; */
+     padding-top:12px;
+    width:300px;
+    height:150px;
+    margin-top:10px;
 }
 .footer{
 	position:relative !important;
@@ -31,7 +30,7 @@
 <%-- <script src="<c:url value="../../resources/js/dropzone.js"/>"></script> --%>
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
-<link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
+<!-- <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css"> -->
 <script src="<c:url value="../../resources/js/upload.js"/>"></script><!-- /resources/js 의 파일. 파일첨부 관련 자바 스크립트. -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.2/handlebars.js"></script>
 <%@ include file="../forward/header.jsp" %>
