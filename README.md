@@ -12,14 +12,13 @@
 
 ### 개발 환경
 - IDE : Spring Tool Suite (STS) Version 4.2.4
-- JDK : JAVA 1.8
-- Language : Java Version 8, Java Script, JSTL, EL
+- JDK, JRE : 1.8
+- Language : Java Version 8, Java Script, JSTL, EL, HTML, CSS
 - DATABASE : MySQL 5.7
-- Web Server : AWS EC2 (ubuntu, Apache Tomcat 8.0)
+- Web Server : AWS EC2 (ubuntu, Apache Tomcat 8.0(WAS))
 - Library Management : MAVEN
 - SQL Mapper : MyBatis
-- FRONT-END : HTML, CSS, BootStrap, Materialize.css
-- Open Source Library : JQuery, Ajax, Handlebars.js, DataTables
+- Open Source Library : JQuery, Ajax, Handlebars.js, DataTables, BootStrap, Materialize.css
   
 ### DATABASE
 - MySQL Table ER Diagram
