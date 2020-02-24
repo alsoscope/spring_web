@@ -1,6 +1,9 @@
 ## Spring Web PORTFOLIO
 스프링으로 만든 웹 어플리케이션 포트폴리오입니다.
 
+포트폴리오 PDF : https://github.com/alsoscope/spring_web/blob/master/PDF.md<br>
+웹 주소 : []
+
 ## CINEPHILE / OTT·VOD 웹 사이트
 자바와 스프링 프레임워크를 이용한 MVC Model2 패턴의 웹 서비스 페이지 CINEPHILE 시네필 입니다.<br>
 넷플릭스, 왓챠같은 OTT-VOD 서비스에 착안하여 원하는 스트리밍 서비스를 구매할 수 있는 웹 애플리케이션을 설계하였습니다.
