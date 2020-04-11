@@ -95,6 +95,7 @@
 	<!-- </div> -->
 	
 	<!-- handlebars.js 를 이용해서 첨부할 파일을 템플릿으로 작성한다. -->
+	<!-- {{ }} 로 감싸진 부분이 데이터가 바인딩되는 부분이다.-->
 	<script id="templateAttach" type="text/x-handlebars-template">
 	<span data-src='{{fullName}}' class="card-img-top img-fluid">
 		<span><img class="card-img-top img-fluid" style="width:600px; height:600px;" src="{{getLink}}" alt="attachments"></span>
@@ -194,17 +195,26 @@
   <!-- /.container -->
 
 	<!-- 첨부파일 이미지 출력 -->
+	<!-- 템플릿이 데이터를 컴파일하고, 바인딩해주는 부분이 모두 자바 스크립트 코드에서 이루어진다.
+	Handlebars.compile 메서드로 템플릿을 컴파일하고, 바인딩할 데이터를 리턴할 함수의 파라미터로 넣으면
+	바인딩된 HTML 템플릿이 리턴된다. 이 HTML 템플릿을 DOM에 추가함으로써 구현이 완료된다-->
 	<script>
+		 //출력하는 detail 상품의 id
 		 var bno="${vo.product_id}";
+		 
+		 //Handlebars 템플릿을 precompile한다.
 		 var template=Handlebars.compile($("#templateAttach").html());
 		 
+		 //Handlebars 템플릿에 바인딩할 데이터
 		 //컨트롤러에서 문자열의 리스트를 반환, JSON 형태로 데이터 전송하면 getJSON을 이용해 처리한다.
 		 $.getJSON("/shop/product/getAttach_ab/"+bno, function(list){
 			$(list).each(function(){
 				var fileInfo=getFileInfo(this);
-				
+		
+				//handlebars 템플릿에 데이터를 바인딩해서 HTML을 생성한다
 				var html=template(fileInfo);
 				
+				//생성된 HTML을 뿌려준다
 				$(".uploadedList").append(html);
 			});
 		 });

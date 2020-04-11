@@ -62,6 +62,8 @@ public class ReplyDAOImpl implements ReplyDAO{
 	public boolean pwConfirm(String replyer, String replyPw) throws Exception {
 		boolean result=false;
 		
+		//int result=1;
+		
 		Map<String, String> hashMap=new HashMap<String, String>();
 		hashMap.put("replyer", replyer);
 		hashMap.put("replyPw", replyPw);

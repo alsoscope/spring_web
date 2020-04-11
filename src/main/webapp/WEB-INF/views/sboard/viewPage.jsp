@@ -206,12 +206,11 @@
 	<!-- 댓글 목록 페이징 처리 -->
 	<div class='text-center'>
 		<ul id="pagination" class="pagination pagination-sm no-margin"></ul>
-	</div>
-	
+	</div>	
 	</div><!-- <div class=viewPage> -->
 	
-	<!-- handlebars.js 적용 템플릿 코드. 기존 div의 ul, li의 반복적인 문자열을 위한 템플릿.
-	템플릿 선언부의 {{each.}}를 이용하는데, 'each'는 배열의 루프를 순환함. '.'은 배열을 도는 동안의 해당 객체를 의미함
+	<!-- 기존 div의 ul, li의 반복적인 문자열을 위한 handlebars 템플릿.
+	템플릿 선언부의 {{each.}}는 배열의 루프를 순환함. '.'은 배열을 도는 동안의 해당 객체를 의미함
 	arr이라는 배열이라면 arr[i] 번째의 객체를 의미할 때 사용함 -->
 	<script id="template" type="text/x-handlebars-template">
 	{{#each.}}
@@ -224,14 +223,30 @@
 			<br>
 			<i class="material-icons prefix">mode_comment&nbsp;</i>
 			<span class="timeline-body">{{replytext}}</span>
+
 			<div>
 				<button data-target="modal1" data-replyer="{{replyer}}" class="waves-effect waves-light btn-small blue-grey btn modal-trigger">
 				<i class="material-icons left">edit</i>수정</button>
 			</div>
+
 		</div>
 	</li>
 	{{/each}}
 	</script>
+	
+	<!-- JavaScript로 처리하는  regdate에 대한 handlebars 템플릿의 기능 확장 사용자 정의 헬퍼 prettifyDate -->
+	<!-- helper라는 기능을 이용해서 데이터의 상세한 처리에 필요한 기능 처리. 원하는 기능이 없을 경우, registerHelper()로 새로운 기능을 추가할 수 있다 -->
+	<script>
+	Handlebars.registerHelper("prettifyDate", function(timeValue){
+		//date 객체 : 날짜, 시간을 위한 메소드를 제공하는 빌트인 객체이면서 생성자 함수이다.
+		var dateObj=new Date(timeValue);
+		var year=dateObj.getFullYear();
+		var month=dateObj.getMonth()+1;
+		var date=dateObj.getDate();
+		return year+"/"+month+"/"+date;
+	});
+	</script>
+	
 <!-- 				<a class="waves-effect waves-light btn-small blue-grey modal-trigger" id="modifyModal">
 				<i class="material-icons left">edit</i>수정</a> -->
 	
@@ -244,7 +259,7 @@
 				<h5 class="modal-title"></h5><!-- <h4 class="modal-replyer"></h4> -->
 			</div>
 			<div class="modal-body" data-rno>
-				<!-- <p><i class="material-icons prefix">account_circle</i><input type="text" name="replyer" id="replyer"></p> -->
+				<p><i class="material-icons prefix">account_circle</i><input type="text" name="replyer" id="replyer" readonly></p>
 				<i class="material-icons prefix">mode_comment</i><p><input type="text" id="replytext"></p>
 			</div>
 			<form name="pwConfirm">
@@ -258,12 +273,11 @@
 			            <label for="email_inline">Password</label>
 			          </div>
 			          
-			          <div>${message }</div>
+			          <div style="color:red">${message }</div>
 			          
 			        <button type="button" id="replyModBtn">MODIFY</button>
 					<button type="button" id="replyDelBtn">DELETE</button>
-				
-						<button type="button" class="modal-close" data-dismiss="modal">CLOSE</button>				
+					<button type="button" class="modal-close" data-dismiss="modal">CLOSE</button>				
 			        </div>
 			      </div>
 			</div>
@@ -272,7 +286,6 @@
 	</div>
 	
 	<script>
-	
 	/* function pwConfirm(){
 		document.modal1.action="/replies/replyModal";
 		document.modal1.submit();
@@ -283,19 +296,25 @@
 	$(".timeline").on("click", ".replyLi", function(event){
 		var reply=$(this);
 		$("#replytext").val(reply.find(".timeline-body").text());
+		$("#replyer").val(reply.find(".timeline-replyer").text());
 		$(".modal-title").html(reply.attr("data-rno"));
 		
+		var replyer=$("#replyer").val();
+		console.log("replyer : " + replyer);
+		//var replyer = $(".timeline-replyer").html();	
+		//var replyer = document.getElementById("replyer").value;
+
+		//var replyer=$(this).attr("replyer");//undefined
+	
 		/* alert($(this).parent().find('replyer')); */
 		
-		//event.relatedTarger : 해당 이벤트와 관련된 다른 DOM 요소 선택
+		//event.relatedTarget : 해당 이벤트와 관련된 다른 DOM 요소 선택
 		//replyer=$(event.relatedTarget).data('replyer');
 		//alert("replyer : " + replyer);
 		
-		/* $("#replyer").val(reply.find(".timeline-replyer").text());		
-		$(".modal-replyer").html(reply.attr("data-replyer")); */
+		//$(".modal-replyer").html(reply.attr("data-replyer"));
 		
-		/* var replyer = "<c:out value="${replyer}"></c:out>";
-		console.log("replyer : " + replyer); */
+		/* var replyer = "<c:out value="${replyer}"></c:out>";*/
 		
 		/* $.ajax({
 			type:'get',
@@ -317,8 +336,7 @@
 				console.log(jsonObj);
 
 			}
-		}); */
-		
+		}); */		
 	});
 	
 	$('.modal').modal({
@@ -336,20 +354,8 @@
 	    }
 	);
 	</script>
-	
-	<!--  Handlebars 템플릿 ------------------------------------- -->
-	<!-- prettifyDate regdate에 대한 handlebar 기능 확장 JavaScript 처리 -->
-	<!-- helper 라는 기능을 이용해서 데이터의 상세한 처리에 필요한 기능 처리. 원하는 기능이 없을 경우, registerHelper()로 새로운 기능을 추가할 수 있다 -->
+
 	<script>
-	Handlebars.registerHelper("prettifyDate", function(timeValue){
-		//date 객체 : 날짜, 시간을 위한 메소드를 제공하는 빌트인 객체이면서 생성자 함수이다.
-		var dateObj=new Date(timeValue);
-		var year=dateObj.getFullYear();
-		var month=dateObj.getMonth()+1;
-		var date=dateObj.getDate();
-		return year+"/"+month+"/"+date;
-	});
-	
 	//댓글 목록 확인
 	var printData=function(replyArr, target, templateObject){
 		//핸들바 템플릿을 가져와서 precompile한다
@@ -460,13 +466,6 @@
 			var replytextObj=$("#newReplyText");
 			var replyer=replyerObj.val();
 			var replytext=replytextObj.val();
-			
-			if(replyer == "" || replyer == null){
-				alert("작성자명을 입력해주세요");
-				replyForm.replyer.focus();
-			}else if(replytext == "" || replytext == null){
-				alert("내용을 입력해주세요");
-				replyForm.replytext.focus();
 			} */
 			
 			var replyPw=$('input[name=replyPw]').val();
@@ -495,7 +494,7 @@
 					replyPw:replyPw
 				}),
 				success:function(result){
-					console.log("result : " + result);
+					console.log("result : " + result);//성공시 SUCCESS 출력
 					if(result=='SUCCESS'){
 						alert("등록 되었습니다");
 						/* getAllList(); *///댓글 등록 후 전체 댓글 목록의 갱신
@@ -511,38 +510,51 @@
 	
 	//댓글 수정. HTTP의 PUT방식을 이용해 처리한다.-------------------------------------
 	$("#replyModBtn").on("click", function(){
+		
 		var rno = $(".modal-title").html();
-		var replytext=$("#replytext").val();	
+		var replytext=$("#replytext").val();
 		var replyPw=$("#replyPw").val();
+		
+		//var replyer=$("#replyer").val();
+		//var replyer = $(".timeline-replyer").html();
+		var replyer = document.getElementById("replyer").value;
+		console.log("replyer : " + replyer);		
+		
+		/* if(replyPw == ""){
+			alert("비밀번호를 입력해주세요");
+		} */
 		
 		$.ajax({
 			type:'put',
 			url:'/replies/' + rno,
-			headers:{
-				"Content-Type" : "application/json",
-				"X-HTTP-Method-Override" : "PUT"
-			},
+			headers:{"Content-Type" : "application/json","X-HTTP-Method-Override" : "PUT"},
 			data:JSON.stringify({
+				replyer : replyer,
 				replytext : replytext,
 				replyPw : replyPw
 			}),
 			dataType:'text',
 			success:function(result){
-				console.log("Reply Update result : " + result);
+				console.log("result : " + result);
 				if(result == 'SUCCESS'){
+					console.log("Reply Update result : " + result);
 					alert("수정 되었습니다.");
-					console.log("수정 SUCCESS");
 					getPage("/replies/" + bno + "/" + replyPage);							
 					
 					// $(".modal").close();
+				}else{
+					alert("비번");
+					console.log("비번 error");
 				}
+			}, error:function(error){
+				alert("비밀번호가 올바르지 않습니다");
+				console.log("replyModBtn error");
 			}
 		});
 		$("#replyPw").val('');
 		
 		/* document.pwConfirm.action="/replies/replyModal/" + rno;
 		document.pwConfirm.submit(); */
-		console.log("/replies/replyModal");
 	});
 	
 	//댓글 삭제-------------------------------------

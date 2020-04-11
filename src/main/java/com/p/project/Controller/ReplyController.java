@@ -55,11 +55,11 @@ public class ReplyController {
 		try {
 			String userId=(String)session.getAttribute("userId");
 			vo.setReplyer(userId);
-			logger.info("Reply set userId : " + userId);
 
 			service.addReply(vo);
 			entity=new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
-			logger.info("댓글 작성 회원 : " + userId);		
+			logger.info("Reply set userId : " + userId);
+			logger.info("댓글 : " + vo);		
 			
 			//패스워드 암호화
 			/*ShaPasswordEncoder encoder=new ShaPasswordEncoder(256);
@@ -94,25 +94,39 @@ public class ReplyController {
 	public ResponseEntity<String> update(@PathVariable("rno") int rno, @RequestBody ReplyVO vo, Model model) throws Exception{
 		ResponseEntity<String> entity=null;
 		
-		boolean result=service.pwConfirm(vo.getReplyer(), vo.getReplyPw());
-		
-		String replyer=vo.getReplyer();
-		logger.info("replyer : " + replyer);
+		/*String replyer = (String)vo.get("replyer");
+		String replyPw = (String)vo.get("replyPw");*/
+		String replyer = (String)vo.getReplyer();
+		String replyPw = (String)vo.getReplyPw();
+		logger.info("replyer : " + replyer + ", replyPw : " + replyPw);
 		
 		try{
-			/*vo.setRno(rno);
-			service.modifyReply(vo);
-
-			entity=new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
-			logger.info("Reply Update SUCCESS : " + vo);*/
-						
+			/*Map<String, String>으로 받을 때
+			boolean result=service.pwConfirm(vo.get(replyer), vo.get(replyPw));*/
+			boolean result=service.pwConfirm(vo.getReplyer(), vo.getReplyPw());
+			logger.info("result : " + result);//비밀번호 공백/불일치시 false, 맞으면 true 출력
+			
 			if(result) {
+				/*JSONParser jsonParser = new JSONParser();
+				JSONObject jsonObj=(JSONObject)jsonParser.parse(vo.getReplyer());
+			
+				JSONArray arrObj=(JSONArray)jsonObj.get(vo);
+				
+				System.out.println("====JSON====");
+				for(int i=0; i<arrObj.size(); i++) {
+					JSONObject tempObj = (JSONObject)arrObj.get(i);
+					System.out.println(tempObj.get(vo.getReplyer()));
+				}
+				
+				String replyer=(String)jsonObj.get("replyer");
+*/
 				vo.setRno(rno);
 				service.modifyReply(vo);
 
 				entity=new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
 				logger.info("Reply Update SUCCESS : " + vo);
-			}else {
+			} else {
+				entity=new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 				model.addAttribute("message", "비밀번호가 맞지 않습니다.");	
 			}			
 		}catch(Exception e) {
@@ -160,27 +174,10 @@ public class ReplyController {
 			pageMaker.setTotalCount(replyCount);
 			
 			map.put("pageMaker", pageMaker);
-		
-			
-			
-			/*String result = service.listReplyPage(bno, cri); 
-					
-			//리턴할 JSON 선언
-			JSONObject jsonObj=new JSONObject();*/
-					
-			/*JSONParser parser = new JSONParser();
-			
-		
-			String replyer=(String)jsonObj.get("replyer");
-			System.out.println("replyer : " + replyer);
-			
-			JSONArray arrObj=(JSONArray)jsonObj.get("list");
-			JSONObject jsonObj2=(JSONObject)arrObj.get("bno");*/
-	
-			
+
 			entity=new ResponseEntity<Map<String,Object>>(map, HttpStatus.OK);
 			
-			logger.info("listPage vo : " + vo);			
+			//logger.info("listPage vo : " + vo);			
 			logger.info("ReplyList called by listPage");
 			
 		}catch(Exception e) {

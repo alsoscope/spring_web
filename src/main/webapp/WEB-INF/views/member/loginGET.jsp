@@ -65,6 +65,7 @@
 					
 					<!-- 네이버 로그인 -->
 					<div style="text-align:center">
+					<%-- <a href="${url}" onclick="window.open(this.href, '_blank', 'width=600, height=400'); return false"> --%>
 					<a href="${url}">
 					<%-- <a href="${url}" onClick="naverPop();" target="_blank"> --%>
 					<img width="250" src="${path}../resources/images/login_naver.png"/></a></div>
@@ -135,24 +136,12 @@
 	<script src="<c:url value="../resources/js/main.js"/>"></script>
 <!--===============================================================================================-->
 
-	<!-- uid, pw null 체크 -->
-	<script>
-		/* $("#submit-btn").click(function() {
-			var uid = $("#userId").val();
-			var pw = $("#userPw").val();
-			
-			if (uid == null || uid == "") {
-				alert("아이디를 입력해주세요.");
-				return false;
-			} else if (pw == null || pw == "") {
-				alert("비밀번호를 입력해주세요.");
-				return false;
-			}
-		}); */
-	</script>
-
 	<!-- 네이버 로그인 팝업창으로 띄움 -->
 	<script type="text/javascript">
+	function naverPop(){
+		
+	}	
+	
 	/* function naverPop(){
 
  		var naver_id_login = new naver_id_login("CcHDOhNulVa7_LfwCQeM", "http://localhost:9000/member/loginGET");
